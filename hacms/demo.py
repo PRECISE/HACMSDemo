@@ -1,7 +1,7 @@
 import sys
-import rospy
-from std_msgs.msg import String
-from geometry_msgs.msg import Twist
+#import rospy
+#from std_msgs.msg import String
+#from geometry_msgs.msg import Twist
 from PySide import QtGui
 
 # HACMS Python modules
@@ -13,7 +13,9 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         super(HACMSDemoWindow, self).__init__()
         self.ui = ui.Ui_MainWindow()
         self.ui.setupUi(self)
-        self.ui.startRobotButton.clicked.connect(startRobot)
+        self.ui.startRobotButton.clicked.connect(self.startRobot)
+        self.ui.startRCButton.clicked.connect(self.startRC)
+        self.ui.attackButton.clicked.connect(self.attack)
         self.remote = Remote()
     
     def about(self):
@@ -22,9 +24,19 @@ class HACMSDemoWindow(QtGui.QMainWindow):
                 "information.")
                 
     def startRobot(self):
-        print "HELLO!"
+        print "startRobot"
         #remote.connect()
         #remote.startROS()
+        
+    def startRC(self):
+        print "startRC"
+        #remote.connect()
+        #remote.startRC()
+        
+    def attack(self):
+        print "attack"
+        #remote.connect()
+        #remote.attack()
         
     def updateActualSpeedLCD(self, twistMsg):
         self.ui.actualSpeedLCD.display(twistMsg.linear.x)

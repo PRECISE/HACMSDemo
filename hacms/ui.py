@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Mon Jun 24 14:57:24 2013
-#      by: pyside-uic 0.2.13 running on PySide 1.1.1
+# Created: Mon Jun 24 21:07:12 2013
+#      by: pyside-uic 0.2.13 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -12,7 +12,7 @@ from PySide import QtCore, QtGui
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(416, 381)
+        MainWindow.resize(445, 363)
         self.centralWidget = QtGui.QWidget(MainWindow)
         self.centralWidget.setObjectName("centralWidget")
         self.startRobotButton = QtGui.QPushButton(self.centralWidget)
@@ -28,10 +28,16 @@ class Ui_MainWindow(object):
         self.actualSpeedLCD.setGeometry(QtCore.QRect(40, 220, 171, 71))
         self.actualSpeedLCD.setObjectName("actualSpeedLCD")
         self.expectedLabel = QtGui.QLabel(self.centralWidget)
-        self.expectedLabel.setGeometry(QtCore.QRect(280, 130, 81, 51))
+        self.expectedLabel.setGeometry(QtCore.QRect(250, 130, 171, 51))
+        font = QtGui.QFont()
+        font.setPointSize(36)
+        self.expectedLabel.setFont(font)
         self.expectedLabel.setObjectName("expectedLabel")
         self.actualLabel = QtGui.QLabel(self.centralWidget)
-        self.actualLabel.setGeometry(QtCore.QRect(290, 230, 62, 16))
+        self.actualLabel.setGeometry(QtCore.QRect(250, 230, 121, 51))
+        font = QtGui.QFont()
+        font.setPointSize(36)
+        self.actualLabel.setFont(font)
         self.actualLabel.setObjectName("actualLabel")
         self.desiredSpeedLabel = QtGui.QLabel(self.centralWidget)
         self.desiredSpeedLabel.setGeometry(QtCore.QRect(70, 120, 101, 16))
@@ -44,7 +50,7 @@ class Ui_MainWindow(object):
         self.actualSpeedLabel.setObjectName("actualSpeedLabel")
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtGui.QMenuBar()
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 416, 22))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 445, 22))
         self.menuBar.setObjectName("menuBar")
         self.menuFile = QtGui.QMenu(self.menuBar)
         self.menuFile.setObjectName("menuFile")
@@ -75,3 +81,4 @@ class Ui_MainWindow(object):
         self.actualSpeedLabel.setText(QtGui.QApplication.translate("MainWindow", "Actual Speed", None, QtGui.QApplication.UnicodeUTF8))
         self.menuFile.setTitle(QtGui.QApplication.translate("MainWindow", "File", None, QtGui.QApplication.UnicodeUTF8))
         self.actionQuit.setText(QtGui.QApplication.translate("MainWindow", "Quit", None, QtGui.QApplication.UnicodeUTF8))
+

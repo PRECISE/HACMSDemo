@@ -1,4 +1,4 @@
-import paramiko
+#import paramiko
 import ConfigParser
 
 class Remote(object):
