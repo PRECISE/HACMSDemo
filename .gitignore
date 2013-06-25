@@ -34,5 +34,8 @@ nosetests.xml
 .project
 .pydevproject
 
+# Mac Stuff
+*.DS_Store
+
 # HACMS
 hacms/ssh.cfg
