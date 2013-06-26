@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 ## Simple talker demo that published std_msgs/Strings messages
-## to the 'chatter' topic
+## to the 'demo_ui' topic
 
 import rospy
 from std_msgs.msg import String
