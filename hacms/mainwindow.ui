@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
+ <author>Peter Gebhard</author>
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
   <property name="geometry">
@@ -11,7 +12,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>HACMS Demo Application</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QPushButton" name="startRobotButton">
@@ -52,6 +53,9 @@
     <property name="text">
      <string>Attack</string>
     </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLCDNumber" name="actualSpeedLCD">
     <property name="geometry">
@@ -77,11 +81,8 @@
       <pointsize>36</pointsize>
      </font>
     </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
     <property name="styleSheet">
-     <string notr="true">background-color: green;</string>
+     <string notr="true">background-color: green; color: white;</string>
     </property>
     <property name="text">
      <string>Expected</string>
@@ -101,11 +102,8 @@
       <pointsize>36</pointsize>
      </font>
     </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
     <property name="styleSheet">
-     <string notr="true">background-color: green;</string>
+     <string notr="true">background-color: green; color: white;</string>
     </property>
     <property name="text">
      <string>Actual</string>
