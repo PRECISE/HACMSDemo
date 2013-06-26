@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Wed Jun 26 15:26:40 2013
+# Created: Wed Jun 26 17:15:16 2013
 #      by: pyside-uic 0.2.13 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -16,12 +16,14 @@ class Ui_MainWindow(object):
         MainWindow.setUnifiedTitleAndToolBarOnMac(True)
         self.centralWidget = QtGui.QWidget(MainWindow)
         self.centralWidget.setObjectName("centralWidget")
-        self.startRobotButton = QtGui.QPushButton(self.centralWidget)
-        self.startRobotButton.setGeometry(QtCore.QRect(20, 20, 201, 41))
-        self.startRobotButton.setObjectName("startRobotButton")
-        self.startRCButton = QtGui.QPushButton(self.centralWidget)
-        self.startRCButton.setGeometry(QtCore.QRect(20, 60, 201, 41))
-        self.startRCButton.setObjectName("startRCButton")
+        self.rosButton = QtGui.QPushButton(self.centralWidget)
+        self.rosButton.setGeometry(QtCore.QRect(20, 20, 201, 41))
+        self.rosButton.setCheckable(True)
+        self.rosButton.setObjectName("rosButton")
+        self.rcButton = QtGui.QPushButton(self.centralWidget)
+        self.rcButton.setGeometry(QtCore.QRect(20, 60, 201, 41))
+        self.rcButton.setCheckable(True)
+        self.rcButton.setObjectName("rcButton")
         self.attackButton = QtGui.QPushButton(self.centralWidget)
         self.attackButton.setGeometry(QtCore.QRect(240, 20, 171, 81))
         self.attackButton.setCheckable(True)
@@ -89,8 +91,8 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "HACMS Demo", None, QtGui.QApplication.UnicodeUTF8))
-        self.startRobotButton.setText(QtGui.QApplication.translate("MainWindow", "Start Robot", None, QtGui.QApplication.UnicodeUTF8))
-        self.startRCButton.setText(QtGui.QApplication.translate("MainWindow", "Start Resilient Controller", None, QtGui.QApplication.UnicodeUTF8))
+        self.rosButton.setText(QtGui.QApplication.translate("MainWindow", "ROS", None, QtGui.QApplication.UnicodeUTF8))
+        self.rcButton.setText(QtGui.QApplication.translate("MainWindow", "Resilient Controller", None, QtGui.QApplication.UnicodeUTF8))
         self.attackButton.setText(QtGui.QApplication.translate("MainWindow", "Attack", None, QtGui.QApplication.UnicodeUTF8))
         self.expectedLabel.setText(QtGui.QApplication.translate("MainWindow", "Expected", None, QtGui.QApplication.UnicodeUTF8))
         self.actualLabel.setText(QtGui.QApplication.translate("MainWindow", "Actual", None, QtGui.QApplication.UnicodeUTF8))

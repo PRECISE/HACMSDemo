@@ -18,7 +18,7 @@
    <bool>true</bool>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="startRobotButton">
+   <widget class="QPushButton" name="rosButton">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -28,10 +28,13 @@
      </rect>
     </property>
     <property name="text">
-     <string>Start Robot</string>
+     <string>ROS</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="startRCButton">
+   <widget class="QPushButton" name="rcButton">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -41,7 +44,10 @@
      </rect>
     </property>
     <property name="text">
-     <string>Start Resilient Controller</string>
+     <string>Resilient Controller</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="attackButton">
