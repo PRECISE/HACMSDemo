@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Wed Jun 26 13:15:30 2013
+# Created: Wed Jun 26 14:07:17 2013
 #      by: pyside-uic 0.2.13 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PySide import QtCore, QtGui
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(481, 380)
+        MainWindow.resize(600, 567)
         self.centralWidget = QtGui.QWidget(MainWindow)
         self.centralWidget.setObjectName("centralWidget")
         self.startRobotButton = QtGui.QPushButton(self.centralWidget)
@@ -51,9 +51,17 @@ class Ui_MainWindow(object):
         self.actualSpeedLabel = QtGui.QLabel(self.centralWidget)
         self.actualSpeedLabel.setGeometry(QtCore.QRect(80, 200, 121, 16))
         self.actualSpeedLabel.setObjectName("actualSpeedLabel")
+        self.console = QtGui.QPlainTextEdit(self.centralWidget)
+        self.console.setGeometry(QtCore.QRect(40, 310, 531, 191))
+        font = QtGui.QFont()
+        font.setFamily("Courier New")
+        font.setPointSize(13)
+        self.console.setFont(font)
+        self.console.setPlainText("")
+        self.console.setObjectName("console")
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtGui.QMenuBar()
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 481, 22))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 600, 22))
         self.menuBar.setObjectName("menuBar")
         self.menuFile = QtGui.QMenu(self.menuBar)
         self.menuFile.setObjectName("menuFile")
