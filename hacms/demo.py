@@ -1,4 +1,4 @@
-import sys
+import sys, string
 #import rospy
 #from std_msgs.msg import String
 #from geometry_msgs.msg import Twist
@@ -20,23 +20,39 @@ class HACMSDemoWindow(QtGui.QMainWindow):
     
     def about(self):
         QtGui.QMessageBox.about(self, "About HACMS Demo",
-                "The <b>HACMS Demo</b> application displays the current status "
+                "The <b>HACMS Demo</b> application displays the current ROS telemetry "
                 "information.")
                 
     def startRobot(self):
-        print "startRobot"
+        #print "startRobot"
         #remote.connect()
         #remote.startROS()
+        self.toggleWidgetColor(self.ui.expectedLabel)
         
     def startRC(self):
-        print "startRC"
+        #print "startRC"
         #remote.connect()
         #remote.startRC()
+        self.toggleWidgetColor(self.ui.actualLabel)
         
     def attack(self):
         print "attack"
         #remote.connect()
         #remote.attack()
+    
+    def getWidgetColor(self, widget):
+        style = widget.styleSheet()
+        if "background-color: green;" in style:
+            return "green"
+        if "background-color: red;" in style:
+            return "red"
+    
+    def toggleWidgetColor(self, widget):
+        style = widget.styleSheet()
+        if self.getWidgetColor(widget) is "green":
+            widget.setStyleSheet(string.replace(style, "background-color: green;", "background-color: red;"))
+        elif self.getWidgetColor(widget) is "red":
+            widget.setStyleSheet(string.replace(style, "background-color: red;", "background-color: green;"))
         
     def updateActualSpeedLCD(self, twistMsg):
         self.ui.actualSpeedLCD.display(twistMsg.linear.x)
