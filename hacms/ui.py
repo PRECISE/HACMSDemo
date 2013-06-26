@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Tue Jun 25 16:40:02 2013
+# Created: Wed Jun 26 13:12:24 2013
 #      by: pyside-uic 0.2.13 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -23,6 +23,7 @@ class Ui_MainWindow(object):
         self.startRCButton.setObjectName("startRCButton")
         self.attackButton = QtGui.QPushButton(self.centralWidget)
         self.attackButton.setGeometry(QtCore.QRect(240, 20, 171, 81))
+        self.attackButton.setCheckable(True)
         self.attackButton.setObjectName("attackButton")
         self.actualSpeedLCD = QtGui.QLCDNumber(self.centralWidget)
         self.actualSpeedLCD.setGeometry(QtCore.QRect(40, 220, 171, 71))
@@ -32,16 +33,14 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(36)
         self.expectedLabel.setFont(font)
-        self.expectedLabel.setAutoFillBackground(False)
-        self.expectedLabel.setStyleSheet("background-color: green;")
+        self.expectedLabel.setStyleSheet("background-color: green; color: white;")
         self.expectedLabel.setObjectName("expectedLabel")
         self.actualLabel = QtGui.QLabel(self.centralWidget)
         self.actualLabel.setGeometry(QtCore.QRect(250, 230, 161, 51))
         font = QtGui.QFont()
         font.setPointSize(36)
         self.actualLabel.setFont(font)
-        self.actualLabel.setAutoFillBackground(False)
-        self.actualLabel.setStyleSheet("background-color: green;")
+        self.actualLabel.setStyleSheet("background-color: green; color: white;")
         self.actualLabel.setObjectName("actualLabel")
         self.desiredSpeedLabel = QtGui.QLabel(self.centralWidget)
         self.desiredSpeedLabel.setGeometry(QtCore.QRect(70, 120, 101, 16))
@@ -74,7 +73,7 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "MainWindow", None, QtGui.QApplication.UnicodeUTF8))
+        MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "HACMS Demo Application", None, QtGui.QApplication.UnicodeUTF8))
         self.startRobotButton.setText(QtGui.QApplication.translate("MainWindow", "Start Robot", None, QtGui.QApplication.UnicodeUTF8))
         self.startRCButton.setText(QtGui.QApplication.translate("MainWindow", "Start Resilient Controller", None, QtGui.QApplication.UnicodeUTF8))
         self.attackButton.setText(QtGui.QApplication.translate("MainWindow", "Attack", None, QtGui.QApplication.UnicodeUTF8))
