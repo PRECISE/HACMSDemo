@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Wed Jun 26 13:12:24 2013
+# Created: Wed Jun 26 13:15:30 2013
 #      by: pyside-uic 0.2.13 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -73,7 +73,7 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "HACMS Demo Application", None, QtGui.QApplication.UnicodeUTF8))
+        MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "HACMS Demo", None, QtGui.QApplication.UnicodeUTF8))
         self.startRobotButton.setText(QtGui.QApplication.translate("MainWindow", "Start Robot", None, QtGui.QApplication.UnicodeUTF8))
         self.startRCButton.setText(QtGui.QApplication.translate("MainWindow", "Start Resilient Controller", None, QtGui.QApplication.UnicodeUTF8))
         self.attackButton.setText(QtGui.QApplication.translate("MainWindow", "Attack", None, QtGui.QApplication.UnicodeUTF8))

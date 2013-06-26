@@ -12,7 +12,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>HACMS Demo Application</string>
+   <string>HACMS Demo</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QPushButton" name="startRobotButton">
