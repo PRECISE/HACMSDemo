@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Wed Jun 26 14:07:17 2013
+# Created: Wed Jun 26 15:26:40 2013
 #      by: pyside-uic 0.2.13 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -13,6 +13,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(600, 567)
+        MainWindow.setUnifiedTitleAndToolBarOnMac(True)
         self.centralWidget = QtGui.QWidget(MainWindow)
         self.centralWidget.setObjectName("centralWidget")
         self.startRobotButton = QtGui.QPushButton(self.centralWidget)
@@ -62,6 +63,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtGui.QMenuBar()
         self.menuBar.setGeometry(QtCore.QRect(0, 0, 600, 22))
+        self.menuBar.setNativeMenuBar(False)
         self.menuBar.setObjectName("menuBar")
         self.menuFile = QtGui.QMenu(self.menuBar)
         self.menuFile.setObjectName("menuFile")
@@ -73,7 +75,12 @@ class Ui_MainWindow(object):
         self.statusBar.setObjectName("statusBar")
         MainWindow.setStatusBar(self.statusBar)
         self.actionQuit = QtGui.QAction(MainWindow)
+        self.actionQuit.setMenuRole(QtGui.QAction.QuitRole)
         self.actionQuit.setObjectName("actionQuit")
+        self.actionAbout = QtGui.QAction(MainWindow)
+        self.actionAbout.setMenuRole(QtGui.QAction.AboutRole)
+        self.actionAbout.setObjectName("actionAbout")
+        self.menuFile.addAction(self.actionAbout)
         self.menuFile.addAction(self.actionQuit)
         self.menuBar.addAction(self.menuFile.menuAction())
 
@@ -92,4 +99,5 @@ class Ui_MainWindow(object):
         self.actualSpeedLabel.setText(QtGui.QApplication.translate("MainWindow", "Actual Speed", None, QtGui.QApplication.UnicodeUTF8))
         self.menuFile.setTitle(QtGui.QApplication.translate("MainWindow", "File", None, QtGui.QApplication.UnicodeUTF8))
         self.actionQuit.setText(QtGui.QApplication.translate("MainWindow", "Quit", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionAbout.setText(QtGui.QApplication.translate("MainWindow", "About", None, QtGui.QApplication.UnicodeUTF8))
 
