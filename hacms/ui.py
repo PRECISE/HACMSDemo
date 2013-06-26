@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Wed Jun 26 17:15:16 2013
+# Created: Wed Jun 26 17:36:28 2013
 #      by: pyside-uic 0.2.13 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,27 +12,27 @@ from PySide import QtCore, QtGui
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(600, 567)
+        MainWindow.resize(771, 572)
         MainWindow.setUnifiedTitleAndToolBarOnMac(True)
         self.centralWidget = QtGui.QWidget(MainWindow)
         self.centralWidget.setObjectName("centralWidget")
         self.rosButton = QtGui.QPushButton(self.centralWidget)
-        self.rosButton.setGeometry(QtCore.QRect(20, 20, 201, 41))
+        self.rosButton.setGeometry(QtCore.QRect(30, 20, 201, 91))
         self.rosButton.setCheckable(True)
         self.rosButton.setObjectName("rosButton")
         self.rcButton = QtGui.QPushButton(self.centralWidget)
-        self.rcButton.setGeometry(QtCore.QRect(20, 60, 201, 41))
+        self.rcButton.setGeometry(QtCore.QRect(240, 20, 181, 71))
         self.rcButton.setCheckable(True)
         self.rcButton.setObjectName("rcButton")
         self.attackButton = QtGui.QPushButton(self.centralWidget)
-        self.attackButton.setGeometry(QtCore.QRect(240, 20, 171, 81))
+        self.attackButton.setGeometry(QtCore.QRect(240, 90, 181, 71))
         self.attackButton.setCheckable(True)
         self.attackButton.setObjectName("attackButton")
         self.actualSpeedLCD = QtGui.QLCDNumber(self.centralWidget)
         self.actualSpeedLCD.setGeometry(QtCore.QRect(40, 220, 171, 71))
         self.actualSpeedLCD.setObjectName("actualSpeedLCD")
         self.expectedLabel = QtGui.QLabel(self.centralWidget)
-        self.expectedLabel.setGeometry(QtCore.QRect(250, 130, 161, 51))
+        self.expectedLabel.setGeometry(QtCore.QRect(250, 170, 161, 51))
         font = QtGui.QFont()
         font.setPointSize(36)
         self.expectedLabel.setFont(font)
@@ -55,16 +55,19 @@ class Ui_MainWindow(object):
         self.actualSpeedLabel.setGeometry(QtCore.QRect(80, 200, 121, 16))
         self.actualSpeedLabel.setObjectName("actualSpeedLabel")
         self.console = QtGui.QPlainTextEdit(self.centralWidget)
-        self.console.setGeometry(QtCore.QRect(40, 310, 531, 191))
+        self.console.setGeometry(QtCore.QRect(40, 310, 711, 191))
         font = QtGui.QFont()
         font.setFamily("Courier New")
         font.setPointSize(13)
         self.console.setFont(font)
         self.console.setPlainText("")
         self.console.setObjectName("console")
+        self.graphicsView = QtGui.QGraphicsView(self.centralWidget)
+        self.graphicsView.setGeometry(QtCore.QRect(440, 20, 311, 271))
+        self.graphicsView.setObjectName("graphicsView")
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtGui.QMenuBar()
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 600, 22))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 771, 22))
         self.menuBar.setNativeMenuBar(False)
         self.menuBar.setObjectName("menuBar")
         self.menuFile = QtGui.QMenu(self.menuBar)
