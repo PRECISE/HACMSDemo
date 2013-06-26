@@ -13,32 +13,33 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         super(HACMSDemoWindow, self).__init__()
         self.ui = ui.Ui_MainWindow()
         self.ui.setupUi(self)
-        self.ui.startRobotButton.clicked.connect(self.startRobot)
-        self.ui.startRCButton.clicked.connect(self.startRC)
-        self.ui.attackButton.clicked.connect(self.attack)
-        self.remote = Remote()
+        self.ui.actionAbout.triggered.connect(self.about)
+        #self.ui.actionQuit.triggered.connect(self.app.quit)
+        self.ui.rosButton.toggled.connect(self.ros)
+        self.ui.rcButton.toggled.connect(self.rc)
+        self.ui.attackButton.toggled.connect(self.attack)
+        self.remote = Remote(self.ui.console)
     
     def about(self):
         QtGui.QMessageBox.about(self, "About HACMS Demo",
                 "The <b>HACMS Demo</b> application displays the current ROS telemetry "
                 "information.")
                 
-    def startRobot(self):
-        #print "startRobot"
-        #remote.connect()
-        #remote.startROS()
-        self.toggleWidgetColor(self.ui.expectedLabel)
+    def ros(self, checked):
+        if checked:
+            res = self.remote.startROS()
+        else:
+            self.rc(False)
+            self.attack(False)
+            res = self.remote.stopROS()
+            
+        self.ui.rosButton.setChecked(res)
         
-    def startRC(self):
-        #print "startRC"
-        #remote.connect()
-        #remote.startRC()
-        self.toggleWidgetColor(self.ui.actualLabel)
+    def rc(self, checked):
+        self.ui.rcButton.setChecked(self.remote.startRC() if checked else self.remote.stopRC())
         
-    def attack(self):
-        print "attack"
-        #remote.connect()
-        #remote.attack()
+    def attack(self, checked):
+        self.ui.attackButton.setChecked(self.remote.startAttack() if checked else self.remote.stopAttack())
     
     def getWidgetColor(self, widget):
         style = widget.styleSheet()
