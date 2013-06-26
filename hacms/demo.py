@@ -57,6 +57,10 @@ class HACMSDemoWindow(QtGui.QMainWindow):
     def updateActualSpeedLCD(self, twistMsg):
         self.ui.actualSpeedLCD.display(twistMsg.linear.x)
         
+def ros_listen_test(data):
+    rospy.loginfo(rospy.get_caller_id()+"I heard %s",data.data)
+    print data.data
+        
 def hacms_listener(window):
     # in ROS, nodes are unique named. If two nodes with the same
     # node are launched, the previous one is kicked off. The 
@@ -65,7 +69,9 @@ def hacms_listener(window):
     # run simultaenously.
     rospy.init_node('demo_listener', anonymous=True)
 
-    rospy.Subscriber("/landshark_control/odom", Twist, window.updateActualSpeedLCD)
+    # Subscribe to HACMS Demo topics
+    rospy.Subscriber("demo_ui", String, ros_listen_test)
+    #rospy.Subscriber("/landshark_control/odom", Twist, window.updateActualSpeedLCD)
 
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()
