@@ -1,7 +1,7 @@
 import sys, string
-#import rospy
-#from std_msgs.msg import String
-#from geometry_msgs.msg import Twist
+import rospy
+from std_msgs.msg import String
+from geometry_msgs.msg import Twist
 from PySide import QtGui
 
 # HACMS Python modules
@@ -81,7 +81,7 @@ def main():
     app = QtGui.QApplication(sys.argv)
     h = HACMSDemoWindow()
     h.show()
-    #hacms_listener(h)
+    hacms_listener(h)
     sys.exit(app.exec_())
     
 if __name__ == "__main__":
