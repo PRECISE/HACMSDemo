@@ -74,9 +74,6 @@ def hacms_listener(window):
     rospy.Subscriber("demo_ui", String, ros_listen_test)
     #rospy.Subscriber("/landshark_control/odom", Twist, window.updateActualSpeedLCD)
 
-    # spin() simply keeps python from exiting until this node is stopped
-    rospy.spin()
-
 def main():
     app = QtGui.QApplication(sys.argv)
     h = HACMSDemoWindow()
