@@ -20,7 +20,7 @@ class Remote(object):
             self.output.appendPlainText('*** Connecting...')
             self.client = paramiko.SSHClient()
             self.client.load_system_host_keys()
-            self.client.set_missing_host_key_policy(paramiko.WarningPolicy)
+            self.client.set_missing_host_key_policy(paramiko.WarningPolicy())
             config = ConfigParser.SafeConfigParser()
             config.read('ssh.cfg')
             self.client.connect(config.get('SSH','hostname'), int(config.get('SSH','port')), config.get('SSH','username'), config.get('SSH','password'))
