@@ -14,7 +14,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui = ui.Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.actionAbout.triggered.connect(self.about)
-        #self.ui.actionQuit.triggered.connect(self.ui.close())
+        self.ui.actionQuit.triggered.connect(self.ui.close())
         self.ui.landsharkButton.toggled.connect(self.landshark)
         self.ui.rcButton.toggled.connect(self.rc)
         self.ui.attackButton.toggled.connect(self.attack)
@@ -37,7 +37,8 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui.landsharkButton.setChecked(res)
         
     def rc(self, checked):
-        self.ui.rcButton.setChecked(self.remote.startRC() if checked else self.remote.stopRC())
+        self.ui.rcButton.setChecked(self.hacms_listener() if checked else False)
+        #self.ui.rcButton.setChecked(self.remote.startRC() if checked else self.remote.stopRC())
         
     def attack(self, checked):
         self.ui.attackButton.setChecked(self.remote.startAttack() if checked else self.remote.stopAttack())
@@ -72,6 +73,8 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         #rospy.Subscriber("demo_ui", String, window.rosTest)
         rospy.Subscriber("/landshark_control/odom", Twist, self.updateActualSpeedLCD)
         #rospy.Subscriber("/landshark_control/imu", Twist, window.updateActualSpeedLCD)
+        
+        return True
     
 
 def main():
