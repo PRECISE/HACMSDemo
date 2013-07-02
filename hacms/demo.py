@@ -14,7 +14,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui = ui.Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.actionAbout.triggered.connect(self.about)
-        self.ui.actionQuit.triggered.connect(self.app.quit)
+        #self.ui.actionQuit.triggered.connect(self.ui.close())
         self.ui.landsharkButton.toggled.connect(self.landshark)
         self.ui.rcButton.toggled.connect(self.rc)
         self.ui.attackButton.toggled.connect(self.attack)
