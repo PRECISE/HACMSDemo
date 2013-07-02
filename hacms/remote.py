@@ -45,7 +45,8 @@ class Remote(object):
         if self.connect():
             try:
                 self.output.appendPlainText('*** Starting Landshark...')
-                self.writeLinesToOutput(self.client.exec_command('roslaunch landshark_launch black_box.launch &')[1])            
+                self.client.exec_command('roslaunch landshark_launch black_box.launch &')
+                self.output.appendPlainText('*** Started Landshark.')
                 self.landsharkRunning = True
             except:
                 pass
@@ -59,7 +60,8 @@ class Remote(object):
         if self.connect():
             try:
                 self.output.appendPlainText('*** Stopping Landshark...')
-                self.writeLinesToOutput(self.client.exec_command('killall roslaunch')[1])
+                self.client.exec_command('killall roslaunch')
+                self.output.appendPlainText('*** Stopped Landshark.')
                 self.landsharkRunning = False
             except:
                 pass
