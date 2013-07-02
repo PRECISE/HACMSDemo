@@ -65,6 +65,10 @@ class HACMSDemoWindow(QtGui.QMainWindow):
 
 class HACMSListener(threading.Thread):
     def __init__(self, window):
+        self.window = window
+        threading.Thread.__init__(self)
+        
+    def run(self):
         # in ROS, nodes are unique named. If two nodes with the same
         # node are launched, the previous one is kicked off. The 
         # anonymous=True flag means that rospy will choose a unique
@@ -73,7 +77,7 @@ class HACMSListener(threading.Thread):
         rospy.init_node('demo_listener', anonymous=True)
 
         # Subscribe to HACMS Demo topics
-        rospy.Subscriber("demo_ui", String, window.rosListen)
+        rospy.Subscriber("demo_ui", String, self.window.rosListen)
         #rospy.Subscriber("/landshark_control/odom", Twist, window.updateActualSpeedLCD)
     
 
@@ -81,7 +85,7 @@ def main():
     app = QtGui.QApplication(sys.argv)
     h = HACMSDemoWindow()
     h.show()
-    HACMSListener(h)
+    HACMSListener(h).start()
     sys.exit(app.exec_())
     
 if __name__ == "__main__":
