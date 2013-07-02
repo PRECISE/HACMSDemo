@@ -84,8 +84,8 @@ class HACMSListener(threading.Thread):
 def main():
     app = QtGui.QApplication(sys.argv)
     h = HACMSDemoWindow()
-    h.show()
     HACMSListener(h).start()
+    h.show()
     sys.exit(app.exec_())
     
 if __name__ == "__main__":
