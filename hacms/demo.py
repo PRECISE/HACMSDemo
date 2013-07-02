@@ -15,7 +15,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui.setupUi(self)
         self.ui.actionAbout.triggered.connect(self.about)
         #self.ui.actionQuit.triggered.connect(self.app.quit)
-        self.ui.rosButton.toggled.connect(self.ros)
+        self.ui.landsharkButton.toggled.connect(self.landshark)
         self.ui.rcButton.toggled.connect(self.rc)
         self.ui.attackButton.toggled.connect(self.attack)
         self.remote = Remote(self.ui.console)
@@ -25,15 +25,15 @@ class HACMSDemoWindow(QtGui.QMainWindow):
                 "The <b>HACMS Demo</b> application displays the current ROS telemetry "
                 "information.")
                 
-    def ros(self, checked):
+    def landshark(self, checked):
         if checked:
-            res = self.remote.startROS()
+            res = self.remote.startLandshark()
         else:
             self.rc(False)
             self.attack(False)
-            res = self.remote.stopROS()
+            res = self.remote.stopLandshark()
             
-        self.ui.rosButton.setChecked(res)
+        self.ui.landsharkButton.setChecked(res)
         
     def rc(self, checked):
         self.ui.rcButton.setChecked(self.remote.startRC() if checked else self.remote.stopRC())
@@ -57,22 +57,20 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         
     def updateActualSpeedLCD(self, twistMsg):
         self.ui.actualSpeedLCD.display(twistMsg.linear.x)
+        #self.ui.console.appendPlainText('*** Actual Speed: ' + str(twistMsg.linear.x))
         
     def rosTest(self, data):
         rospy.loginfo(rospy.get_caller_id()+"I heard %s",data.data)
         self.ui.console.appendPlainText('*** ROS TEST: ' + data.data)
 
 def hacms_listener(window):
-    # in ROS, nodes are unique named. If two nodes with the same
-    # node are launched, the previous one is kicked off. The 
-    # anonymous=True flag means that rospy will choose a unique
-    # name for our 'talker' node so that multiple talkers can
-    # run simultaenously.
+    # Initialize ROS node
     rospy.init_node('demo_listener', anonymous=True)
 
     # Subscribe to HACMS Demo topics
-    rospy.Subscriber("demo_ui", String, window.rosTest)
-    #rospy.Subscriber("/landshark_control/odom", Twist, window.updateActualSpeedLCD)
+    #rospy.Subscriber("demo_ui", String, window.rosTest)
+    rospy.Subscriber("/landshark_control/odom", Twist, window.updateActualSpeedLCD)
+    #rospy.Subscriber("/landshark_control/imu", Twist, window.updateActualSpeedLCD)
     
 
 def main():
