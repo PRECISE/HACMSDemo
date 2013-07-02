@@ -71,9 +71,9 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         rospy.init_node('demo_listener', anonymous=True)
 
         # Subscribe to HACMS Demo topics
-        #rospy.Subscriber("demo_ui", String, window.rosTest)
+        #rospy.Subscriber("demo_ui", String, self.rosTest)
         #rospy.Subscriber("/landshark/odom", Twist, self.updateActualSpeedLCD)
-        rospy.Subscriber("/landshark/imu", Imu, window.updateActualSpeedLCD)
+        rospy.Subscriber("/landshark/imu", Imu, self.updateActualSpeedLCD)
         
         return True
     
