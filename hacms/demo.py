@@ -28,6 +28,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
     def landshark(self, checked):
         if checked:
             res = self.remote.startLandshark()
+            self.hacms_listener()
         else:
             self.rc(False)
             self.attack(False)
@@ -63,20 +64,19 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         rospy.loginfo(rospy.get_caller_id()+"I heard %s",data.data)
         self.ui.console.appendPlainText('*** ROS TEST: ' + data.data)
 
-def hacms_listener(window):
-    # Initialize ROS node
-    rospy.init_node('demo_listener', anonymous=True)
+    def hacms_listener(self):
+        # Initialize ROS node
+        rospy.init_node('demo_listener', anonymous=True)
 
-    # Subscribe to HACMS Demo topics
-    #rospy.Subscriber("demo_ui", String, window.rosTest)
-    rospy.Subscriber("/landshark_control/odom", Twist, window.updateActualSpeedLCD)
-    #rospy.Subscriber("/landshark_control/imu", Twist, window.updateActualSpeedLCD)
+        # Subscribe to HACMS Demo topics
+        #rospy.Subscriber("demo_ui", String, window.rosTest)
+        rospy.Subscriber("/landshark_control/odom", Twist, self.updateActualSpeedLCD)
+        #rospy.Subscriber("/landshark_control/imu", Twist, window.updateActualSpeedLCD)
     
 
 def main():
     app = QtGui.QApplication(sys.argv)
     h = HACMSDemoWindow()
-    hacms_listener(h)
     h.show()
     sys.exit(app.exec_())
     
