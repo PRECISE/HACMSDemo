@@ -19,6 +19,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui.rcButton.toggled.connect(self.rc)
         self.ui.attackButton.toggled.connect(self.attack)
         self.remote = Remote(self.ui.console)
+        self.ui.actualSpeedLCD.display(3.0)
     
     def about(self):
         QtGui.QMessageBox.about(self, "About HACMS Demo",
