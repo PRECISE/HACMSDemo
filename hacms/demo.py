@@ -2,6 +2,7 @@ import sys, string
 import rospy
 from std_msgs.msg import String
 from geometry_msgs.msg import Twist
+from sensor_msgs.msg import Imu
 from PySide import QtGui
 
 # HACMS Python modules
@@ -19,7 +20,6 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui.rcButton.toggled.connect(self.rc)
         self.ui.attackButton.toggled.connect(self.attack)
         self.remote = Remote(self.ui.console)
-        self.ui.actualSpeedLCD.display(3.0)
     
     def about(self):
         QtGui.QMessageBox.about(self, "About HACMS Demo",
@@ -58,8 +58,8 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         elif self.getWidgetColor(widget) is "red":
             widget.setStyleSheet(string.replace(style, "background-color: red;", "background-color: green;"))
         
-    def updateActualSpeedLCD(self, twistMsg):
-        self.ui.actualSpeedLCD.display(twistMsg.linear.x)
+    def updateActualSpeedLCD(self, msg):
+        self.ui.actualSpeedLCD.display(msg.linear_acceleration.x)
         #self.ui.console.appendPlainText('*** Actual Speed: ' + str(twistMsg.linear.x))
         
     def rosTest(self, data):
@@ -72,8 +72,8 @@ class HACMSDemoWindow(QtGui.QMainWindow):
 
         # Subscribe to HACMS Demo topics
         #rospy.Subscriber("demo_ui", String, window.rosTest)
-        rospy.Subscriber("/landshark_control/odom", Twist, self.updateActualSpeedLCD)
-        #rospy.Subscriber("/landshark_control/imu", Twist, window.updateActualSpeedLCD)
+        #rospy.Subscriber("/landshark/odom", Twist, self.updateActualSpeedLCD)
+        rospy.Subscriber("/landshark/imu", Imu, window.updateActualSpeedLCD)
         
         return True
     
