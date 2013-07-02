@@ -7,10 +7,10 @@ import rospy
 from std_msgs.msg import String
 #from geometry_msgs.msg import Twist
 
-def talker():
+def hacms_talker():
     pub = rospy.Publisher('demo_ui', String)
     rospy.init_node('demo_talker', anonymous=True)
-    r = rospy.Rate(10) # 10hz
+    r = rospy.Rate(5) # 5hz
     while not rospy.is_shutdown():
         str = "hello world %s"%rospy.get_time()
         rospy.loginfo(str)
@@ -20,6 +20,6 @@ def talker():
         
 if __name__ == '__main__':
     try:
-        talker()
+        hacms_talker()
     except rospy.ROSInterruptException: 
     	pass
