@@ -1,4 +1,4 @@
-import sys, string
+import sys, string, threading
 import rospy
 from std_msgs.msg import String
 from geometry_msgs.msg import Twist
@@ -58,27 +58,30 @@ class HACMSDemoWindow(QtGui.QMainWindow):
     def updateActualSpeedLCD(self, twistMsg):
         self.ui.actualSpeedLCD.display(twistMsg.linear.x)
         
-def ros_listen_test(data):
-    rospy.loginfo(rospy.get_caller_id()+"I heard %s",data.data)
-    print data.data
-        
-def hacms_listener(window):
-    # in ROS, nodes are unique named. If two nodes with the same
-    # node are launched, the previous one is kicked off. The 
-    # anonymous=True flag means that rospy will choose a unique
-    # name for our 'talker' node so that multiple talkers can
-    # run simultaenously.
-    rospy.init_node('demo_listener', anonymous=True)
+    def rosListen(data):
+        rospy.loginfo(rospy.get_caller_id()+"I heard %s",data.data)
+        print data.data
 
-    # Subscribe to HACMS Demo topics
-    rospy.Subscriber("demo_ui", String, ros_listen_test)
-    #rospy.Subscriber("/landshark_control/odom", Twist, window.updateActualSpeedLCD)
+
+class HACMSListener(threading.Thread):
+    def __init__(self, window):
+        # in ROS, nodes are unique named. If two nodes with the same
+        # node are launched, the previous one is kicked off. The 
+        # anonymous=True flag means that rospy will choose a unique
+        # name for our 'talker' node so that multiple talkers can
+        # run simultaenously.
+        rospy.init_node('demo_listener', anonymous=True)
+
+        # Subscribe to HACMS Demo topics
+        rospy.Subscriber("demo_ui", String, window.rosListen)
+        #rospy.Subscriber("/landshark_control/odom", Twist, window.updateActualSpeedLCD)
+    
 
 def main():
     app = QtGui.QApplication(sys.argv)
     h = HACMSDemoWindow()
     h.show()
-    hacms_listener(h)
+    HACMSListener(h)
     sys.exit(app.exec_())
     
 if __name__ == "__main__":
