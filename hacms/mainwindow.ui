@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>771</width>
-    <height>572</height>
+    <width>926</width>
+    <height>573</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
    <bool>true</bool>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="rosButton">
+   <widget class="QPushButton" name="landsharkButton">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -28,7 +28,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>ROS</string>
+     <string>Landshark</string>
     </property>
     <property name="checkable">
      <bool>true</bool>
@@ -39,7 +39,7 @@
      <rect>
       <x>240</x>
       <y>20</y>
-      <width>181</width>
+      <width>221</width>
       <height>71</height>
      </rect>
     </property>
@@ -55,7 +55,7 @@
      <rect>
       <x>240</x>
       <y>90</y>
-      <width>181</width>
+      <width>221</width>
       <height>71</height>
      </rect>
     </property>
@@ -81,7 +81,7 @@
      <rect>
       <x>250</x>
       <y>170</y>
-      <width>161</width>
+      <width>201</width>
       <height>51</height>
      </rect>
     </property>
@@ -102,7 +102,7 @@
      <rect>
       <x>250</x>
       <y>230</y>
-      <width>161</width>
+      <width>201</width>
       <height>51</height>
      </rect>
     </property>
@@ -162,7 +162,7 @@
      <rect>
       <x>40</x>
       <y>310</y>
-      <width>711</width>
+      <width>871</width>
       <height>191</height>
      </rect>
     </property>
@@ -179,9 +179,9 @@
    <widget class="QGraphicsView" name="graphicsView">
     <property name="geometry">
      <rect>
-      <x>440</x>
+      <x>480</x>
       <y>20</y>
-      <width>311</width>
+      <width>431</width>
       <height>271</height>
      </rect>
     </property>
@@ -192,7 +192,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>771</width>
+     <width>926</width>
      <height>22</height>
     </rect>
    </property>
