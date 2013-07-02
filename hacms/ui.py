@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Tue Jul  2 14:23:56 2013
+# Created: Tue Jul  2 14:50:40 2013
 #      by: pyside-uic 0.2.13 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -17,29 +17,29 @@ class Ui_MainWindow(object):
         self.centralWidget = QtGui.QWidget(MainWindow)
         self.centralWidget.setObjectName("centralWidget")
         self.landsharkButton = QtGui.QPushButton(self.centralWidget)
-        self.landsharkButton.setGeometry(QtCore.QRect(30, 20, 201, 91))
+        self.landsharkButton.setGeometry(QtCore.QRect(30, 20, 201, 71))
         self.landsharkButton.setCheckable(True)
         self.landsharkButton.setObjectName("landsharkButton")
         self.rcButton = QtGui.QPushButton(self.centralWidget)
-        self.rcButton.setGeometry(QtCore.QRect(240, 20, 221, 71))
+        self.rcButton.setGeometry(QtCore.QRect(240, 20, 241, 71))
         self.rcButton.setCheckable(True)
         self.rcButton.setObjectName("rcButton")
         self.attackButton = QtGui.QPushButton(self.centralWidget)
-        self.attackButton.setGeometry(QtCore.QRect(240, 90, 221, 71))
+        self.attackButton.setGeometry(QtCore.QRect(240, 100, 241, 71))
         self.attackButton.setCheckable(True)
         self.attackButton.setObjectName("attackButton")
         self.actualSpeedLCD = QtGui.QLCDNumber(self.centralWidget)
         self.actualSpeedLCD.setGeometry(QtCore.QRect(40, 220, 171, 71))
         self.actualSpeedLCD.setObjectName("actualSpeedLCD")
         self.expectedLabel = QtGui.QLabel(self.centralWidget)
-        self.expectedLabel.setGeometry(QtCore.QRect(250, 170, 201, 51))
+        self.expectedLabel.setGeometry(QtCore.QRect(250, 170, 221, 51))
         font = QtGui.QFont()
         font.setPointSize(36)
         self.expectedLabel.setFont(font)
         self.expectedLabel.setStyleSheet("background-color: green; color: white;")
         self.expectedLabel.setObjectName("expectedLabel")
         self.actualLabel = QtGui.QLabel(self.centralWidget)
-        self.actualLabel.setGeometry(QtCore.QRect(250, 230, 201, 51))
+        self.actualLabel.setGeometry(QtCore.QRect(250, 230, 221, 51))
         font = QtGui.QFont()
         font.setPointSize(36)
         self.actualLabel.setFont(font)
