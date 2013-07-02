@@ -14,7 +14,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui = ui.Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.actionAbout.triggered.connect(self.about)
-        #self.ui.actionQuit.triggered.connect(self.app.quit)
+        self.ui.actionQuit.triggered.connect(self.app.quit)
         self.ui.landsharkButton.toggled.connect(self.landshark)
         self.ui.rcButton.toggled.connect(self.rc)
         self.ui.attackButton.toggled.connect(self.attack)
@@ -28,7 +28,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
     def landshark(self, checked):
         if checked:
             res = self.remote.startLandshark()
-            self.hacms_listener()
+            #self.hacms_listener()
         else:
             self.rc(False)
             self.attack(False)
