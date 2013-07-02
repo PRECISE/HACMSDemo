@@ -7,7 +7,7 @@ class Remote(object):
         self.output = output
         self.client = None
         self.isConnected = False
-        self.rosRunning = False
+        self.landsharkRunning = False
         self.rcRunning = False
         self.attackRunning = False
     
@@ -38,42 +38,42 @@ class Remote(object):
         
         return self.isConnected
             
-    def startROS(self):
-        if self.rosRunning:
+    def startLandshark(self):
+        if self.landsharkRunning:
             return True        
         
         if self.connect():
             try:
-                self.output.appendPlainText('*** Starting ROS...')
-                #self.writeLinesToOutput(self.client.exec_command('ls')[1])            
-                self.rosRunning = True
+                self.output.appendPlainText('*** Starting Landshark...')
+                self.writeLinesToOutput(self.client.exec_command('roslaunch landshark_launch black_box.launch &')[1])            
+                self.landsharkRunning = True
             except:
                 pass
         
-        return self.rosRunning
+        return self.landsharkRunning
         
-    def stopROS(self):
-        if not self.rosRunning:
+    def stopLandshark(self):
+        if not self.landsharkRunning:
             return False
         
         if self.connect():
             try:
-                self.output.appendPlainText('*** Stopping ROS...')
-                #self.writeLinesToOutput(self.client.exec_command('ls')[1])            
-                self.rosRunning = False
+                self.output.appendPlainText('*** Stopping Landshark...')
+                self.writeLinesToOutput(self.client.exec_command('killall roslaunch')[1])
+                self.landsharkRunning = False
             except:
                 pass
         
-        return self.rosRunning
+        return self.landsharkRunning
         
     def startRC(self):
         if self.rcRunning:
             return True
         if not self.isConnected:
-            self.output.appendPlainText('*** You must first start ROS.')
+            self.output.appendPlainText('*** You must first start Landshark.')
             return False
-        if not self.rosRunning:
-            self.output.appendPlainText('*** You must first start ROS.')
+        if not self.landsharkRunning:
+            self.output.appendPlainText('*** You must first start Landshark.')
             return False
         
         try:
@@ -89,10 +89,10 @@ class Remote(object):
         if not self.rcRunning:
             return False
         if not self.isConnected:
-            self.output.appendPlainText('*** You must first start ROS.')
+            self.output.appendPlainText('*** You must first start Landshark.')
             return False
-        if not self.rosRunning:
-            self.output.appendPlainText('*** You must first start ROS.')
+        if not self.landsharkRunning:
+            self.output.appendPlainText('*** You must first start Landshark.')
             return False
         
         try:
@@ -108,10 +108,10 @@ class Remote(object):
         if self.attackRunning:
             return True
         if not self.isConnected:
-            self.output.appendPlainText('*** You must first start ROS.')
+            self.output.appendPlainText('*** You must first start Landshark.')
             return False
-        if not self.rosRunning:
-            self.output.appendPlainText('*** You must first start ROS.')
+        if not self.landsharkRunning:
+            self.output.appendPlainText('*** You must first start Landshark.')
             return False
         
         try:
@@ -127,10 +127,10 @@ class Remote(object):
         if not self.attackRunning:
             return False
         if not self.isConnected:
-            self.output.appendPlainText('*** You must first start ROS.')
+            self.output.appendPlainText('*** You must first start Landshark.')
             return False
-        if not self.rosRunning:
-            self.output.appendPlainText('*** You must first start ROS.')
+        if not self.landsharkRunning:
+            self.output.appendPlainText('*** You must first start Landshark.')
             return False
         
         try:
