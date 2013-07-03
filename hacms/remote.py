@@ -10,11 +10,11 @@ class Remote(object):
         self.landsharkRunning = False
         self.rcRunning = False
         self.attackRunning = False
-    
+
     def connect(self):
         if self.isConnected:
             return True
-        
+
         # Connect and use paramiko Client to negotiate SSH2 across the connection
         try:
             self.output.appendPlainText('*** Connecting...')
@@ -35,39 +35,39 @@ class Remote(object):
             except:
                 pass
             self.isConnected = False
-        
+
         return self.isConnected
-            
+
     def startLandshark(self):
         if self.landsharkRunning:
-            return True        
-        
+            return True
+
         if self.connect():
             try:
                 self.output.appendPlainText('*** Starting Landshark...')
-                self.client.exec_command('roslaunch landshark_launch black_box.launch &')
+                self.client.exec_command('source .bashrc; roslaunch landshark_launch black_box.launch')
                 self.output.appendPlainText('*** Started Landshark.')
                 self.landsharkRunning = True
             except:
                 pass
-        
+
         return self.landsharkRunning
-        
+
     def stopLandshark(self):
         if not self.landsharkRunning:
             return False
-        
+
         if self.connect():
             try:
                 self.output.appendPlainText('*** Stopping Landshark...')
-                self.client.exec_command('killall roslaunch')
+                self.client.exec_command('ps ax | awk \'/roslaunch landshark_launch black_box.launch/\' | xargs kill -9')
                 self.output.appendPlainText('*** Stopped Landshark.')
                 self.landsharkRunning = False
             except:
                 pass
-        
+
         return self.landsharkRunning
-        
+
     def startRC(self):
         if self.rcRunning:
             return True
@@ -77,16 +77,17 @@ class Remote(object):
         if not self.landsharkRunning:
             self.output.appendPlainText('*** You must first start Landshark.')
             return False
-        
+
         try:
             self.output.appendPlainText('*** Starting Resilient Controller...')
-            #self.writeLinesToOutput(self.client.exec_command('ls')[1]) 
+            self.client.exec_command('source .bashrc; roslaunch Controller controller.launch')
+            self.output.appendPlainText('*** Started Resilient Controller.')
             self.rcRunning = True
         except:
             pass
-        
+
         return self.rcRunning
-        
+
     def stopRC(self):
         if not self.rcRunning:
             return False
@@ -96,16 +97,17 @@ class Remote(object):
         if not self.landsharkRunning:
             self.output.appendPlainText('*** You must first start Landshark.')
             return False
-        
+
         try:
             self.output.appendPlainText('*** Stopping Resilient Controller...')
-            #self.writeLinesToOutput(self.client.exec_command('ls')[1]) 
+                self.client.exec_command('ps ax | awk \'/roslaunch Controller controller.launch/\' | xargs kill -9')
+            self.output.appendPlainText('*** Stopped Resilient Controller.')
             self.rcRunning = False
         except:
             pass
-        
+
         return self.rcRunning
-        
+
     def startAttack(self):
         if self.attackRunning:
             return True
@@ -115,16 +117,16 @@ class Remote(object):
         if not self.landsharkRunning:
             self.output.appendPlainText('*** You must first start Landshark.')
             return False
-        
+
         try:
             self.output.appendPlainText('*** Starting Attack...')
-            #self.writeLinesToOutput(self.client.exec_command('ls')[1]) 
+            #self.client.exec_command('source .bashrc; roslaunch landshark_launch black_box.launch')
             self.attackRunning = True
         except:
             pass
-        
+
         return self.attackRunning
-        
+
     def stopAttack(self):
         if not self.attackRunning:
             return False
@@ -134,17 +136,17 @@ class Remote(object):
         if not self.landsharkRunning:
             self.output.appendPlainText('*** You must first start Landshark.')
             return False
-        
+
         try:
             self.output.appendPlainText('*** Stopping Attack...')
-            #self.writeLinesToOutput(self.client.exec_command('ls')[1]) 
+            #self.client.exec_command('ls')
             self.attackRunning = False
         except:
             pass
-        
+
         return self.attackRunning
-    
+
     def writeLinesToOutput(self, lines):
         for line in lines:
             self.output.appendPlainText(line)
-        
+
