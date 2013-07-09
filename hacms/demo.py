@@ -76,7 +76,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
     def updateEstimatedSpeedLCD(self, msg):
         self.ui.estimatedSpeedLCD.display(msg.twist.linear.x)
 
-    def updateOutputPlot(self, msg, args): #encL=False, encR=False, gps=False, odom=False):
+    def updateOutputPlot(self, msg, encL=False, encR=False, gps=False, odom=False):
         if encL:
             return
         if encR:
