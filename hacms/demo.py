@@ -37,7 +37,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
     def landshark(self, checked):
         if checked:
             res = self.remote.startLandshark()
-            #self.landshark_listener()
+            self.landshark_listener()
         else:
             self.rc(False)
             self.attack(False)
@@ -76,6 +76,16 @@ class HACMSDemoWindow(QtGui.QMainWindow):
     def updateEstimatedSpeedLCD(self, msg):
         self.ui.estimatedSpeedLCD.display(msg.twist.linear.x)
 
+    def updateOutputPlot(self, msg, encL=False, encR=False, gps=False, odom=False):
+        if encL:
+            return
+        if encR:
+            return
+        if gps:
+            return
+        if odom:
+            self.ui.estimatedSpeedLCD.display(msg.twist.twist.linear.x)
+        
     def landshark_listener(self):
         # Initialize ROS node
         rospy.init_node('demo_listener', anonymous=True)
@@ -83,6 +93,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         # Subscribe to HACMS Demo topics
         rospy.Subscriber("/landshark_demo/odom", Odometry, self.updateActualSpeedLCD)
         rospy.Subscriber("/landshark_demo/gps_velocity", TwistStamped, self.updateEstimatedSpeedLCD)
+        rospy.Subscriber("/landshark/odom", Odometry, self.updateOutputPlot, odom=True)
 
         return True
 
