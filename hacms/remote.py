@@ -47,11 +47,7 @@ class Remote(object):
         if self.connect():
             try:
                 self.output.appendPlainText('*** Starting Landshark...')
-                self.shell.send('source ~/.bashrc\nroslaunch landshark_launch black_box.launch\n')
-                #self.shell = self.client.invoke_shell()
-                #self.shell.send('source ~/.bashrc\nrosrun topic_tools throttle messages /landshark/odom 2 /landshark_demo/odom\n')
-                #self.shell = self.client.invoke_shell()
-                #self.shell.send('source ~/.bashrc\nrosrun topic_tools throttle messages /landshark/gps_velocity 2 /landshark_demo/gps_velocity\n')
+                self.shell.send('source ~/.bashrc\nroslaunch landshark_launch black_box.launch &\nrosrun topic_tools throttle messages /landshark/odom 2 /landshark_demo/odom &\nrosrun topic_tools throttle messages /landshark/gps_velocity 2 /landshark_demo/gps_velocity &\n')
                 self.output.appendPlainText('*** Started Landshark.')
                 self.landsharkRunning = True
             except:
