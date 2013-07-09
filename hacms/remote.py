@@ -68,12 +68,9 @@ class Remote(object):
         if self.connect():
             try:
                 self.output.appendPlainText('*** Stopping Landshark...')
-                self.main_shell.send('^C')
-                self.throttle1_shell.send('^C')
-                self.throttle2_shell.send('^C')
-                #("ps ax | awk '/roslaunch black_box.launch/' | xargs kill -9\n")
-                #self.shell.send('ps ax | awk \'/messages /landshark/odom 2 /landshark_demo/odom/\' | xargs kill -9')
-                #self.shell.send('ps ax | awk \'/messages /landshark/gps_velocity 2 /landshark_demo/gps_velocity/\' | xargs kill -9')
+                self.main_shell.send("ps ax | awk '/roslaunch landshark_launch black_box.launch/ {print $1}' | xargs kill -9\n")
+                self.throttle1_shell.send("ps ax | awk '/messages /landshark/odom 2 /landshark_demo/odom/ {print $1}' | xargs kill -9\n")
+                self.throttle2_shell.send("ps ax | awk '/messages /landshark/gps_velocity 2 /landshark_demo/gps_velocity/ {print $1}' | xargs kill -9\n")
                 self.output.appendPlainText('*** Stopped Landshark.')
                 self.landsharkRunning = False
             except:
