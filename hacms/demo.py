@@ -37,7 +37,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
     def landshark(self, checked):
         if checked:
             res = self.remote.startLandshark()
-            self.landshark_listener()
+            #self.landshark_listener()
         else:
             self.rc(False)
             self.attack(False)
