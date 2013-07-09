@@ -45,7 +45,10 @@ class Remote(object):
         if self.connect():
             try:
                 self.output.appendPlainText('*** Starting Landshark...')
-                self.client.exec_command('source .bashrc; roslaunch landshark_launch black_box.launch; rosrun topic_tools throttle messages /landshark/odom 2 /landshark_demo/odom; rosrun topic_tools throttle messages /landshark/gps_velocity 2 /landshark_demo/gps_velocity')
+                self.client.exec_command('source .bashrc')
+                self.client.exec_command('roslaunch landshark_launch black_box.launch')
+                self.client.exec_command('rosrun topic_tools throttle messages /landshark/odom 2 /landshark_demo/odom')
+                self.client.exec_command('rosrun topic_tools throttle messages /landshark/gps_velocity 2 /landshark_demo/gps_velocity')
                 self.output.appendPlainText('*** Started Landshark.')
                 self.landsharkRunning = True
             except:
@@ -60,7 +63,9 @@ class Remote(object):
         if self.connect():
             try:
                 self.output.appendPlainText('*** Stopping Landshark...')
-                self.client.exec_command('ps ax | awk \'/roslaunch landshark_launch black_box.launch/\' | xargs kill -9')
+                self.client.exec_command('ps ax | awk \'/roslaunch black_box.launch/\' | xargs kill -9')
+                self.client.exec_command('ps ax | awk \'/messages /landshark/odom 2 /landshark_demo/odom/\' | xargs kill -9')
+                self.client.exec_command('ps ax | awk \'/messages /landshark/gps_velocity 2 /landshark_demo/gps_velocity/\' | xargs kill -9')
                 self.output.appendPlainText('*** Stopped Landshark.')
                 self.landsharkRunning = False
             except:
