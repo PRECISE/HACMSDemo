@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>930</width>
-    <height>586</height>
+    <width>826</width>
+    <height>763</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,11 +21,16 @@
    <widget class="QPushButton" name="landsharkButton">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>20</x>
       <y>10</y>
-      <width>201</width>
+      <width>241</width>
       <height>71</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Landshark</string>
@@ -37,11 +42,16 @@
    <widget class="QPushButton" name="rcButton">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>10</y>
+      <x>20</x>
+      <y>170</y>
       <width>241</width>
       <height>71</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Resilient Controller</string>
@@ -53,11 +63,16 @@
    <widget class="QPushButton" name="attackButton">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>90</y>
+      <x>20</x>
+      <y>250</y>
       <width>241</width>
       <height>71</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Attack</string>
@@ -69,18 +84,18 @@
    <widget class="QLCDNumber" name="actualSpeedLCD">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>210</y>
+      <x>280</x>
+      <y>170</y>
       <width>171</width>
       <height>71</height>
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="expectedLabel">
+   <widget class="QLabel" name="estimatedLabel">
     <property name="geometry">
      <rect>
-      <x>230</x>
-      <y>180</y>
+      <x>30</x>
+      <y>400</y>
       <width>221</width>
       <height>51</height>
      </rect>
@@ -94,14 +109,17 @@
      <string notr="true">background-color: green; color: white;</string>
     </property>
     <property name="text">
-     <string>Expected</string>
+     <string>Estimated</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="actualLabel">
     <property name="geometry">
      <rect>
-      <x>230</x>
-      <y>240</y>
+      <x>30</x>
+      <y>330</y>
       <width>221</width>
       <height>51</height>
      </rect>
@@ -117,15 +135,23 @@
     <property name="text">
      <string>Actual</string>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
    <widget class="QLabel" name="desiredSpeedLabel">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>110</y>
-      <width>101</width>
-      <height>16</height>
+      <x>300</x>
+      <y>20</y>
+      <width>131</width>
+      <height>20</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>18</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Desired Speed</string>
@@ -134,35 +160,51 @@
    <widget class="QLineEdit" name="desiredSpeedEdit">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>140</y>
-      <width>113</width>
-      <height>21</height>
+      <x>310</x>
+      <y>50</y>
+      <width>101</width>
+      <height>41</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>23</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>3.0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="actualSpeedLabel">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>190</y>
-      <width>121</width>
-      <height>16</height>
+      <x>280</x>
+      <y>150</y>
+      <width>171</width>
+      <height>20</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>18</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Actual Speed</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QPlainTextEdit" name="console">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>310</y>
-      <width>891</width>
+      <y>490</y>
+      <width>781</width>
       <height>201</height>
      </rect>
     </property>
@@ -176,13 +218,122 @@
      <string/>
     </property>
    </widget>
-   <widget class="QGraphicsView" name="graphicsView">
+   <widget class="QWidget" name="outputPlot" native="true">
     <property name="geometry">
      <rect>
-      <x>480</x>
-      <y>20</y>
-      <width>431</width>
-      <height>271</height>
+      <x>470</x>
+      <y>30</y>
+      <width>331</width>
+      <height>201</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="outputPlotLabel">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>10</y>
+      <width>62</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Output</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="estimatedSpeedLabel">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>260</y>
+      <width>171</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>18</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Estimated Speed</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="estimatedSpeedLCD">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>280</y>
+      <width>171</width>
+      <height>71</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ccButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>90</y>
+      <width>241</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Cruise Control</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="setSpeedButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>100</y>
+      <width>101</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Set</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="inputPlotLabel">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>250</y>
+      <width>62</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Input</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="inputPlot" native="true">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>270</y>
+      <width>331</width>
+      <height>201</height>
      </rect>
     </property>
    </widget>
@@ -192,7 +343,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>930</width>
+     <width>826</width>
      <height>22</height>
     </rect>
    </property>
