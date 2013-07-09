@@ -6,6 +6,7 @@ class Remote(object):
     def __init__(self, output):
         self.output = output
         self.client = None
+        self.shell = None
         self.isConnected = False
         self.landsharkRunning = False
         self.rcRunning = False
@@ -24,6 +25,7 @@ class Remote(object):
             config = ConfigParser.SafeConfigParser()
             config.read('ssh.cfg')
             self.client.connect(config.get('SSH','hostname'), int(config.get('SSH','port')), config.get('SSH','username'), config.get('SSH','password'))
+            self.shell = self.client.invoke_shell()
             self.isConnected = True
             self.output.appendPlainText('*** Connected!')
 
@@ -45,10 +47,11 @@ class Remote(object):
         if self.connect():
             try:
                 self.output.appendPlainText('*** Starting Landshark...')
-                self.client.exec_command('source .bashrc')
-                self.client.exec_command('roslaunch landshark_launch black_box.launch')
-                self.client.exec_command('rosrun topic_tools throttle messages /landshark/odom 2 /landshark_demo/odom')
-                self.client.exec_command('rosrun topic_tools throttle messages /landshark/gps_velocity 2 /landshark_demo/gps_velocity')
+                self.shell.send('source ~/.bashrc\nroslaunch landshark_launch black_box.launch\n')
+                #self.shell = self.client.invoke_shell()
+                #self.shell.send('source ~/.bashrc\nrosrun topic_tools throttle messages /landshark/odom 2 /landshark_demo/odom\n')
+                #self.shell = self.client.invoke_shell()
+                #self.shell.send('source ~/.bashrc\nrosrun topic_tools throttle messages /landshark/gps_velocity 2 /landshark_demo/gps_velocity\n')
                 self.output.appendPlainText('*** Started Landshark.')
                 self.landsharkRunning = True
             except:
@@ -63,9 +66,9 @@ class Remote(object):
         if self.connect():
             try:
                 self.output.appendPlainText('*** Stopping Landshark...')
-                self.client.exec_command('ps ax | awk \'/roslaunch black_box.launch/\' | xargs kill -9')
-                self.client.exec_command('ps ax | awk \'/messages /landshark/odom 2 /landshark_demo/odom/\' | xargs kill -9')
-                self.client.exec_command('ps ax | awk \'/messages /landshark/gps_velocity 2 /landshark_demo/gps_velocity/\' | xargs kill -9')
+                self.shell.send('ps ax | awk \'/roslaunch black_box.launch/\' | xargs kill -9\n')
+                #self.shell.send('ps ax | awk \'/messages /landshark/odom 2 /landshark_demo/odom/\' | xargs kill -9')
+                #self.shell.send('ps ax | awk \'/messages /landshark/gps_velocity 2 /landshark_demo/gps_velocity/\' | xargs kill -9')
                 self.output.appendPlainText('*** Stopped Landshark.')
                 self.landsharkRunning = False
             except:
