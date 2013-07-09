@@ -45,7 +45,7 @@ class Remote(object):
         if self.connect():
             try:
                 self.output.appendPlainText('*** Starting Landshark...')
-                self.client.exec_command('source .bashrc; roslaunch landshark_launch black_box.launch &; rosrun topic_tools throttle messages /landshark/odom 2 /landshark_demo/odom &; rosrun topic_tools throttle messages /landshark/gps_velocity 2 /landshark_demo/gps_velocity &')
+                self.client.exec_command('source .bashrc; roslaunch landshark_launch black_box.launch; rosrun topic_tools throttle messages /landshark/odom 2 /landshark_demo/odom; rosrun topic_tools throttle messages /landshark/gps_velocity 2 /landshark_demo/gps_velocity')
                 self.output.appendPlainText('*** Started Landshark.')
                 self.landsharkRunning = True
             except:
