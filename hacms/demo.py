@@ -93,7 +93,8 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         # Subscribe to HACMS Demo topics
         rospy.Subscriber("/landshark_demo/odom", Odometry, self.updateActualSpeedLCD)
         rospy.Subscriber("/landshark_demo/gps_velocity", TwistStamped, self.updateEstimatedSpeedLCD)
-        rospy.Subscriber("/landshark/odom", Odometry, self.updateOutputPlot, (False, False, False, True))
+        odomArgs = {"odom": True}
+        rospy.Subscriber("/landshark/odom", Odometry, self.updateOutputPlot, **odomArgs)
         
         #TODO: stop subscribers just as the GUI is closed (to prevent bad callback)
 
