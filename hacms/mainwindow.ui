@@ -61,6 +61,9 @@
     </property>
    </widget>
    <widget class="QPushButton" name="attackButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -273,6 +276,9 @@
     </property>
    </widget>
    <widget class="QPushButton" name="ccButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>20</x>

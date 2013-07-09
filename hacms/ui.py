@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Tue Jul  9 15:51:08 2013
+# Created: Tue Jul  9 15:52:48 2013
 #      by: pyside-uic 0.2.13 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -31,6 +31,7 @@ class Ui_MainWindow(object):
         self.rcButton.setCheckable(True)
         self.rcButton.setObjectName("rcButton")
         self.attackButton = QtGui.QPushButton(self.centralWidget)
+        self.attackButton.setEnabled(False)
         self.attackButton.setGeometry(QtCore.QRect(20, 250, 241, 71))
         font = QtGui.QFont()
         font.setPointSize(20)
@@ -101,6 +102,7 @@ class Ui_MainWindow(object):
         self.estimatedSpeedLCD.setGeometry(QtCore.QRect(280, 280, 171, 71))
         self.estimatedSpeedLCD.setObjectName("estimatedSpeedLCD")
         self.ccButton = QtGui.QPushButton(self.centralWidget)
+        self.ccButton.setEnabled(False)
         self.ccButton.setGeometry(QtCore.QRect(20, 90, 241, 71))
         font = QtGui.QFont()
         font.setPointSize(20)
