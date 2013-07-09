@@ -76,7 +76,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
     def updateEstimatedSpeedLCD(self, msg):
         self.ui.estimatedSpeedLCD.display(msg.twist.linear.x)
 
-    def updateOutputPlot(self, msg, encL=False, encR=False, gps=False, odom=False):
+    def updateOutputPlot(self, msg, args) #:encL=False, encR=False, gps=False, odom=False):
         if encL:
             return
         if encR:
@@ -93,7 +93,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         # Subscribe to HACMS Demo topics
         rospy.Subscriber("/landshark_demo/odom", Odometry, self.updateActualSpeedLCD)
         rospy.Subscriber("/landshark_demo/gps_velocity", TwistStamped, self.updateEstimatedSpeedLCD)
-        rospy.Subscriber("/landshark/odom", Odometry, self.updateOutputPlot, odom=True)
+        rospy.Subscriber("/landshark/odom", Odometry, self.updateOutputPlot, (odom=True))
         
         #TODO: stop subscribers just as the GUI is closed (to prevent bad callback)
 
