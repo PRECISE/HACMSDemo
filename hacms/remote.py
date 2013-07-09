@@ -100,7 +100,7 @@ class Remote(object):
 
         try:
             self.output.appendPlainText('*** Stopping Resilient Controller...')
-                self.client.exec_command('ps ax | awk \'/roslaunch Controller controller.launch/\' | xargs kill -9')
+            self.client.exec_command('ps ax | awk \'/roslaunch Controller controller.launch/\' | xargs kill -9')
             self.output.appendPlainText('*** Stopped Resilient Controller.')
             self.rcRunning = False
         except:
