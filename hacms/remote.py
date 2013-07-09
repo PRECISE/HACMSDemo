@@ -6,7 +6,9 @@ class Remote(object):
     def __init__(self, output):
         self.output = output
         self.client = None
-        self.shell = None
+        self.main_shell = None
+        self.throttle1_shell = None
+        self.throttle2_shell = None
         self.isConnected = False
         self.landsharkRunning = False
         self.rcRunning = False
@@ -25,7 +27,9 @@ class Remote(object):
             config = ConfigParser.SafeConfigParser()
             config.read('ssh.cfg')
             self.client.connect(config.get('SSH','hostname'), int(config.get('SSH','port')), config.get('SSH','username'), config.get('SSH','password'))
-            self.shell = self.client.invoke_shell()
+            self.main_shell = self.client.invoke_shell()
+            self.throttle1_shell = self.client.invoke_shell()
+            self.throttle2_shell = self.client.invoke_shell()
             self.isConnected = True
             self.output.appendPlainText('*** Connected!')
 
@@ -47,7 +51,9 @@ class Remote(object):
         if self.connect():
             try:
                 self.output.appendPlainText('*** Starting Landshark...')
-                self.shell.send('source ~/.bashrc\nroslaunch landshark_launch black_box.launch &\nrosrun topic_tools throttle messages /landshark/odom 2 /landshark_demo/odom &\nrosrun topic_tools throttle messages /landshark/gps_velocity 2 /landshark_demo/gps_velocity &\n')
+                self.main_shell.send('source ~/.bashrc\nroslaunch landshark_launch black_box.launch\n')
+                self.throttle1_shell.send('source ~/.bashrc\nrosrun topic_tools throttle messages /landshark/odom 2 /landshark_demo/odom\n')
+                self.throttle2_shell.send('source ~/.bashrc\nrosrun topic_tools throttle messages /landshark/gps_velocity 2 /landshark_demo/gps_velocity\n')
                 self.output.appendPlainText('*** Started Landshark.')
                 self.landsharkRunning = True
             except:
@@ -62,7 +68,10 @@ class Remote(object):
         if self.connect():
             try:
                 self.output.appendPlainText('*** Stopping Landshark...')
-                self.shell.send('ps ax | awk \'/roslaunch black_box.launch/\' | xargs kill -9\n')
+                self.main_shell.send('^C')
+                self.throttle1_shell.send('^C')
+                self.throttle2_shell.send('^C')
+                #("ps ax | awk '/roslaunch black_box.launch/' | xargs kill -9\n")
                 #self.shell.send('ps ax | awk \'/messages /landshark/odom 2 /landshark_demo/odom/\' | xargs kill -9')
                 #self.shell.send('ps ax | awk \'/messages /landshark/gps_velocity 2 /landshark_demo/gps_velocity/\' | xargs kill -9')
                 self.output.appendPlainText('*** Stopped Landshark.')
