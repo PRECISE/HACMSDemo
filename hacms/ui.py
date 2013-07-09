@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Tue Jul  9 16:40:11 2013
+# Created: Tue Jul  9 16:44:21 2013
 #      by: pyside-uic 0.2.13 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -58,7 +58,7 @@ class Ui_MainWindow(object):
         self.actualLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.actualLabel.setObjectName("actualLabel")
         self.desiredSpeedLabel = QtGui.QLabel(self.centralWidget)
-        self.desiredSpeedLabel.setGeometry(QtCore.QRect(310, 20, 101, 20))
+        self.desiredSpeedLabel.setGeometry(QtCore.QRect(280, 20, 161, 20))
         font = QtGui.QFont()
         font.setPointSize(14)
         self.desiredSpeedLabel.setFont(font)
