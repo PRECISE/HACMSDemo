@@ -94,6 +94,8 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         rospy.Subscriber("/landshark_demo/odom", Odometry, self.updateActualSpeedLCD)
         rospy.Subscriber("/landshark_demo/gps_velocity", TwistStamped, self.updateEstimatedSpeedLCD)
         rospy.Subscriber("/landshark/odom", Odometry, self.updateOutputPlot, odom=True)
+        
+        #TODO: stop subscribers just as the GUI is closed (to prevent bad callback)
 
         return True
 
