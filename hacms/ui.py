@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Wed Jul 10 14:25:55 2013
+# Created: Wed Jul 10 14:41:28 2013
 #      by: pyside-uic 0.2.13 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PySide import QtCore, QtGui
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(826, 763)
+        MainWindow.resize(825, 727)
         MainWindow.setUnifiedTitleAndToolBarOnMac(True)
         self.centralWidget = QtGui.QWidget(MainWindow)
         self.centralWidget.setObjectName("centralWidget")
@@ -86,7 +86,7 @@ class Ui_MainWindow(object):
         self.actualSpeedLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.actualSpeedLabel.setObjectName("actualSpeedLabel")
         self.console = QtGui.QPlainTextEdit(self.centralWidget)
-        self.console.setGeometry(QtCore.QRect(20, 490, 781, 201))
+        self.console.setGeometry(QtCore.QRect(20, 490, 781, 161))
         font = QtGui.QFont()
         font.setFamily("Courier New")
         font.setPointSize(13)
@@ -138,7 +138,7 @@ class Ui_MainWindow(object):
         self.inputPlot.setObjectName("inputPlot")
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtGui.QMenuBar()
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 826, 22))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 825, 22))
         self.menuBar.setNativeMenuBar(False)
         self.menuBar.setObjectName("menuBar")
         self.menuFile = QtGui.QMenu(self.menuBar)
