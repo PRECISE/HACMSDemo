@@ -9,7 +9,7 @@ from nav_msgs.msg import Odometry
 from PySide.QtGui import *
 import matplotlib
 matplotlib.use('Qt4Agg')
-#matplotlib.rcParams['backend.qt4']='PySide'
+matplotlib.rcParams['backend.qt4']='PySide'
 import pylab
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
