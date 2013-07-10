@@ -28,7 +28,7 @@ class HACMSDemoWindow(QMainWindow):
         self.ui.ccButton.toggled.connect(self.cc)
         self.ui.rcButton.toggled.connect(self.rc)
         self.ui.attackButton.toggled.connect(self.attack)
-        self.ui.setSpeedButton.clicked.connect(self.setLandsharkSpeed)
+        self.ui.setSpeedButton.clicked.connect(self.on_draw)
         self.dpi = 100
         self.outFig = Figure((3.31, 2.01), dpi=self.dpi)
         self.outCanvas = FigureCanvas(self.outFig)
@@ -41,6 +41,7 @@ class HACMSDemoWindow(QMainWindow):
         #TODO: Add save figure capabilities
         self.inDataOdom = deque(maxlen=100)
         self.remote = Remote(self.ui.console)
+        self.on_draw()
 
     def about(self):
         QMessageBox.about(self, "About HACMS Demo",
@@ -158,7 +159,7 @@ class HACMSDemoWindow(QMainWindow):
             
     def gatherOdom(self, msg):
         self.inDataOdom.append(msg.twist.twist.linear.x)
-        self.on_draw()
+        #self.on_draw()
             
     def save_plot(self):
         file_choices = "PNG (*.png)|*.png"
@@ -197,7 +198,6 @@ class HACMSDemoWindow(QMainWindow):
         msg.twist.linear.x = float(self.ui.desiredSpeedEdit.text())
         self.desired_speed_pub.publish(msg)
         self.test_pub.publish("test")
-        print "test"
 
     def landshark_comm(self):
         # Initialize ROS node
