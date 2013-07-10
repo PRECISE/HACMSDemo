@@ -27,6 +27,16 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui.rcButton.toggled.connect(self.rc)
         self.ui.attackButton.toggled.connect(self.attack)
         self.ui.setSpeedButton.clicked.connect(self.setLandsharkSpeed)
+        self.dpi = 100
+        self.outFig = Figure((3.31, 2.01), dpi=self.dpi)
+        self.outCanvas = FigureCanvas(self.outFig)
+        self.outCanvas.setParent(self.outputPlot)
+        self.outAxes = self.outFig.add_subplot(111)
+        self.inFig = Figure((3.31, 2.01), dpi=self.dpi)
+        self.inCanvas = FigureCanvas(self.inFig)
+        self.inCanvas.setParent(self.inputPlot)
+        self.inAxes = self.inFig.add_subplot(111)
+        #TODO: Add save figure capabilities
         self.remote = Remote(self.ui.console)
 
     def about(self):
@@ -141,6 +151,39 @@ class HACMSDemoWindow(QtGui.QMainWindow):
             return
         if odom:
             self.ui.estimatedSpeedLCD.display(msg.twist.twist.linear.x)
+            #self.on_draw()
+            
+    def save_plot(self):
+        file_choices = "PNG (*.png)|*.png"
+        
+        path = unicode(QFileDialog.getSaveFileName(self, 
+                        'Save file', '', 
+                        file_choices))
+        if path:
+            self.outCanvas.print_figure(path, dpi=self.dpi)
+            #self.statusBar().showMessage('Saved to %s' % path, 2000)
+            
+    def on_draw(self):
+        """ Redraws the figure
+        """
+        self.data = (1,2,3)
+        
+        x = range(len(self.data))
+
+        # clear the axes and redraw the plot anew
+        #
+        self.outAxes.clear()        
+        self.outAxes.grid(True)
+        
+        self.outAxes.bar(
+            left=x, 
+            height=self.data, 
+            width=0.5, 
+            align='center', 
+            alpha=0.44,
+            picker=5)
+        
+        self.outCanvas.draw()
 
     def setLandsharkSpeed(self):
         msg = TwistStamped()
