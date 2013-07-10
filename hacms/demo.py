@@ -44,6 +44,7 @@ class HACMSDemoWindow(QMainWindow):
         self.out_EndR = []
         self.out_GPS = []
         self.out_Odom = []
+        #TODO: Try to look into flushing queue as it gets backlogged (CPU overloaded...)
         #TODO: Add save figure capabilities
         #TODO: Layout widgets so that the console and plots will resize with the window
         self.remote = Remote(self.ui.console)
