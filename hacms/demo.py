@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import sys, string
 import rospy
 from std_msgs.msg import String, Bool
@@ -94,7 +96,7 @@ class HACMSDemoWindow(QMainWindow):
             self.enableAllElements()
         else:
             res = self.remote.stopLandshark()
-            rospy.signal_shutdown("Turning off Landshark")
+            #rospy.signal_shutdown("Turning off Landshark")
             self.disableAllElements()
 
         self.ui.landsharkButton.setChecked(res)
