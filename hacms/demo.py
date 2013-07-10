@@ -105,7 +105,7 @@ class HACMSDemoWindow(QMainWindow):
             self.enableAllElements()
         else:
             res = self.remote.stopLandshark()
-            #TODO: add proper shutdown handling   rospy.signal_shutdown("Turning off Landshark")
+            rospy.signal_shutdown("Turning off ROSPy")
             self.disableAllElements()
 
         self.ui.landsharkButton.setChecked(res)
