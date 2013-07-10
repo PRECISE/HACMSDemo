@@ -39,7 +39,8 @@ class HACMSDemoWindow(QMainWindow):
         self.inCanvas.setParent(self.ui.inputPlot)
         self.inAxes = self.inFig.add_subplot(111)
         #TODO: Add save figure capabilities
-        self.inDataOdom = deque(maxlen=100)
+        self.inDataOdom = []
+        self.outDataOdom = []
         self.remote = Remote(self.ui.console)
         self.on_draw()
 
@@ -159,7 +160,7 @@ class HACMSDemoWindow(QMainWindow):
             
     def gatherOdom(self, msg):
         self.inDataOdom.append(msg.twist.twist.linear.x)
-        #self.on_draw()
+        self.on_draw()
             
     def save_plot(self):
         file_choices = "PNG (*.png)|*.png"
@@ -174,22 +175,12 @@ class HACMSDemoWindow(QMainWindow):
     def on_draw(self):
         """ Redraws the figure
         """
-        self.data = (1,2,3)
-        
-        x = range(len(self.data))
-
         # clear the axes and redraw the plot anew
         #
         self.outAxes.clear()        
         self.outAxes.grid(True)
         
-        self.outAxes.bar(
-            left=x, 
-            height=self.data, 
-            width=0.5, 
-            align='center', 
-            alpha=0.44,
-            picker=5)
+        self.outAxes.plot(self.inDataOdom)
         
         self.outCanvas.draw()
 
