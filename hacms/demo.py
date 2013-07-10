@@ -30,11 +30,11 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.dpi = 100
         self.outFig = Figure((3.31, 2.01), dpi=self.dpi)
         self.outCanvas = FigureCanvas(self.outFig)
-        self.outCanvas.setParent(self.outputPlot)
+        self.outCanvas.setParent(self.ui.outputPlot)
         self.outAxes = self.outFig.add_subplot(111)
         self.inFig = Figure((3.31, 2.01), dpi=self.dpi)
         self.inCanvas = FigureCanvas(self.inFig)
-        self.inCanvas.setParent(self.inputPlot)
+        self.inCanvas.setParent(self.ui.inputPlot)
         self.inAxes = self.inFig.add_subplot(111)
         #TODO: Add save figure capabilities
         self.remote = Remote(self.ui.console)
