@@ -42,7 +42,6 @@ class HACMSDemoWindow(QMainWindow):
         self.inDataOdom = []
         self.outDataOdom = []
         self.remote = Remote(self.ui.console)
-        self.on_draw()
 
     def about(self):
         QMessageBox.about(self, "About HACMS Demo",
@@ -161,6 +160,7 @@ class HACMSDemoWindow(QMainWindow):
     def gatherOdom(self, msg):
         self.inDataOdom.append(msg.twist.twist.linear.x)
         self.on_draw()
+        self.updateActualSpeedLCD(msg)
             
     def save_plot(self):
         file_choices = "PNG (*.png)|*.png"
@@ -195,7 +195,6 @@ class HACMSDemoWindow(QMainWindow):
         rospy.init_node('landshark_demo', anonymous=True)
 
         # Subscribe to HACMS Demo topics
-        rospy.Subscriber("/landshark_demo/odom", Odometry, self.updateActualSpeedLCD)
         rospy.Subscriber("/landshark_demo/gps_velocity", TwistStamped, self.updateEstimatedSpeedLCD)
         rospy.Subscriber("/landshark_demo/odom", Odometry, self.gatherOdom)
 
