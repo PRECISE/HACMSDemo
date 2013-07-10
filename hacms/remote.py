@@ -1,4 +1,4 @@
-import traceback, sys
+import traceback, sys, signal
 import paramiko
 import ConfigParser
 
@@ -68,9 +68,10 @@ class Remote(object):
         if self.connect():
             try:
                 self.output.appendPlainText('*** Stopping Landshark...')
-                self.main_shell.send("ps ax | awk '/roslaunch landshark_launch black_box.launch/ {print $1}' | xargs kill -9\n")
-                self.throttle1_shell.send("ps ax | awk '/messages /landshark/odom 2 /landshark_demo/odom/ {print $1}' | xargs kill -9\n")
-                self.throttle2_shell.send("ps ax | awk '/messages /landshark/gps_velocity 2 /landshark_demo/gps_velocity/ {print $1}' | xargs kill -9\n")
+                self.main_shell.send(signal.SIGINT)
+                self.main_shell.send("ps ax | awk '/roslaunch landshark_launch black_box.launch/ {print $1}' | xargs kill -2\n")
+                self.throttle1_shell.send("ps ax | awk '/messages /landshark/odom 2 /landshark_demo/odom/ {print $1}' | xargs kill -2\n")
+                self.throttle2_shell.send("ps ax | awk '/messages /landshark/gps_velocity 2 /landshark_demo/gps_velocity/ {print $1}' | xargs kill -2\n")
                 self.output.appendPlainText('*** Stopped Landshark.')
                 self.landsharkRunning = False
             except:
