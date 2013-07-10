@@ -40,11 +40,6 @@ class HACMSDemoWindow(QMainWindow):
         self.inCanvas.setParent(self.ui.inputPlot)
         self.inAxes = self.inFig.add_subplot(111)
         #TODO: Add save figure capabilities
-        self.in_Odom = []
-        self.in_EncL = []
-        self.in_EndR = []
-        self.in_GPS = []
-        self.out_Odom = []
         self.remote = Remote(self.ui.console)
 
     def about(self):
@@ -69,6 +64,11 @@ class HACMSDemoWindow(QMainWindow):
         self.ui.outputPlotLabel.setEnabled(True)
         self.ui.inputPlotLabel.setEnabled(True)
         self.ui.inputPlotLabel.setEnabled(True)
+        self.in_Odom = []
+        self.out_EncL = []
+        self.out_EndR = []
+        self.out_GPS = []
+        self.out_Odom = []
         
     def disableAllElements(self):
         self.cc(False)
@@ -116,8 +116,16 @@ class HACMSDemoWindow(QMainWindow):
                 self.ui.ccButton.setChecked(True)
 
     def rc(self, checked):
-        self.ui.rcButton.setChecked(self.landshark_comm() if checked else False)
-        #self.ui.rcButton.setChecked(self.remote.startRC() if checked else self.remote.stopRC())
+        if checked:
+            try:
+                self.run_rc_pub.publish(Bool(True))
+            except:
+                self.ui.rcButton.setChecked(False)
+        else:
+            try:
+                self.run_rc_pub.publish(Bool(False))
+            except:
+                self.ui.rcButton.setChecked(True)
 
     def attack(self, checked):
         if checked:
@@ -161,15 +169,15 @@ class HACMSDemoWindow(QMainWindow):
             self.outCanvas.print_figure(path, dpi=self.dpi)
             #self.statusBar().showMessage('Saved to %s' % path, 2000)
             
-    def on_draw(self):
-        """ Redraws the figure
+    def draw_outputPlot(self):
+        """ Redraws the output plot
         """
         # clear the axes and redraw the plot anew
         #
         self.outAxes.clear()        
         self.outAxes.grid(True)
         
-        self.outAxes.plot(self.in_Odom)
+        self.outAxes.plot(self.out_Odom)
         
         self.outCanvas.draw()
 
@@ -177,7 +185,6 @@ class HACMSDemoWindow(QMainWindow):
         msg = TwistStamped()
         msg.twist.linear.x = float(self.ui.desiredSpeedEdit.text())
         self.desired_speed_pub.publish(msg)
-        self.test_pub.publish("test")
 
     def landshark_comm(self):
         # Initialize ROS node
@@ -191,7 +198,6 @@ class HACMSDemoWindow(QMainWindow):
         self.run_cc_pub = rospy.Publisher('/landshark_demo/run_cc', Bool)
         self.run_rc_pub = rospy.Publisher('/landshark_demo/run_rc', Bool)
         self.run_attack_pub = rospy.Publisher('/landshark_demo/run_attack', Bool)
-        self.test_pub = rospy.Publisher('/landshark_demo/test', String)
 
         #TODO: stop subscribers just as the GUI is closed (to prevent bad callback)
 
@@ -199,8 +205,8 @@ class HACMSDemoWindow(QMainWindow):
         
     def gatherOdom(self, msg):
         self.updateActualSpeedLCD(msg)
-        self.in_Odom.append(msg.twist.twist.linear.x)
-        self.on_draw()
+        self.out_Odom.append(msg.twist.twist.linear.x)
+        self.draw_outputPlot()
         
     def gatherGPS(self, msg):
         self.updateEstimatedSpeedLCD(msg)
