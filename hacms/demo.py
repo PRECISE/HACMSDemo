@@ -85,14 +85,32 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui.landsharkButton.setChecked(res)
 
     def cc(self, checked):
-        self.ui.ccButton.setChecked(self.run_cc_pub.publish(Bool(True)) if checked else self.run_cc_pub.publish(Bool(False)))
+        if checked:
+            try:
+                self.run_cc_pub.publish(Bool(True))
+            except:
+                self.ui.ccButton.setChecked(False)
+        else:
+            try:
+                self.run_cc_pub.publish(Bool(False))
+            except:
+                self.ui.ccButton.setChecked(True)
 
     def rc(self, checked):
-        self.ui.rcButton.setChecked(self.landshark_comm() if checked else False)
+        self.ui.rcButton.setChecked(self.landshark_comm() if checked)
         #self.ui.rcButton.setChecked(self.remote.startRC() if checked else self.remote.stopRC())
 
     def attack(self, checked):
-        self.ui.attackButton.setChecked(self.run_attack_pub.publish(Bool(True)) if checked else self.run_attack_pub.publish(Bool(False)))
+        if checked:
+            try:
+                self.run_attack_pub.publish(Bool(True))
+            except:
+                self.ui.attackButton.setChecked(False)
+        else:
+            try:
+                self.run_attack_pub.publish(Bool(False))
+            except:
+                self.ui.attackButton.setChecked(True)
 
     def getWidgetColor(self, widget):
         style = widget.styleSheet()
