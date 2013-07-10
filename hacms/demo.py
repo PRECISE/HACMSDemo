@@ -4,19 +4,20 @@ from std_msgs.msg import String, Bool
 from geometry_msgs.msg import Twist, TwistStamped
 from sensor_msgs.msg import Imu
 from nav_msgs.msg import Odometry
-from PySide import QtGui
+from PySide.QtGui import *
 import matplotlib
 matplotlib.use('Qt4Agg')
 matplotlib.rcParams['backend.qt4']='PySide'
 import pylab
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
+from collections import deque
 
 # HACMS Python modules
 from remote import Remote
 import ui
 
-class HACMSDemoWindow(QtGui.QMainWindow):
+class HACMSDemoWindow(QMainWindow):
     def __init__(self):
         super(HACMSDemoWindow, self).__init__()
         self.ui = ui.Ui_MainWindow()
@@ -31,17 +32,18 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.dpi = 100
         self.outFig = Figure((3.31, 2.01), dpi=self.dpi)
         self.outCanvas = FigureCanvas(self.outFig)
-        #self.outCanvas.setParent(self.ui.outputPlot)
+        self.outCanvas.setParent(self.ui.outputPlot)
         self.outAxes = self.outFig.add_subplot(111)
         self.inFig = Figure((3.31, 2.01), dpi=self.dpi)
         self.inCanvas = FigureCanvas(self.inFig)
-        #self.inCanvas.setParent(self.ui.inputPlot)
+        self.inCanvas.setParent(self.ui.inputPlot)
         self.inAxes = self.inFig.add_subplot(111)
         #TODO: Add save figure capabilities
+        self.inDataOdom = deque(maxlen=100)
         self.remote = Remote(self.ui.console)
 
     def about(self):
-        QtGui.QMessageBox.about(self, "About HACMS Demo",
+        QMessageBox.about(self, "About HACMS Demo",
                 "The <b>HACMS Demo</b> application displays the current ROS telemetry "
                 "information.")
                 
@@ -154,6 +156,10 @@ class HACMSDemoWindow(QtGui.QMainWindow):
             self.ui.estimatedSpeedLCD.display(msg.twist.twist.linear.x)
             #self.on_draw()
             
+    def gatherOdom(self, msg):
+        self.inDataOdom.append(msg.twist.twist.linear.x)
+        print self.inDataOdom
+            
     def save_plot(self):
         file_choices = "PNG (*.png)|*.png"
         
@@ -191,6 +197,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         msg.twist.linear.x = float(self.ui.desiredSpeedEdit.text())
         self.desired_speed_pub.publish(msg)
         self.test_pub.publish("test")
+        print "test"
 
     def landshark_comm(self):
         # Initialize ROS node
@@ -198,8 +205,8 @@ class HACMSDemoWindow(QtGui.QMainWindow):
 
         # Subscribe to HACMS Demo topics
         rospy.Subscriber("/landshark_demo/odom", Odometry, self.updateActualSpeedLCD)
-        #rospy.Subscriber("/landshark_demo/gps_velocity", TwistStamped, self.updateEstimatedSpeedLCD)
-        rospy.Subscriber("/landshark/odom", Odometry, self.updateOutputPlot, {"odom": True})
+        rospy.Subscriber("/landshark_demo/gps_velocity", TwistStamped, self.updateEstimatedSpeedLCD)
+        rospy.Subscriber("/landshark/odom", Odometry, self.gatherOdom)
 
         self.desired_speed_pub = rospy.Publisher('/landshark_demo/desired_speed', TwistStamped)
         self.run_cc_pub = rospy.Publisher('/landshark_demo/run_cc', Bool)
@@ -213,7 +220,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
 
 
 def main():
-    app = QtGui.QApplication(sys.argv)
+    app = QApplication(sys.argv)
     h = HACMSDemoWindow()
     h.show()
     sys.exit(app.exec_())
