@@ -94,6 +94,7 @@ class HACMSDemoWindow(QMainWindow):
             self.enableAllElements()
         else:
             res = self.remote.stopLandshark()
+            rospy.signal_shutdown("Turning off Landshark")
             self.disableAllElements()
 
         self.ui.landsharkButton.setChecked(res)
@@ -192,7 +193,7 @@ class HACMSDemoWindow(QMainWindow):
 
     def landshark_comm(self):
         # Initialize ROS node
-        rospy.init_node('landshark_demo', anonymous=True)
+        rospy.init_node('landshark_demo', anonymous=True, disable_signals=True)
 
         # Subscribe to HACMS Demo topics
         #rospy.Subscriber("/landshark_demo/gps_velocity", TwistStamped, self.updateEstimatedSpeedLCD)
