@@ -39,7 +39,13 @@ class HACMSDemoWindow(QMainWindow):
         self.inCanvas = FigureCanvas(self.inFig)
         self.inCanvas.setParent(self.ui.inputPlot)
         self.inAxes = self.inFig.add_subplot(111)
+        self.in_Odom = []
+        self.out_EncL = []
+        self.out_EndR = []
+        self.out_GPS = []
+        self.out_Odom = []
         #TODO: Add save figure capabilities
+        #TODO: Layout widgets so that the console and plots will resize with the window
         self.remote = Remote(self.ui.console)
 
     def about(self):
