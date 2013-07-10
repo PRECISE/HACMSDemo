@@ -29,7 +29,7 @@ class HACMSDemoWindow(QMainWindow):
         self.ui.ccButton.toggled.connect(self.cc)
         self.ui.rcButton.toggled.connect(self.rc)
         self.ui.attackButton.toggled.connect(self.attack)
-        self.ui.setSpeedButton.clicked.connect(self.on_draw)
+        self.ui.setSpeedButton.clicked.connect(self.save_plot)
         self.dpi = 100
         self.outFig = Figure((3.31, 2.01), dpi=self.dpi)
         self.outCanvas = FigureCanvas(self.outFig)
@@ -161,7 +161,7 @@ class HACMSDemoWindow(QMainWindow):
             
     def gatherOdom(self, msg):
         self.updateActualSpeedLCD(msg)
-        self.inDataOdom.append(msg.twist.twist.linear.x)
+        #self.inDataOdom.append(msg.twist.twist.linear.x)
         #self.on_draw()
             
     def save_plot(self):
