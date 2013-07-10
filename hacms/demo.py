@@ -161,8 +161,8 @@ class HACMSDemoWindow(QMainWindow):
             
     def gatherOdom(self, msg):
         self.updateActualSpeedLCD(msg)
-        #self.inDataOdom.append(msg.twist.twist.linear.x)
-        #self.on_draw()
+        self.inDataOdom.append(msg.twist.twist.linear.x)
+        self.on_draw()
             
     def save_plot(self):
         file_choices = "PNG (*.png)|*.png"
