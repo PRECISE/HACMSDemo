@@ -434,6 +434,15 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>landsharkButton</tabstop>
+  <tabstop>ccButton</tabstop>
+  <tabstop>rcButton</tabstop>
+  <tabstop>attackButton</tabstop>
+  <tabstop>desiredSpeedEdit</tabstop>
+  <tabstop>setSpeedButton</tabstop>
+  <tabstop>console</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
