@@ -159,10 +159,7 @@ class HACMSDemoWindow(QMainWindow):
             self.ui.estimatedSpeedLCD.display(msg.twist.twist.linear.x)
             #self.on_draw()
             
-    def gatherOdom(self, msg):
-        self.updateActualSpeedLCD(msg)
-        self.inDataOdom.append(msg.twist.twist.linear.x)
-        self.on_draw()
+
             
     def save_plot(self):
         file_choices = "PNG (*.png)|*.png"
@@ -198,17 +195,25 @@ class HACMSDemoWindow(QMainWindow):
 
         # Subscribe to HACMS Demo topics
         rospy.Subscriber("/landshark_demo/odom", Odometry, self.gatherOdom)
-        #rospy.Subscriber("/landshark_demo/gps_velocity", TwistStamped, self.updateEstimatedSpeedLCD)
+        rospy.Subscriber("/landshark_demo/gps_velocity", TwistStamped, self.gatherGPS)
 
-#         self.desired_speed_pub = rospy.Publisher('/landshark_demo/desired_speed', TwistStamped)
-#         self.run_cc_pub = rospy.Publisher('/landshark_demo/run_cc', Bool)
-#         self.run_rc_pub = rospy.Publisher('/landshark_demo/run_rc', Bool)
-#         self.run_attack_pub = rospy.Publisher('/landshark_demo/run_attack', Bool)
-#         self.test_pub = rospy.Publisher('/landshark_demo/test', String)
+        self.desired_speed_pub = rospy.Publisher('/landshark_demo/desired_speed', TwistStamped)
+        self.run_cc_pub = rospy.Publisher('/landshark_demo/run_cc', Bool)
+        self.run_rc_pub = rospy.Publisher('/landshark_demo/run_rc', Bool)
+        self.run_attack_pub = rospy.Publisher('/landshark_demo/run_attack', Bool)
+        self.test_pub = rospy.Publisher('/landshark_demo/test', String)
 
         #TODO: stop subscribers just as the GUI is closed (to prevent bad callback)
 
         return True
+        
+    def gatherOdom(self, msg):
+        self.updateActualSpeedLCD(msg)
+        self.inDataOdom.append(msg.twist.twist.linear.x)
+        self.on_draw()
+        
+    def gatherGPS(self, msg):
+        self.updateEstimatedSpeedLCD(msg)
 
 
 def main():
