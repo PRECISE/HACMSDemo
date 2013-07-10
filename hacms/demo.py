@@ -194,11 +194,11 @@ class HACMSDemoWindow(QMainWindow):
 
     def landshark_comm(self):
         # Initialize ROS node
-        rospy.init_node('landshark_demo', anonymous=True, disable_signals=True)
+        rospy.init_node('landshark_demo', disable_signals=True)
 
         # Subscribe to HACMS Demo topics
-        rospy.Subscriber("/landshark_demo/gps_velocity", TwistStamped, self.updateEstimatedSpeedLCD)
         rospy.Subscriber("/landshark_demo/odom", Odometry, self.gatherOdom)
+        #rospy.Subscriber("/landshark_demo/gps_velocity", TwistStamped, self.updateEstimatedSpeedLCD)
 
 #         self.desired_speed_pub = rospy.Publisher('/landshark_demo/desired_speed', TwistStamped)
 #         self.run_cc_pub = rospy.Publisher('/landshark_demo/run_cc', Bool)
