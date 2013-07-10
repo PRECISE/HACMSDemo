@@ -13,7 +13,6 @@ matplotlib.rcParams['backend.qt4']='PySide'
 import pylab
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
-from collections import deque
 
 # HACMS Python modules
 from remote import Remote
@@ -34,11 +33,11 @@ class HACMSDemoWindow(QMainWindow):
         self.dpi = 100
         self.outFig = Figure((3.31, 2.01), dpi=self.dpi)
         self.outCanvas = FigureCanvas(self.outFig)
-        #self.outCanvas.setParent(self.ui.outputPlot)
+        self.outCanvas.setParent(self.ui.outputPlot)
         self.outAxes = self.outFig.add_subplot(111)
         self.inFig = Figure((3.31, 2.01), dpi=self.dpi)
         self.inCanvas = FigureCanvas(self.inFig)
-        #self.inCanvas.setParent(self.ui.inputPlot)
+        self.inCanvas.setParent(self.ui.inputPlot)
         self.inAxes = self.inFig.add_subplot(111)
         #TODO: Add save figure capabilities
         self.inDataOdom = []
@@ -96,7 +95,7 @@ class HACMSDemoWindow(QMainWindow):
             self.enableAllElements()
         else:
             res = self.remote.stopLandshark()
-            #rospy.signal_shutdown("Turning off Landshark")
+            #TODO: add proper shutdown handling   rospy.signal_shutdown("Turning off Landshark")
             self.disableAllElements()
 
         self.ui.landsharkButton.setChecked(res)
@@ -161,9 +160,9 @@ class HACMSDemoWindow(QMainWindow):
             #self.on_draw()
             
     def gatherOdom(self, msg):
-        #self.inDataOdom.append(msg.twist.twist.linear.x)
-        #self.on_draw()
         self.updateActualSpeedLCD(msg)
+        self.inDataOdom.append(msg.twist.twist.linear.x)
+        self.on_draw()
             
     def save_plot(self):
         file_choices = "PNG (*.png)|*.png"
@@ -198,14 +197,14 @@ class HACMSDemoWindow(QMainWindow):
         rospy.init_node('landshark_demo', anonymous=True, disable_signals=True)
 
         # Subscribe to HACMS Demo topics
-        #rospy.Subscriber("/landshark_demo/gps_velocity", TwistStamped, self.updateEstimatedSpeedLCD)
-        rospy.Subscriber("/landshark_demo/odom", Odometry, self.updateActualSpeedLCD)
+        rospy.Subscriber("/landshark_demo/gps_velocity", TwistStamped, self.updateEstimatedSpeedLCD)
+        rospy.Subscriber("/landshark_demo/odom", Odometry, self.gatherOdom)
 
-        # self.desired_speed_pub = rospy.Publisher('/landshark_demo/desired_speed', TwistStamped)
-#         self.run_cc_pub = rospy.Publisher('/landshark_demo/run_cc', Bool)
-#         self.run_rc_pub = rospy.Publisher('/landshark_demo/run_rc', Bool)
-#         self.run_attack_pub = rospy.Publisher('/landshark_demo/run_attack', Bool)
-#         self.test_pub = rospy.Publisher('/landshark_demo/test', String)
+        self.desired_speed_pub = rospy.Publisher('/landshark_demo/desired_speed', TwistStamped)
+        self.run_cc_pub = rospy.Publisher('/landshark_demo/run_cc', Bool)
+        self.run_rc_pub = rospy.Publisher('/landshark_demo/run_rc', Bool)
+        self.run_attack_pub = rospy.Publisher('/landshark_demo/run_attack', Bool)
+        self.test_pub = rospy.Publisher('/landshark_demo/test', String)
 
         #TODO: stop subscribers just as the GUI is closed (to prevent bad callback)
 
