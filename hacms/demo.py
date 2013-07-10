@@ -143,9 +143,9 @@ class HACMSDemoWindow(QtGui.QMainWindow):
             self.ui.estimatedSpeedLCD.display(msg.twist.twist.linear.x)
 
     def setLandsharkSpeed(self):
-        odom = Odometry()
-        odom.msg.twist.twist.linear.x = float(self.ui.desiredSpeedEdit.getText())
-        self.desired_speed_pub.publish(odom)
+        msg = TwistStamped()
+        msg.twist.linear.x = float(self.ui.desiredSpeedEdit.text())
+        self.desired_speed_pub.publish(msg)
 
     def landshark_comm(self):
         # Initialize ROS node
@@ -153,10 +153,10 @@ class HACMSDemoWindow(QtGui.QMainWindow):
 
         # Subscribe to HACMS Demo topics
         rospy.Subscriber("/landshark_demo/odom", Odometry, self.updateActualSpeedLCD)
-        rospy.Subscriber("/landshark_demo/gps_velocity", TwistStamped, self.updateEstimatedSpeedLCD)
+        #rospy.Subscriber("/landshark_demo/gps_velocity", TwistStamped, self.updateEstimatedSpeedLCD)
         rospy.Subscriber("/landshark/odom", Odometry, self.updateOutputPlot, {"odom": True})
 
-        self.desired_speed_pub = rospy.Publisher('/landshark_demo/desired_speed', Odometry)
+        self.desired_speed_pub = rospy.Publisher('/landshark_demo/desired_speed', TwistStamped)
         self.run_cc_pub = rospy.Publisher('/landshark_demo/run_cc', Bool)
         self.run_rc_pub = rospy.Publisher('/landshark_demo/run_rc', Bool)
         self.run_attack_pub = rospy.Publisher('/landshark_demo/run_attack', Bool)
