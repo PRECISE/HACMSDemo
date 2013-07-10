@@ -26,7 +26,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui.ccButton.toggled.connect(self.cc)
         self.ui.rcButton.toggled.connect(self.rc)
         self.ui.attackButton.toggled.connect(self.attack)
-        self.ui.setSpeedButton.triggered.connect(self.setLandsharkSpeed)
+        self.ui.setSpeedButton.clicked.connect(self.setLandsharkSpeed)
         self.remote = Remote(self.ui.console)
 
     def about(self):
