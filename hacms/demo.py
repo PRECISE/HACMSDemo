@@ -9,7 +9,7 @@ from nav_msgs.msg import Odometry
 from PySide.QtGui import *
 import matplotlib
 matplotlib.use('Qt4Agg')
-matplotlib.rcParams['backend.qt4']='PySide'
+#matplotlib.rcParams['backend.qt4']='PySide'
 import pylab
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
@@ -29,7 +29,7 @@ class HACMSDemoWindow(QMainWindow):
         self.ui.ccButton.toggled.connect(self.cc)
         self.ui.rcButton.toggled.connect(self.rc)
         self.ui.attackButton.toggled.connect(self.attack)
-        self.ui.setSpeedButton.clicked.connect(self.save_plot)
+        self.ui.setSpeedButton.clicked.connect(self.setLandsharkSpeed)
         self.dpi = 100
         self.outFig = Figure((3.31, 2.01), dpi=self.dpi)
         self.outCanvas = FigureCanvas(self.outFig)
@@ -40,8 +40,11 @@ class HACMSDemoWindow(QMainWindow):
         self.inCanvas.setParent(self.ui.inputPlot)
         self.inAxes = self.inFig.add_subplot(111)
         #TODO: Add save figure capabilities
-        self.inDataOdom = []
-        self.outDataOdom = []
+        self.in_Odom = []
+        self.in_EncL = []
+        self.in_EndR = []
+        self.in_GPS = []
+        self.out_Odom = []
         self.remote = Remote(self.ui.console)
 
     def about(self):
@@ -148,19 +151,6 @@ class HACMSDemoWindow(QMainWindow):
     def updateEstimatedSpeedLCD(self, msg):
         self.ui.estimatedSpeedLCD.display(msg.twist.linear.x)
 
-    def updateOutputPlot(self, msg, encL=False, encR=False, gps=False, odom=False):
-        if encL:
-            return
-        if encR:
-            return
-        if gps:
-            return
-        if odom:
-            self.ui.estimatedSpeedLCD.display(msg.twist.twist.linear.x)
-            #self.on_draw()
-            
-
-            
     def save_plot(self):
         file_choices = "PNG (*.png)|*.png"
         
@@ -179,7 +169,7 @@ class HACMSDemoWindow(QMainWindow):
         self.outAxes.clear()        
         self.outAxes.grid(True)
         
-        self.outAxes.plot(self.inDataOdom)
+        self.outAxes.plot(self.in_Odom)
         
         self.outCanvas.draw()
 
