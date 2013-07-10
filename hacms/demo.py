@@ -97,7 +97,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
                 self.ui.ccButton.setChecked(True)
 
     def rc(self, checked):
-        self.ui.rcButton.setChecked(self.landshark_comm() if checked)
+        self.ui.rcButton.setChecked(self.landshark_comm() if checked else False)
         #self.ui.rcButton.setChecked(self.remote.startRC() if checked else self.remote.stopRC())
 
     def attack(self, checked):
