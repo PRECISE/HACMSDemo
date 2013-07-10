@@ -7,6 +7,7 @@ from nav_msgs.msg import Odometry
 from PySide import QtGui
 import matplotlib
 matplotlib.use('Qt4Agg')
+matplotlib.rcParams['backend.qt4']='PySide'
 import pylab
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
@@ -189,6 +190,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         msg = TwistStamped()
         msg.twist.linear.x = float(self.ui.desiredSpeedEdit.text())
         self.desired_speed_pub.publish(msg)
+        self.test_pub.publish("test")
 
     def landshark_comm(self):
         # Initialize ROS node
@@ -203,6 +205,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.run_cc_pub = rospy.Publisher('/landshark_demo/run_cc', Bool)
         self.run_rc_pub = rospy.Publisher('/landshark_demo/run_rc', Bool)
         self.run_attack_pub = rospy.Publisher('/landshark_demo/run_attack', Bool)
+        self.test_pub = rospy.Publisher('/landshark_demo/test', String)
 
         #TODO: stop subscribers just as the GUI is closed (to prevent bad callback)
 
