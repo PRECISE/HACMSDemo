@@ -159,7 +159,7 @@ class HACMSDemoWindow(QMainWindow):
             
     def gatherOdom(self, msg):
         self.inDataOdom.append(msg.twist.twist.linear.x)
-        self.on_draw()
+        #self.on_draw()
         self.updateActualSpeedLCD(msg)
             
     def save_plot(self):
