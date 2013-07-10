@@ -158,7 +158,7 @@ class HACMSDemoWindow(QMainWindow):
             #self.on_draw()
             
     def gatherOdom(self, msg):
-        self.inDataOdom.append(msg.twist.twist.linear.x)
+        #self.inDataOdom.append(msg.twist.twist.linear.x)
         #self.on_draw()
         self.updateActualSpeedLCD(msg)
             
@@ -195,7 +195,7 @@ class HACMSDemoWindow(QMainWindow):
         rospy.init_node('landshark_demo', anonymous=True)
 
         # Subscribe to HACMS Demo topics
-        rospy.Subscriber("/landshark_demo/gps_velocity", TwistStamped, self.updateEstimatedSpeedLCD)
+        #rospy.Subscriber("/landshark_demo/gps_velocity", TwistStamped, self.updateEstimatedSpeedLCD)
         rospy.Subscriber("/landshark_demo/odom", Odometry, self.gatherOdom)
 
         self.desired_speed_pub = rospy.Publisher('/landshark_demo/desired_speed', TwistStamped)
