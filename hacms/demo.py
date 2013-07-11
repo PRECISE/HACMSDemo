@@ -101,11 +101,11 @@ class HACMSDemoWindow(QMainWindow):
     def landshark(self, checked):
         if checked:
             res = self.remote.startLandshark()
-            self.landshark_comm()
+            self.start_landshark_comm()
             self.enableAllElements()
         else:
             res = self.remote.stopLandshark()
-            rospy.signal_shutdown("Turning off ROSPy")
+            self.stop_landshark_comm()
             self.disableAllElements()
 
         self.ui.landsharkButton.setChecked(res)
@@ -193,20 +193,32 @@ class HACMSDemoWindow(QMainWindow):
         msg.twist.linear.x = float(self.ui.desiredSpeedEdit.text())
         self.desired_speed_pub.publish(msg)
 
-    def landshark_comm(self):
+    def start_landshark_comm(self):
         # Initialize ROS node
         rospy.init_node('landshark_demo', disable_signals=True)
 
         # Subscribe to HACMS Demo topics
-        rospy.Subscriber("/landshark_demo/odom", Odometry, self.gatherOdom)
-        rospy.Subscriber("/landshark_demo/gps_velocity", TwistStamped, self.gatherGPS)
+        self.odom_sub = rospy.Subscriber("/landshark_demo/odom", Odometry, self.gatherOdom)
+        self.gps_sub = rospy.Subscriber("/landshark_demo/gps_velocity", TwistStamped, self.gatherGPS)
 
         self.desired_speed_pub = rospy.Publisher('/landshark_demo/desired_speed', TwistStamped)
         self.run_cc_pub = rospy.Publisher('/landshark_demo/run_cc', Bool)
         self.run_rc_pub = rospy.Publisher('/landshark_demo/run_rc', Bool)
         self.run_attack_pub = rospy.Publisher('/landshark_demo/run_attack', Bool)
 
-        #TODO: stop subscribers just as the GUI is closed (to prevent bad callback)
+        return True
+        
+    def stop_landshark_comm(self):
+        # Unsubscribe to HACMS Demo topics
+        self.odom_sub.unregister()
+        self.gps_sub.unregister()
+
+        self.desired_speed_pub.unregister()
+        self.run_cc_pub.unregister()
+        self.run_rc_pub.unregister()
+        self.run_attack_pub.unregister()
+
+        rospy.signal_shutdown("Turning off ROSPy")
 
         return True
         
