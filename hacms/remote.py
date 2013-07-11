@@ -12,7 +12,6 @@ class Remote(object):
         self.isConnected = False
         self.landsharkRunning = False
         self.rcRunning = False
-        self.attackRunning = False
 
     def connect(self):
         if self.isConnected:
@@ -118,44 +117,6 @@ class Remote(object):
             pass
 
         return self.rcRunning
-
-    def startAttack(self):
-        if self.attackRunning:
-            return True
-        if not self.isConnected:
-            self.output.appendPlainText('*** You must first start Landshark.')
-            return False
-        if not self.landsharkRunning:
-            self.output.appendPlainText('*** You must first start Landshark.')
-            return False
-
-        try:
-            self.output.appendPlainText('*** Starting Attack...')
-            #self.client.exec_command('source .bashrc; roslaunch landshark_launch black_box.launch')
-            self.attackRunning = True
-        except:
-            pass
-
-        return self.attackRunning
-
-    def stopAttack(self):
-        if not self.attackRunning:
-            return False
-        if not self.isConnected:
-            self.output.appendPlainText('*** You must first start Landshark.')
-            return False
-        if not self.landsharkRunning:
-            self.output.appendPlainText('*** You must first start Landshark.')
-            return False
-
-        try:
-            self.output.appendPlainText('*** Stopping Attack...')
-            #self.client.exec_command('ls')
-            self.attackRunning = False
-        except:
-            pass
-
-        return self.attackRunning
 
     def writeLinesToOutput(self, lines):
         for line in lines:
