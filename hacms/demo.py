@@ -6,8 +6,8 @@ from std_msgs.msg import String, Bool
 from geometry_msgs.msg import Twist, TwistStamped
 #from sensor_msgs.msg import Imu
 from nav_msgs.msg import Odometry
-from PySide.QtGui import *
-from PyQt4.Qwt5 import *
+#from PySide.QtGui import *
+from PyQt4 import QtGui, Qwt5
 # import matplotlib
 # matplotlib.use('Qt4Agg')
 # matplotlib.rcParams['backend.qt4']='PySide'
@@ -19,7 +19,7 @@ from PyQt4.Qwt5 import *
 from remote import Remote
 import ui
 
-class HACMSDemoWindow(QMainWindow):
+class HACMSDemoWindow(QtGui.QMainWindow):
     def __init__(self):
         super(HACMSDemoWindow, self).__init__()
         self.ui = ui.Ui_MainWindow()
@@ -40,9 +40,9 @@ class HACMSDemoWindow(QMainWindow):
 #         self.inCanvas = FigureCanvas(self.inFig)
 #         self.inCanvas.setParent(self.ui.inputPlot)
 #         self.inAxes = self.inFig.add_subplot(111)
-        self.outPlot = QwtPlot()
+        self.outPlot = Qwt5.QwtPlot()
         self.outPlot.setParent(self.ui.outputPlot)
-        self.outPlotCurve = QwtPlotCurve()
+        self.outPlotCurve = Qwt5.QwtPlotCurve()
         self.outPlotCurve.attach(self.outPlot)
         self.in_Odom = []
         self.out_EncL = []
@@ -55,7 +55,7 @@ class HACMSDemoWindow(QMainWindow):
         self.remote = Remote(self.ui.console)
 
     def about(self):
-        QMessageBox.about(self, "About HACMS Demo",
+        QtGui.QMessageBox.about(self, "About HACMS Demo",
                 "The <b>HACMS Demo</b> application displays the current ROS telemetry "
                 "information.")
                 
@@ -239,7 +239,7 @@ class HACMSDemoWindow(QMainWindow):
 
 
 def main():
-    app = QApplication(sys.argv)
+    app = QtGui.QApplication(sys.argv)
     h = HACMSDemoWindow()
     h.show()
     sys.exit(app.exec_())
