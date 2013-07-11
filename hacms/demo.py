@@ -4,7 +4,6 @@ import sys, string
 import rospy
 from std_msgs.msg import String, Bool
 from geometry_msgs.msg import Twist, TwistStamped
-#from sensor_msgs.msg import Imu
 from nav_msgs.msg import Odometry
 #from PySide.QtGui import *
 from PyQt4 import QtGui, Qwt5
