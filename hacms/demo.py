@@ -40,10 +40,10 @@ class HACMSDemoWindow(QtGui.QMainWindow):
 #         self.inCanvas = FigureCanvas(self.inFig)
 #         self.inCanvas.setParent(self.ui.inputPlot)
 #         self.inAxes = self.inFig.add_subplot(111)
-        self.outPlot = Qwt5.QwtPlot()
-        self.outPlot.setParent(self.ui.outputPlot)
-        self.outPlotCurve = Qwt5.QwtPlotCurve()
-        self.outPlotCurve.attach(self.outPlot)
+#         self.outPlot = Qwt5.QwtPlot()
+#         self.outPlot.setParent(self.ui.outputPlot)
+#         self.outPlotCurve = Qwt5.QwtPlotCurve()
+#         self.outPlotCurve.attach(self.outPlot)
         self.in_Odom = []
         self.out_EncL = []
         self.out_EndR = []
@@ -230,8 +230,8 @@ class HACMSDemoWindow(QtGui.QMainWindow):
     def gatherOdom(self, msg):
         self.updateActualSpeedLCD(msg)
         self.out_Odom.append(msg.twist.twist.linear.x)
-        self.outPlotCurve.setData(self.out_Odom, range(len(self.out_Odom)))
-        self.outPlot.replot()
+#         self.outPlotCurve.setData(self.out_Odom, range(len(self.out_Odom)))
+#         self.outPlot.replot()
         #self.draw_outputPlot()
         
     def gatherGPS(self, msg):
