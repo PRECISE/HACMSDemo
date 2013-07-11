@@ -7,12 +7,13 @@ from geometry_msgs.msg import Twist, TwistStamped
 #from sensor_msgs.msg import Imu
 from nav_msgs.msg import Odometry
 from PySide.QtGui import *
-import matplotlib
-matplotlib.use('Qt4Agg')
-matplotlib.rcParams['backend.qt4']='PySide'
-import pylab
-from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.figure import Figure
+from PyQt4.Qwt5 import *
+# import matplotlib
+# matplotlib.use('Qt4Agg')
+# matplotlib.rcParams['backend.qt4']='PySide'
+# import pylab
+# from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
+# from matplotlib.figure import Figure
 
 # HACMS Python modules
 from remote import Remote
@@ -30,15 +31,19 @@ class HACMSDemoWindow(QMainWindow):
         self.ui.rcButton.toggled.connect(self.rc)
         self.ui.attackButton.toggled.connect(self.attack)
         self.ui.setSpeedButton.clicked.connect(self.setLandsharkSpeed)
-        self.dpi = 100
-        self.outFig = Figure((3.31, 2.01), dpi=self.dpi)
-        self.outCanvas = FigureCanvas(self.outFig)
-        self.outCanvas.setParent(self.ui.outputPlot)
-        self.outAxes = self.outFig.add_subplot(111)
-        self.inFig = Figure((3.31, 2.01), dpi=self.dpi)
-        self.inCanvas = FigureCanvas(self.inFig)
-        self.inCanvas.setParent(self.ui.inputPlot)
-        self.inAxes = self.inFig.add_subplot(111)
+#         self.dpi = 100
+#         self.outFig = Figure((3.31, 2.01), dpi=self.dpi)
+#         self.outCanvas = FigureCanvas(self.outFig)
+#         self.outCanvas.setParent(self.ui.outputPlot)
+#         self.outAxes = self.outFig.add_subplot(111)
+#         self.inFig = Figure((3.31, 2.01), dpi=self.dpi)
+#         self.inCanvas = FigureCanvas(self.inFig)
+#         self.inCanvas.setParent(self.ui.inputPlot)
+#         self.inAxes = self.inFig.add_subplot(111)
+        self.outPlot = QwtPlot()
+        self.outPlot.setParent(self.ui.outputPlot)
+        self.outPlotCurve = QwtPlotCurve()
+        self.outPlotCurve.attach(self.outPlot)
         self.in_Odom = []
         self.out_EncL = []
         self.out_EndR = []
@@ -166,27 +171,27 @@ class HACMSDemoWindow(QMainWindow):
     def updateEstimatedSpeedLCD(self, msg):
         self.ui.estimatedSpeedLCD.display(msg.twist.linear.x)
 
-    def save_plot(self):
-        file_choices = "PNG (*.png)|*.png"
-        
-        path = unicode(QFileDialog.getSaveFileName(self, 
-                        'Save file', '', 
-                        file_choices))
-        if path:
-            self.outCanvas.print_figure(path, dpi=self.dpi)
-            #self.statusBar().showMessage('Saved to %s' % path, 2000)
-            
-    def draw_outputPlot(self):
-        """ Redraws the output plot
-        """
-        # clear the axes and redraw the plot anew
-        #
-        self.outAxes.clear()        
-        self.outAxes.grid(True)
-        
-        self.outAxes.plot(self.out_Odom)
-        
-        self.outCanvas.draw()
+#     def save_plot(self):
+#         file_choices = "PNG (*.png)|*.png"
+#         
+#         path = unicode(QFileDialog.getSaveFileName(self, 
+#                         'Save file', '', 
+#                         file_choices))
+#         if path:
+#             self.outCanvas.print_figure(path, dpi=self.dpi)
+#             #self.statusBar().showMessage('Saved to %s' % path, 2000)
+#             
+#     def draw_outputPlot(self):
+#         """ Redraws the output plot
+#         """
+#         # clear the axes and redraw the plot anew
+#         #
+#         self.outAxes.clear()        
+#         self.outAxes.grid(True)
+#         
+#         self.outAxes.plot(self.out_Odom)
+#         
+#         self.outCanvas.draw()
 
     def setLandsharkSpeed(self):
         msg = TwistStamped()
@@ -225,7 +230,9 @@ class HACMSDemoWindow(QMainWindow):
     def gatherOdom(self, msg):
         self.updateActualSpeedLCD(msg)
         self.out_Odom.append(msg.twist.twist.linear.x)
-        self.draw_outputPlot()
+        self.outPlotCurve.setData(self.out_Odom, range(len(self.out_Odom)))
+        self.outPlot.replot()
+        #self.draw_outputPlot()
         
     def gatherGPS(self, msg):
         self.updateEstimatedSpeedLCD(msg)
