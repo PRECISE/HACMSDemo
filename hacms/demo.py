@@ -244,8 +244,8 @@ def main():
     h = HACMSDemoWindow()
     h.show()
     h.ui.actionQuit.triggered.connect(app.quit)
-    app.aboutToQuit(h.close)
-    app.lastWindowClosed(app.quit)
+    app.aboutToQuit.connect(h.close)
+    app.lastWindowClosed.connect(app.quit)
     sys.exit(app.exec_())
 
 if __name__ == "__main__":
