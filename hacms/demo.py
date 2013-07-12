@@ -119,21 +119,14 @@ class HACMSDemoWindow(QtGui.QMainWindow):
             self.disableAllElements()
             self.stop_landshark_comm()
             res = self.remote.stopLandshark()
-
         self.ui.landsharkButton.setChecked(res)
 
     def cc(self, checked):
         if checked:
-            try:
-                self.run_cc_pub.publish(Bool(True))
-            except:
-                self.ui.ccButton.setChecked(False)
+            res = self.remote.startCC()
         else:
-            try:
-                self.run_cc_pub.publish(Bool(False))
-            except:
-                self.ui.ccButton.setChecked(True)            
-        self.ui.ccButton.setChecked(checked)
+            res = self.remote.stopCC()           
+        self.ui.ccButton.setChecked(res)
 
     def rc(self, checked):
         if checked:
