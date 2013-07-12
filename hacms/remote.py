@@ -9,9 +9,10 @@ class Remote(object):
         self.main_shell = None
         self.throttle1_shell = None
         self.throttle2_shell = None
+        self.cc_shell = None
         self.isConnected = False
         self.landsharkRunning = False
-        self.rcRunning = False
+        self.ccRunning = False
 
     def connect(self):
         if self.isConnected:
@@ -29,6 +30,7 @@ class Remote(object):
             self.main_shell = self.client.invoke_shell()
             self.throttle1_shell = self.client.invoke_shell()
             self.throttle2_shell = self.client.invoke_shell()
+            self.cc_shell = self.client.invoke_shell()
             self.isConnected = True
             self.output.appendPlainText('*** Connected!')
 
@@ -78,8 +80,8 @@ class Remote(object):
 
         return self.landsharkRunning
 
-    def startRC(self):
-        if self.rcRunning:
+    def startCC(self):
+        if self.ccRunning:
             return True
         if not self.isConnected:
             self.output.appendPlainText('*** You must first start Landshark.')
@@ -89,17 +91,17 @@ class Remote(object):
             return False
 
         try:
-            self.output.appendPlainText('*** Starting Resilient Controller...')
-            self.client.exec_command('source .bashrc; roslaunch Controller controller.launch')
-            self.output.appendPlainText('*** Started Resilient Controller.')
-            self.rcRunning = True
+            self.output.appendPlainText('*** Starting Cruise Controller...')
+            self.cc_shell.send('source ~/.bashrc\nroslaunch Controller controller.launch\n')
+            self.output.appendPlainText('*** Started Cruise Controller.')
+            self.ccRunning = True
         except:
             pass
 
-        return self.rcRunning
+        return self.ccRunning
 
-    def stopRC(self):
-        if not self.rcRunning:
+    def stopCC(self):
+        if not self.ccRunning:
             return False
         if not self.isConnected:
             self.output.appendPlainText('*** You must first start Landshark.')
@@ -109,14 +111,14 @@ class Remote(object):
             return False
 
         try:
-            self.output.appendPlainText('*** Stopping Resilient Controller...')
-            self.client.exec_command('ps ax | awk \'/roslaunch Controller controller.launch/\' | xargs kill -9')
-            self.output.appendPlainText('*** Stopped Resilient Controller.')
-            self.rcRunning = False
+            self.output.appendPlainText('*** Stopping Cruise Controller...')
+            self.cc_shell.send("ps ax | awk '/roslaunch Controller controller.launch/ {print $1}' | xargs kill -2\n")
+            self.output.appendPlainText('*** Stopped Cruise Controller.')
+            self.ccRunning = False
         except:
             pass
 
-        return self.rcRunning
+        return self.ccRunning
 
     def writeLinesToOutput(self, lines):
         for line in lines:
