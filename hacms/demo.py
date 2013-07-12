@@ -132,7 +132,8 @@ class HACMSDemoWindow(QtGui.QMainWindow):
             try:
                 self.run_cc_pub.publish(Bool(False))
             except:
-                self.ui.ccButton.setChecked(True)
+                self.ui.ccButton.setChecked(True)            
+        self.ui.ccButton.setChecked(checked)
 
     def rc(self, checked):
         if checked:
@@ -145,6 +146,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
                 self.run_rc_pub.publish(Bool(False))
             except:
                 self.ui.rcButton.setChecked(True)
+        self.ui.rcButton.setChecked(checked)
 
     def attack(self, checked):
         if checked:
@@ -157,6 +159,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
                 self.run_attack_pub.publish(Bool(False))
             except:
                 self.ui.attackButton.setChecked(True)
+        self.ui.attackButton.setChecked(checked)
 
     def getWidgetColor(self, widget):
         style = widget.styleSheet()
