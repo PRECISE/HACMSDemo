@@ -93,7 +93,8 @@ class Remote(object):
 
         try:
             self.output.appendPlainText('*** Starting Cruise Controller...')
-            self.cc_shell.send('source ~/.bashrc\nroslaunch Controller controller.launch\n')
+            #self.cc_shell.send('source ~/.bashrc\nroslaunch Controller controller.launch\n')
+            self.cc_shell.send('source ~/.bashrc\nrosrun landshark_cruise landshark_cruise\n')
             self.output.appendPlainText('*** Started Cruise Controller.')
             self.ccRunning = True
         except:
@@ -113,7 +114,8 @@ class Remote(object):
 
         try:
             self.output.appendPlainText('*** Stopping Cruise Controller...')
-            self.client.exec_command("ps ax | awk '/roslaunch Controller controller.launch/ {print $1}' | xargs kill -2\n")
+            #self.client.exec_command("ps ax | awk '/roslaunch Controller controller.launch/ {print $1}' | xargs kill -2\n")
+            self.client.exec_command("ps ax | awk '/rosrun landshark_cruise landshark_cruise/ {print $1}' | xargs kill -2\n")
             self.output.appendPlainText('*** Stopped Cruise Controller.')
             self.ccRunning = False
         except:
