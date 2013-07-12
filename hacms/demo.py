@@ -7,12 +7,12 @@ from geometry_msgs.msg import Twist, TwistStamped
 from nav_msgs.msg import Odometry
 #from PySide.QtGui import *
 from PyQt4 import QtGui, Qwt5
-# import matplotlib
-# matplotlib.use('Qt4Agg')
-# matplotlib.rcParams['backend.qt4']='PySide'
-# import pylab
-# from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
-# from matplotlib.figure import Figure
+import matplotlib
+#matplotlib.use('Qt4Agg')
+#matplotlib.rcParams['backend.qt4']='PySide'
+import pylab
+from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
 
 # HACMS Python modules
 from remote import Remote
@@ -24,24 +24,25 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui = ui.Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.actionAbout.triggered.connect(self.about)
+        self.ui.actionQuit.triggered.connect(self.fileQuit)
         self.ui.landsharkButton.toggled.connect(self.landshark)
         self.ui.ccButton.toggled.connect(self.cc)
         self.ui.rcButton.toggled.connect(self.rc)
         self.ui.attackButton.toggled.connect(self.attack)
         self.ui.setSpeedButton.clicked.connect(self.setLandsharkSpeed)
-#         self.dpi = 100
-#         self.outFig = Figure((3.31, 2.01), dpi=self.dpi)
-#         self.outCanvas = FigureCanvas(self.outFig)
-#         self.outCanvas.setParent(self.ui.outputPlot)
-#         self.outAxes = self.outFig.add_subplot(111)
-#         self.inFig = Figure((3.31, 2.01), dpi=self.dpi)
-#         self.inCanvas = FigureCanvas(self.inFig)
-#         self.inCanvas.setParent(self.ui.inputPlot)
-#         self.inAxes = self.inFig.add_subplot(111)
-        self.outPlot = Qwt5.QwtPlot()
-        self.outPlot.setParent(self.ui.outputPlot)
-        self.outPlotCurve = Qwt5.QwtPlotCurve()
-        self.outPlotCurve.attach(self.outPlot)
+        self.dpi = 100
+        self.outFig = Figure((3.31, 2.01), dpi=self.dpi)
+        self.outCanvas = FigureCanvas(self.outFig)
+        self.outCanvas.setParent(self.ui.outputPlot)
+        self.outAxes = self.outFig.add_subplot(111)
+        self.inFig = Figure((3.31, 2.01), dpi=self.dpi)
+        self.inCanvas = FigureCanvas(self.inFig)
+        self.inCanvas.setParent(self.ui.inputPlot)
+        self.inAxes = self.inFig.add_subplot(111)
+#         self.outPlot = Qwt5.QwtPlot()
+#         self.outPlot.setParent(self.ui.outputPlot)
+#         self.outPlotCurve = Qwt5.QwtPlotCurve()
+#         self.outPlotCurve.attach(self.outPlot)
         self.in_Odom = []
         self.out_EncL = []
         self.out_EndR = []
@@ -57,9 +58,13 @@ class HACMSDemoWindow(QtGui.QMainWindow):
                 "The <b>HACMS Demo</b> application displays the current ROS telemetry "
                 "information.")
                 
-    def close(self):
+    def fileQuit(self):
         if self.ui.landsharkButton.isChecked():
             self.stop_landshark_comm()
+        self.close()
+
+    def closeEvent(self, ce):
+        self.fileQuit()
                 
     def enableAllElements(self):
         self.ui.ccButton.setEnabled(True)
@@ -183,17 +188,17 @@ class HACMSDemoWindow(QtGui.QMainWindow):
 #             self.outCanvas.print_figure(path, dpi=self.dpi)
 #             #self.statusBar().showMessage('Saved to %s' % path, 2000)
 #             
-#     def draw_outputPlot(self):
-#         """ Redraws the output plot
-#         """
-#         # clear the axes and redraw the plot anew
-#         #
-#         self.outAxes.clear()        
-#         self.outAxes.grid(True)
-#         
-#         self.outAxes.plot(self.out_Odom)
-#         
-#         self.outCanvas.draw()
+    def draw_outputPlot(self):
+        """ Redraws the output plot
+        """
+        # clear the axes and redraw the plot anew
+        #
+        self.outAxes.clear()        
+        self.outAxes.grid(True)
+        
+        self.outAxes.plot(self.out_Odom)
+        
+        self.outCanvas.draw()
 
     def setLandsharkSpeed(self):
         msg = TwistStamped()
@@ -233,9 +238,9 @@ class HACMSDemoWindow(QtGui.QMainWindow):
     def gatherOdom(self, msg):
         self.updateActualSpeedLCD(msg)
         self.out_Odom.append(msg.twist.twist.linear.x)
-        self.outPlotCurve.setData(self.out_Odom, range(len(self.out_Odom)))
-        self.outPlot.replot()
-        #self.draw_outputPlot()
+#         self.outPlotCurve.setData(self.out_Odom, range(len(self.out_Odom)))
+#         self.outPlot.replot()
+        self.draw_outputPlot()
         
     def gatherGPS(self, msg):
         self.updateEstimatedSpeedLCD(msg)
@@ -245,8 +250,7 @@ def main():
     app = QtGui.QApplication(sys.argv)
     h = HACMSDemoWindow()
     h.show()
-    h.ui.actionQuit.triggered.connect(app.quit)
-    app.aboutToQuit.connect(h.close)
+    app.aboutToQuit.connect(h.fileQuit)
     app.lastWindowClosed.connect(app.quit)
     sys.exit(app.exec_())
 
