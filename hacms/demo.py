@@ -2,7 +2,7 @@
 
 import sys, string
 import rospy
-from std_msgs.msg import String, Bool
+from std_msgs.msg import String, Bool, Int32
 from geometry_msgs.msg import Twist, TwistStamped
 from nav_msgs.msg import Odometry
 #from PySide.QtGui import *
@@ -144,12 +144,20 @@ class HACMSDemoWindow(QtGui.QMainWindow):
     def attack(self, checked):
         if checked:
             try:
-                self.run_attack_pub.publish(Bool(True))
+            	mode = 0
+#             	if self.ui.attack1RadioButton.isChecked:
+#             		mode = 1
+#             	elif self.ui.attack2RadioButton.isChecked:
+#             		mode = 2
+#             	elif self.ui.attack3RadioButton.isChecked:
+#             		mode = 3
+				#TODO: Add radio button group to GUI
+            	self.run_attack_pub.publish(Int32(mode))
             except:
                 self.ui.attackButton.setChecked(False)
         else:
             try:
-                self.run_attack_pub.publish(Bool(False))
+                self.run_attack_pub.publish(Int32(0))
             except:
                 self.ui.attackButton.setChecked(True)
         self.ui.attackButton.setChecked(checked)
@@ -211,7 +219,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.desired_speed_pub = rospy.Publisher('/landshark_control/base_velocity', TwistStamped)
         self.run_cc_pub = rospy.Publisher('/landshark_demo/run_cc', Bool)
         self.run_rc_pub = rospy.Publisher('/landshark_demo/run_rc', Bool)
-        self.run_attack_pub = rospy.Publisher('/landshark_demo/run_attack', Bool)
+        self.run_attack_pub = rospy.Publisher('/landshark_demo/run_attack', Int32)
 
         return True
         
