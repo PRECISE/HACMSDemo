@@ -117,8 +117,8 @@ class HACMSDemoWindow(QtGui.QMainWindow):
             self.enableAllElements()
         else:
             res = self.remote.stopLandshark()
-            self.stop_landshark_comm()
             self.disableAllElements()
+            self.stop_landshark_comm()
 
         self.ui.landsharkButton.setChecked(res)
 
