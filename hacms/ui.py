@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Wed Jul 10 15:43:40 2013
+# Created: Fri Jul 12 11:53:22 2013
 #      by: pyside-uic 0.2.13 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -178,7 +178,7 @@ class Ui_MainWindow(object):
         self.estimatedLabel.setText(QtGui.QApplication.translate("MainWindow", "Estimated", None, QtGui.QApplication.UnicodeUTF8))
         self.actualLabel.setText(QtGui.QApplication.translate("MainWindow", "Actual", None, QtGui.QApplication.UnicodeUTF8))
         self.desiredSpeedLabel.setText(QtGui.QApplication.translate("MainWindow", "Desired Speed", None, QtGui.QApplication.UnicodeUTF8))
-        self.desiredSpeedEdit.setText(QtGui.QApplication.translate("MainWindow", "3.0", None, QtGui.QApplication.UnicodeUTF8))
+        self.desiredSpeedEdit.setText(QtGui.QApplication.translate("MainWindow", "0.8", None, QtGui.QApplication.UnicodeUTF8))
         self.actualSpeedLabel.setText(QtGui.QApplication.translate("MainWindow", "Actual Speed", None, QtGui.QApplication.UnicodeUTF8))
         self.outputPlotLabel.setText(QtGui.QApplication.translate("MainWindow", "Output", None, QtGui.QApplication.UnicodeUTF8))
         self.estimatedSpeedLabel.setText(QtGui.QApplication.translate("MainWindow", "Estimated Speed", None, QtGui.QApplication.UnicodeUTF8))
