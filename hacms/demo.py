@@ -152,7 +152,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
 #             	elif self.ui.attack3RadioButton.isChecked:
 #             		mode = 3
 				#TODO: Add radio button group to GUI
-            	self.run_attack_pub.publish(Int32(mode))
+            	self.run_attack_pub.publish(Int32(1))
             except:
                 self.ui.attackButton.setChecked(False)
         else:
