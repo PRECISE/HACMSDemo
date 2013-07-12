@@ -52,7 +52,7 @@ class Remote(object):
         if self.connect():
             try:
                 self.output.appendPlainText('*** Starting Landshark...')
-                #self.main_shell.send('source ~/.bashrc\nroslaunch landshark_launch black_box.launch\n')
+                self.main_shell.send('source ~/.bashrc\nroslaunch landshark_launch black_box.launch\n')
                 self.throttle1_shell.send('source ~/.bashrc\nrosrun topic_tools throttle messages /landshark/odom 2 /landshark_demo/odom\n')
                 self.throttle2_shell.send('source ~/.bashrc\nrosrun topic_tools throttle messages /landshark/gps_velocity 2 /landshark_demo/gps_velocity\n')
                 self.output.appendPlainText('*** Started Landshark.')
@@ -69,7 +69,7 @@ class Remote(object):
         if self.connect():
             try:
                 self.output.appendPlainText('*** Stopping Landshark...')
-                #self.main_shell.send("ps ax | awk '/roslaunch landshark_launch black_box.launch/ {print $1}' | xargs kill -2\n")
+                self.main_shell.send("ps ax | awk '/roslaunch landshark_launch black_box.launch/ {print $1}' | xargs kill -2\n")
                 #TODO: These don't seem to work remotely!
                 self.throttle1_shell.send("ps ax | awk '/messages \/landshark\/odom 2 \/landshark_demo\/odom/ {print $1}' | xargs kill -2\n")
                 self.throttle2_shell.send("ps ax | awk '/messages \/landshark\/gps_velocity 2 \/landshark_demo\/gps_velocity/ {print $1}' | xargs kill -2\n")
