@@ -28,10 +28,6 @@ class Remote(object):
             config.read('ssh.cfg')
             self.client.connect(config.get('SSH','hostname'), int(config.get('SSH','port')), config.get('SSH','username'), config.get('SSH','password'))
             self.main_shell = self.client.invoke_shell()
-            self.black_shell = self.client.invoke_shell()
-            self.throttle1_shell = self.client.invoke_shell()
-            self.throttle2_shell = self.client.invoke_shell()
-            self.cc_shell = self.client.invoke_shell()
             self.isConnected = True
             self.output.appendPlainText('*** Connected!')
 
@@ -53,6 +49,9 @@ class Remote(object):
         if self.connect():
             try:
                 self.output.appendPlainText('*** Starting Landshark...')
+            	self.black_shell = self.client.invoke_shell()
+            	self.throttle1_shell = self.client.invoke_shell()
+            	self.throttle2_shell = self.client.invoke_shell()
                 self.black_shell.send('source ~/.bashrc\nroslaunch landshark_launch black_box.launch\n')
                 self.throttle1_shell.send('source ~/.bashrc\nrosrun topic_tools throttle messages /landshark/odom 2 /landshark_demo/odom\n')
                 self.throttle2_shell.send('source ~/.bashrc\nrosrun topic_tools throttle messages /landshark/gps_velocity 2 /landshark_demo/gps_velocity\n')
@@ -71,9 +70,12 @@ class Remote(object):
             try:
                 self.output.appendPlainText('*** Stopping Landshark...')
                 #TODO: These don't seem to work remotely!
-                self.client.exec_command("ps ax | awk '/roslaunch landshark_launch black_box.launch/ {print $1}' | xargs kill -2\n")
-                self.client.exec_command("ps ax | awk '/messages \/landshark\/odom 2 \/landshark_demo\/odom/ {print $1}' | xargs kill -2\n")
-                self.client.exec_command("ps ax | awk '/messages \/landshark\/gps_velocity 2 \/landshark_demo\/gps_velocity/ {print $1}' | xargs kill -2\n")
+                #self.client.exec_command("ps ax | awk '/roslaunch landshark_launch black_box.launch/ {print $1}' | xargs kill -2\n")
+                #self.client.exec_command("ps ax | awk '/messages \/landshark\/odom 2 \/landshark_demo\/odom/ {print $1}' | xargs kill -2\n")
+                #self.client.exec_command("ps ax | awk '/messages \/landshark\/gps_velocity 2 \/landshark_demo\/gps_velocity/ {print $1}' | xargs kill -2\n")
+                self.black_shell.close()
+                self.throttle1_shell.close()
+                self.throttle2_shell.close()
                 self.output.appendPlainText('*** Stopped Landshark.')
                 self.landsharkRunning = False
             except:
@@ -93,6 +95,7 @@ class Remote(object):
 
         try:
             self.output.appendPlainText('*** Starting Cruise Controller...')
+            self.cc_shell = self.client.invoke_shell()
             self.cc_shell.send('source ~/.bashrc\nroslaunch Controller controller.launch\n')
             #self.cc_shell.send('source ~/.bashrc\nrosrun landshark_cruise landshark_cruise\n')
             self.output.appendPlainText('*** Started Cruise Controller.')
@@ -114,8 +117,9 @@ class Remote(object):
 
         try:
             self.output.appendPlainText('*** Stopping Cruise Controller...')
-            self.client.exec_command("ps ax | awk '/roslaunch Controller controller.launch/ {print $1}' | xargs kill -2\n")
+            #self.client.exec_command("ps ax | awk '/roslaunch Controller controller.launch/ {print $1}' | xargs kill -2\n")
             #self.client.exec_command("ps ax | awk '/rosrun landshark_cruise landshark_cruise/ {print $1}' | xargs kill -2\n")
+            self.cc_shell.close()
             self.output.appendPlainText('*** Stopped Cruise Controller.')
             self.ccRunning = False
         except:
