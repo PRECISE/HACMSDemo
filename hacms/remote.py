@@ -70,10 +70,10 @@ class Remote(object):
         if self.connect():
             try:
                 self.output.appendPlainText('*** Stopping Landshark...')
-                self.main_shell.send("ps ax | awk '/roslaunch landshark_launch black_box.launch/ {print $1}' | xargs kill -2\n")
                 #TODO: These don't seem to work remotely!
-                self.main_shell.send("ps ax | awk '/messages \/landshark\/odom 2 \/landshark_demo\/odom/ {print $1}' | xargs kill -2\n")
-                self.main_shell.send("ps ax | awk '/messages \/landshark\/gps_velocity 2 \/landshark_demo\/gps_velocity/ {print $1}' | xargs kill -2\n")
+                self.client.exec_command("ps ax | awk '/roslaunch landshark_launch black_box.launch/ {print $1}' | xargs kill -2\n")
+                self.client.exec_command("ps ax | awk '/messages \/landshark\/odom 2 \/landshark_demo\/odom/ {print $1}' | xargs kill -2\n")
+                self.client.exec_command("ps ax | awk '/messages \/landshark\/gps_velocity 2 \/landshark_demo\/gps_velocity/ {print $1}' | xargs kill -2\n")
                 self.output.appendPlainText('*** Stopped Landshark.')
                 self.landsharkRunning = False
             except:
@@ -113,7 +113,7 @@ class Remote(object):
 
         try:
             self.output.appendPlainText('*** Stopping Cruise Controller...')
-            self.main_shell.send("ps ax | awk '/roslaunch Controller controller.launch/ {print $1}' | xargs kill -2\n")
+            self.client.exec_command("ps ax | awk '/roslaunch Controller controller.launch/ {print $1}' | xargs kill -2\n")
             self.output.appendPlainText('*** Stopped Cruise Controller.')
             self.ccRunning = False
         except:
