@@ -24,7 +24,6 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui = ui.Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.actionAbout.triggered.connect(self.about)
-        self.ui.actionQuit.triggered.connect(self.close)
         self.ui.landsharkButton.toggled.connect(self.landshark)
         self.ui.ccButton.toggled.connect(self.cc)
         self.ui.rcButton.toggled.connect(self.rc)
@@ -57,6 +56,9 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         QtGui.QMessageBox.about(self, "About HACMS Demo",
                 "The <b>HACMS Demo</b> application displays the current ROS telemetry "
                 "information.")
+                
+    def close(self):
+        self.stop_landshark_comm()
                 
     def enableAllElements(self):
         self.ui.ccButton.setEnabled(True)
@@ -241,6 +243,9 @@ def main():
     app = QtGui.QApplication(sys.argv)
     h = HACMSDemoWindow()
     h.show()
+    h.ui.actionQuit.triggered.connect(app.quit)
+    app.aboutToQuit(h.close)
+    app.lastWindowClosed(app.quit)
     sys.exit(app.exec_())
 
 if __name__ == "__main__":
