@@ -2,8 +2,8 @@
 
 import sys, string
 import rospy
-from std_msgs.msg import String, Bool, Int32
-from geometry_msgs.msg import Twist, TwistStamped
+from std_msgs.msg import Int32, Float32
+from geometry_msgs.msg import TwistStamped
 from nav_msgs.msg import Odometry
 #from PySide.QtGui import *
 from PyQt4 import QtGui, Qwt5
@@ -203,9 +203,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.outCanvas.draw()
 
     def setLandsharkSpeed(self):
-        msg = TwistStamped()
-        msg.twist.linear.x = float(self.ui.desiredSpeedEdit.text())
-        self.desired_speed_pub.publish(msg)
+        self.desired_speed_pub.publish(Float32(float(self.ui.desiredSpeedEdit.text())))
 
     def start_landshark_comm(self):
         # Initialize ROS node
@@ -215,9 +213,8 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.odom_sub = rospy.Subscriber("/landshark_demo/odom", Odometry, self.gatherOdom)
         self.gps_sub = rospy.Subscriber("/landshark_demo/gps_velocity", TwistStamped, self.gatherGPS)
 
-        #self.desired_speed_pub = rospy.Publisher('/landshark_demo/desired_speed', TwistStamped)
-        self.desired_speed_pub = rospy.Publisher('/landshark_control/base_velocity', TwistStamped)
-        #self.run_cc_pub = rospy.Publisher('/landshark_demo/run_cc', Bool)
+		# Publish HACMS Demo topics
+        self.desired_speed_pub = rospy.Publisher('/landshark_demo/desired_speed', Float32)
         self.run_rc_pub = rospy.Publisher('/landshark_demo/run_rc', Int32)
         self.run_attack_pub = rospy.Publisher('/landshark_demo/run_attack', Int32)
 
