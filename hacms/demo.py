@@ -131,12 +131,12 @@ class HACMSDemoWindow(QtGui.QMainWindow):
     def rc(self, checked):
         if checked:
             try:
-                self.run_rc_pub.publish(Bool(True))
+                self.run_rc_pub.publish(Int32(1))
             except:
                 self.ui.rcButton.setChecked(False)
         else:
             try:
-                self.run_rc_pub.publish(Bool(False))
+                self.run_rc_pub.publish(Int32(0))
             except:
                 self.ui.rcButton.setChecked(True)
         self.ui.rcButton.setChecked(checked)
@@ -217,8 +217,8 @@ class HACMSDemoWindow(QtGui.QMainWindow):
 
         #self.desired_speed_pub = rospy.Publisher('/landshark_demo/desired_speed', TwistStamped)
         self.desired_speed_pub = rospy.Publisher('/landshark_control/base_velocity', TwistStamped)
-        self.run_cc_pub = rospy.Publisher('/landshark_demo/run_cc', Bool)
-        self.run_rc_pub = rospy.Publisher('/landshark_demo/run_rc', Bool)
+        #self.run_cc_pub = rospy.Publisher('/landshark_demo/run_cc', Bool)
+        self.run_rc_pub = rospy.Publisher('/landshark_demo/run_rc', Int32)
         self.run_attack_pub = rospy.Publisher('/landshark_demo/run_attack', Int32)
 
         return True
