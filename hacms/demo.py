@@ -190,7 +190,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
 #         if path:
 #             self.outCanvas.print_figure(path, dpi=self.dpi)
 #             #self.statusBar().showMessage('Saved to %s' % path, 2000)
-#             
+
     def draw_outputPlot(self):
         """ Redraws the output plot
         """
@@ -198,9 +198,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         #
         self.outAxes.clear()        
         self.outAxes.grid(True)
-        
         self.outAxes.plot(self.out_Odom)
-        
         self.outCanvas.draw()
 
     def setLandsharkSpeed(self):
