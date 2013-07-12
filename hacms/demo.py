@@ -116,9 +116,9 @@ class HACMSDemoWindow(QtGui.QMainWindow):
             self.start_landshark_comm()
             self.enableAllElements()
         else:
-            res = self.remote.stopLandshark()
             self.disableAllElements()
             self.stop_landshark_comm()
+            res = self.remote.stopLandshark()
 
         self.ui.landsharkButton.setChecked(res)
 
@@ -234,7 +234,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.run_rc_pub.unregister()
         self.run_attack_pub.unregister()
 
-        rospy.signal_shutdown("Turning off ROSPy")
+        #rospy.signal_shutdown("Turning off ROSPy")
 
         return True
         
