@@ -58,7 +58,8 @@ class HACMSDemoWindow(QtGui.QMainWindow):
                 "information.")
                 
     def close(self):
-        self.stop_landshark_comm()
+        if self.ui.landsharkButton.isChecked():
+            self.stop_landshark_comm()
                 
     def enableAllElements(self):
         self.ui.ccButton.setEnabled(True)
@@ -207,7 +208,8 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.odom_sub = rospy.Subscriber("/landshark_demo/odom", Odometry, self.gatherOdom)
         self.gps_sub = rospy.Subscriber("/landshark_demo/gps_velocity", TwistStamped, self.gatherGPS)
 
-        self.desired_speed_pub = rospy.Publisher('/landshark_demo/desired_speed', TwistStamped)
+        #self.desired_speed_pub = rospy.Publisher('/landshark_demo/desired_speed', TwistStamped)
+        self.desired_speed_pub = rospy.Publisher('/landshark_control/base_velocity', TwistStamped)
         self.run_cc_pub = rospy.Publisher('/landshark_demo/run_cc', Bool)
         self.run_rc_pub = rospy.Publisher('/landshark_demo/run_rc', Bool)
         self.run_attack_pub = rospy.Publisher('/landshark_demo/run_attack', Bool)
