@@ -18,6 +18,10 @@ from matplotlib.figure import Figure
 from remote import Remote
 import ui
 
+        #TODO: Try to look into flushing queue as it gets backlogged (CPU overloaded...)
+        #TODO: Add save figure capabilities
+        #TODO: Layout widgets so that the console and plots will resize with the window
+
 class HACMSDemoWindow(QtGui.QMainWindow):
     def __init__(self):
         super(HACMSDemoWindow, self).__init__()
@@ -43,20 +47,18 @@ class HACMSDemoWindow(QtGui.QMainWindow):
 #         self.outPlot.setParent(self.ui.outputPlot)
 #         self.outPlotCurve = Qwt5.QwtPlotCurve()
 #         self.outPlotCurve.attach(self.outPlot)
-        self.in_Odom = []
+        self.remote = Remote(self.ui.console)
+        self.in_Base = []
+        self.in_Ref = []
         self.out_Odom = []
-        self.out_GPS = []
         self.out_EncL = []
         self.out_EndR = []
-        #TODO: Try to look into flushing queue as it gets backlogged (CPU overloaded...)
-        #TODO: Add save figure capabilities
-        #TODO: Layout widgets so that the console and plots will resize with the window
-        self.remote = Remote(self.ui.console)
+        self.out_GPS = []
 
     def about(self):
         QtGui.QMessageBox.about(self, "About HACMS Demo",
                 "The <b>HACMS Demo</b> application displays the current ROS telemetry "
-                "information.")
+                "data.")
                 
     def fileQuit(self):
         if self.ui.landsharkButton.isChecked():
@@ -83,11 +85,12 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui.outputPlotLabel.setEnabled(True)
         self.ui.inputPlotLabel.setEnabled(True)
         self.ui.inputPlotLabel.setEnabled(True)
-        self.in_Odom = []
+        self.in_Base = []
+        self.in_Ref = []
+        self.out_Odom = []
         self.out_EncL = []
         self.out_EndR = []
         self.out_GPS = []
-        self.out_Odom = []
         
     def disableAllElements(self):
         self.cc(False)
@@ -192,6 +195,17 @@ class HACMSDemoWindow(QtGui.QMainWindow):
 #             self.outCanvas.print_figure(path, dpi=self.dpi)
 #             #self.statusBar().showMessage('Saved to %s' % path, 2000)
 
+    def draw_inputPlot(self):
+        """ Redraws the input plot
+        """
+        # clear the axes and redraw the plot anew
+        #
+        self.inAxes.clear()        
+        self.inAxes.grid(True)
+        self.inAxes.plot(self.in_Base, antialiased=True)
+        self.inAxes.plot(self.in_Ref)
+        self.inCanvas.draw()
+    
     def draw_outputPlot(self):
         """ Redraws the output plot
         """
@@ -199,10 +213,10 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         #
         self.outAxes.clear()        
         self.outAxes.grid(True)
-        self.outAxes.plot(self.out_Odom)
-        self.outAxes.plot(self.out_GPS)
+        self.outAxes.plot(self.out_Odom, antialiased=True)
         self.outAxes.plot(self.out_EncL)
-        #self.outAxes.plot(self.out_EncR)
+        self.outAxes.plot(self.out_EncR)
+        self.outAxes.plot(self.out_GPS)
         self.outCanvas.draw()
 
     def setLandsharkSpeed(self):
@@ -213,12 +227,15 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         rospy.init_node('landshark_demo', disable_signals=True)
 
         # Subscribe to HACMS Demo topics
+        self.base_sub = rospy.Subscriber("/landshark_demo/base_vel", TwistStamped, self.captureBase)
+        self.ref_sub = rospy.Subscriber("/landshark_demo/ref_vel", TwistStamped, self.captureRef)
+        self.est_sub = rospy.Subscriber("/landshark_demo/est_vel", TwistStamped, self.captureEst)
         self.odom_sub = rospy.Subscriber("/landshark_demo/odom", Odometry, self.captureOdom)
-        self.gps_sub = rospy.Subscriber("/landshark_demo/gps_velocity", TwistStamped, self.captureGPS)
-        self.encL_sub = rospy.Subscriber("/landshark_demo/left_encoder_velocity", TwistStamped, self.captureEncL)
-        #self.encR_sub = rospy.Subscriber("/landshark_demo/right_encoder_velocity", TwistStamped, self.captureEncR)
+        self.encL_sub = rospy.Subscriber("/landshark_demo/left_enc_vel", TwistStamped, self.captureEncL)
+        self.encR_sub = rospy.Subscriber("/landshark_demo/right_enc_vel", TwistStamped, self.captureEncR)
+        self.gps_sub = rospy.Subscriber("/landshark_demo/gps_vel", TwistStamped, self.captureGPS)
 
-		# Publish HACMS Demo topics
+		# Publish to HACMS Demo topics
         self.desired_speed_pub = rospy.Publisher('/landshark_demo/desired_speed', Float32)
         self.run_rc_pub = rospy.Publisher('/landshark_demo/run_rc', Int32)
         self.run_attack_pub = rospy.Publisher('/landshark_demo/run_attack', Int32)
@@ -226,12 +243,16 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         return True
         
     def stop_landshark_comm(self):
-        # Unsubscribe to HACMS Demo topics
+        # Unregister HACMS Demo subscribed topics
+        self.base_sub.unregister()
+        self.ref_sub.unregister()
+        self.est_sub.unregister()
         self.odom_sub.unregister()
-        self.gps_sub.unregister()
         self.encL_sub.unregister()
-        #self.encR_sub.unregister()
+        self.encR_sub.unregister()
+        self.gps_sub.unregister()
 
+        # Unregister HACMS Demo published topics
         self.desired_speed_pub.unregister()
         self.run_rc_pub.unregister()
         self.run_attack_pub.unregister()
@@ -239,7 +260,17 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         #rospy.signal_shutdown("Turning off ROSPy")
 
         return True
-        
+
+    def captureBase(self, msg):
+        self.in_Base.append(msg.twist.linear.x)
+        self.draw_inputPlot()
+
+    def captureRef(self, msg):
+        self.in_Ref.append(msg.twist.linear.x)
+
+    def captureEst(self, msg):
+        self.updateEstimatedSpeedLCD(msg.twist.linear.x)
+
     def captureOdom(self, msg):
         self.updateActualSpeedLCD(msg.twist.twist.linear.x)
         self.out_Odom.append(msg.twist.twist.linear.x)
@@ -247,16 +278,14 @@ class HACMSDemoWindow(QtGui.QMainWindow):
 #         self.outPlot.replot()
         self.draw_outputPlot()
         
-    def captureGPS(self, msg):
-        #self.updateEstimatedSpeedLCD(msg.twist.twist.linear.x)
-        self.out_GPS.append(msg.twist.twist.linear.x)
-        
     def captureEncL(self, msg):
         self.out_EncL.append(msg.twist.linear.x)
         
     def captureEncR(self, msg):
         self.out_EncR.append(msg.twist.linear.x)
-
+        
+    def captureGPS(self, msg):
+        self.out_GPS.append(msg.twist.linear.x)
 
 def main():
     app = QtGui.QApplication(sys.argv)

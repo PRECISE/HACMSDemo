@@ -8,6 +8,11 @@ class Remote(object):
         self.client = None
         self.throttle1_shell = None
         self.throttle2_shell = None
+        self.throttle3_shell = None
+        self.throttle4_shell = None
+        self.throttle5_shell = None
+        self.throttle6_shell = None
+        self.throttle7_shell = None
         self.cc_shell = None
         self.isConnected = False
         self.landsharkRunning = False
@@ -50,10 +55,20 @@ class Remote(object):
             	self.black_shell = self.client.invoke_shell()
             	self.throttle1_shell = self.client.invoke_shell()
             	self.throttle2_shell = self.client.invoke_shell()
+            	self.throttle3_shell = self.client.invoke_shell()
+            	self.throttle4_shell = self.client.invoke_shell()
+            	self.throttle5_shell = self.client.invoke_shell()
+            	self.throttle6_shell = self.client.invoke_shell()
+            	self.throttle7_shell = self.client.invoke_shell()
                 self.black_shell.send('source ~/.bashrc\nroslaunch landshark_launch black_box.launch\n')
                 time.sleep(2) # Sleep for a second while the ROS master node is starting up...
-                self.throttle1_shell.send('source ~/.bashrc\nrosrun topic_tools throttle messages /landshark/odom 2 /landshark_demo/odom\n')
-                self.throttle2_shell.send('source ~/.bashrc\nrosrun topic_tools throttle messages /landshark/gps_velocity 2 /landshark_demo/gps_velocity\n')
+                self.throttle1_shell.send('source ~/.bashrc\nrosrun topic_tools throttle messages /landshark_control/base_velocity 2 /landshark_demo/base_vel\n')
+                self.throttle2_shell.send('source ~/.bashrc\nrosrun topic_tools throttle messages /landshark_control/reference_velocity 2 /landshark_demo/ref_vel\n')
+                self.throttle3_shell.send('source ~/.bashrc\nrosrun topic_tools throttle messages /landshark_control/estimated_velocity 2 /landshark_demo/est_vel\n')
+                self.throttle4_shell.send('source ~/.bashrc\nrosrun topic_tools throttle messages /landshark/odom 2 /landshark_demo/odom\n')
+                self.throttle5_shell.send('source ~/.bashrc\nrosrun topic_tools throttle messages /landshark/left_encoder_velocity 2 /landshark_demo/left_enc_vel\n')
+                self.throttle6_shell.send('source ~/.bashrc\nrosrun topic_tools throttle messages /landshark/right_encoder_velocity 2 /landshark_demo/right_enc_vel\n')
+                self.throttle7_shell.send('source ~/.bashrc\nrosrun topic_tools throttle messages /landshark/gps_velocity 2 /landshark_demo/gps_vel\n')
                 self.output.appendPlainText('*** Started Landshark.')
                 self.landsharkRunning = True
             except:
@@ -71,6 +86,11 @@ class Remote(object):
                 self.black_shell.close()
                 self.throttle1_shell.close()
                 self.throttle2_shell.close()
+                self.throttle3_shell.close()
+                self.throttle4_shell.close()
+                self.throttle5_shell.close()
+                self.throttle6_shell.close()
+                self.throttle7_shell.close()
                 self.output.appendPlainText('*** Stopped Landshark.')
                 self.landsharkRunning = False
             except:
