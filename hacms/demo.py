@@ -63,7 +63,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
     def closeEvent(self, ce):
         self.fileQuit()
         
-    def zeroData():
+    def zeroData(self):
         self.in_Base = []
         self.in_Ref = []
         self.out_Odom = []
