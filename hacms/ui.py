@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Fri Jul 12 11:53:22 2013
+# Created: Sat Jul 13 14:41:47 2013
 #      by: pyside-uic 0.2.13 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -13,7 +13,7 @@ from PyQt4 import QtCore, QtGui
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(825, 727)
+        MainWindow.resize(1251, 718)
         MainWindow.setUnifiedTitleAndToolBarOnMac(True)
         self.centralWidget = QtGui.QWidget(MainWindow)
         self.centralWidget.setObjectName("centralWidget")
@@ -87,7 +87,7 @@ class Ui_MainWindow(object):
         self.actualSpeedLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.actualSpeedLabel.setObjectName("actualSpeedLabel")
         self.console = QtGui.QPlainTextEdit(self.centralWidget)
-        self.console.setGeometry(QtCore.QRect(20, 490, 781, 161))
+        self.console.setGeometry(QtCore.QRect(20, 490, 1211, 161))
         font = QtGui.QFont()
         font.setFamily("Courier New")
         font.setPointSize(13)
@@ -97,6 +97,7 @@ class Ui_MainWindow(object):
         self.outputPlot = QtGui.QWidget(self.centralWidget)
         self.outputPlot.setEnabled(False)
         self.outputPlot.setGeometry(QtCore.QRect(470, 30, 331, 201))
+        self.outputPlot.setStyleSheet("background-color: white;")
         self.outputPlot.setObjectName("outputPlot")
         self.outputPlotLabel = QtGui.QLabel(self.centralWidget)
         self.outputPlotLabel.setEnabled(False)
@@ -136,10 +137,20 @@ class Ui_MainWindow(object):
         self.inputPlot = QtGui.QWidget(self.centralWidget)
         self.inputPlot.setEnabled(False)
         self.inputPlot.setGeometry(QtCore.QRect(470, 270, 331, 201))
+        self.inputPlot.setStyleSheet("background-color: white;")
         self.inputPlot.setObjectName("inputPlot")
+        self.rightPlot = QtGui.QWidget(self.centralWidget)
+        self.rightPlot.setEnabled(False)
+        self.rightPlot.setGeometry(QtCore.QRect(810, 30, 421, 441))
+        self.rightPlot.setStyleSheet("background-color: white;")
+        self.rightPlot.setObjectName("rightPlot")
+        self.rightPlotLabel = QtGui.QLabel(self.centralWidget)
+        self.rightPlotLabel.setEnabled(False)
+        self.rightPlotLabel.setGeometry(QtCore.QRect(810, 10, 71, 16))
+        self.rightPlotLabel.setObjectName("rightPlotLabel")
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtGui.QMenuBar()
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 825, 22))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 1251, 22))
         self.menuBar.setNativeMenuBar(False)
         self.menuBar.setObjectName("menuBar")
         self.menuFile = QtGui.QMenu(self.menuBar)
@@ -185,6 +196,7 @@ class Ui_MainWindow(object):
         self.ccButton.setText(QtGui.QApplication.translate("MainWindow", "Cruise Control", None, QtGui.QApplication.UnicodeUTF8))
         self.setSpeedButton.setText(QtGui.QApplication.translate("MainWindow", "Set", None, QtGui.QApplication.UnicodeUTF8))
         self.inputPlotLabel.setText(QtGui.QApplication.translate("MainWindow", "Input", None, QtGui.QApplication.UnicodeUTF8))
+        self.rightPlotLabel.setText(QtGui.QApplication.translate("MainWindow", "Odometry", None, QtGui.QApplication.UnicodeUTF8))
         self.menuFile.setTitle(QtGui.QApplication.translate("MainWindow", "File", None, QtGui.QApplication.UnicodeUTF8))
         self.actionQuit.setText(QtGui.QApplication.translate("MainWindow", "Quit", None, QtGui.QApplication.UnicodeUTF8))
         self.actionAbout.setText(QtGui.QApplication.translate("MainWindow", "About", None, QtGui.QApplication.UnicodeUTF8))
