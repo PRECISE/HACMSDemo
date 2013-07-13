@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys, string
+from collections import deque
 import rospy
 from std_msgs.msg import Int32, Float32
 from geometry_msgs.msg import TwistStamped
@@ -25,6 +26,8 @@ import ui
         #TODO: Add a third plot on the right (tall plot) containing odometry (with reference)
         #TODO: Add legend for plot lines, embed titles and axes labels
         #TODO: Use timestamps for x-axis, data will be plotted accordingly
+        #TODO: Actual Label turns red when Attack button is pressed
+        #TODO: Add navigation tab with Google Maps
 
 class HACMSDemoWindow(QtGui.QMainWindow):
     def __init__(self):
@@ -38,6 +41,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui.rcButton.toggled.connect(self.rc)
         self.ui.attackButton.toggled.connect(self.attack)
         self.ui.setSpeedButton.clicked.connect(self.setLandsharkSpeed)
+        self.windowSize = 300
         self.dpi = 100
         self.outFig = Figure((3.31, 2.01), dpi=self.dpi)
         self.outCanvas = FigureCanvas(self.outFig)
@@ -56,7 +60,12 @@ class HACMSDemoWindow(QtGui.QMainWindow):
 #         self.outPlotCurve = Qwt5.QwtPlotCurve()
 #         self.outPlotCurve.attach(self.outPlot)
         self.remote = Remote(self.ui.console)
-        self.zeroData()
+        self.in_Base = deque(maxlen=self.windowSize)
+        self.in_Ref = deque(maxlen=self.windowSize)
+        self.out_Odom = deque(maxlen=self.windowSize)
+        self.out_EncL = deque(maxlen=self.windowSize)
+        self.out_EncR = deque(maxlen=self.windowSize)
+        self.out_GPS = deque(maxlen=self.windowSize)
 
     def about(self):
         QtGui.QMessageBox.about(self, "About HACMS Demo",
@@ -72,12 +81,12 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.fileQuit()
         
     def zeroData(self):
-        self.in_Base = []
-        self.in_Ref = []
-        self.out_Odom = []
-        self.out_EncL = []
-        self.out_EncR = []
-        self.out_GPS = []
+        self.in_Base.clear()
+        self.in_Ref.clear()
+        self.out_Odom.clear()
+        self.out_EncL.clear()
+        self.out_EncR.clear()
+        self.out_GPS.clear()
                 
     def enableAllElements(self):
         self.ui.ccButton.setEnabled(True)
