@@ -52,7 +52,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.in_Ref = []
         self.out_Odom = []
         self.out_EncL = []
-        self.out_EndR = []
+        self.out_EncR = []
         self.out_GPS = []
 
     def about(self):
@@ -89,7 +89,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.in_Ref = []
         self.out_Odom = []
         self.out_EncL = []
-        self.out_EndR = []
+        self.out_EncR = []
         self.out_GPS = []
         
     def disableAllElements(self):
