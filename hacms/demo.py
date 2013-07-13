@@ -21,6 +21,10 @@ import ui
         #TODO: Try to look into flushing queue as it gets backlogged (CPU overloaded...)
         #TODO: Add save figure capabilities
         #TODO: Layout widgets so that the console and plots will resize with the window
+        #TODO: Make plots act as a 1 minute window, for all plots (use deque, push/pop)
+        #TODO: Add a third plot on the right (tall plot) containing odometry (with reference)
+        #TODO: Add legend for plot lines, embed titles and axes labels
+        #TODO: Use timestamps for x-axis, data will be plotted accordingly
 
 class HACMSDemoWindow(QtGui.QMainWindow):
     def __init__(self):
@@ -43,6 +47,10 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.inCanvas = FigureCanvas(self.inFig)
         self.inCanvas.setParent(self.ui.inputPlot)
         self.inAxes = self.inFig.add_subplot(111)
+        self.rightFig = Figure((4.21, 4.41), dpi=self.dpi)
+        self.rightCanvas = FigureCanvas(self.rightFig)
+        self.rightCanvas.setParent(self.ui.rightPlot)
+        self.rightAxes = self.rightFig.add_subplot(111)
 #         self.outPlot = Qwt5.QwtPlot()
 #         self.outPlot.setParent(self.ui.outputPlot)
 #         self.outPlotCurve = Qwt5.QwtPlotCurve()
@@ -93,7 +101,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
     def disableAllElements(self):
         self.cc(False)
         self.rc(False)
-        self.attack(False)    
+        self.attack(False)
         self.ui.ccButton.setEnabled(False)
         self.ui.rcButton.setEnabled(False)
         self.ui.attackButton.setEnabled(False)
@@ -127,6 +135,8 @@ class HACMSDemoWindow(QtGui.QMainWindow):
             res = self.remote.startCC()
             self.zeroData()
         else:
+            self.rc(False)
+            self.attack(False)
             res = self.remote.stopCC()           
         self.ui.ccButton.setChecked(res)
 
@@ -202,7 +212,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.inAxes.clear()        
         self.inAxes.grid(True)
         self.inAxes.plot(self.in_Base, antialiased=True)
-        self.inAxes.plot(self.in_Ref)
+        self.inAxes.plot(self.in_Ref, antialiased=True)
         self.inCanvas.draw()
     
     def draw_outputPlot(self):
@@ -212,11 +222,21 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         #
         self.outAxes.clear()        
         self.outAxes.grid(True)
-        self.outAxes.plot(self.out_Odom, antialiased=True)
-        self.outAxes.plot(self.out_EncL)
-        self.outAxes.plot(self.out_EncR)
-        self.outAxes.plot(self.out_GPS)
+        self.outAxes.plot(self.out_EncL, antialiased=True)
+        self.outAxes.plot(self.out_EncR, antialiased=True)
+        self.outAxes.plot(self.out_GPS, antialiased=True)
         self.outCanvas.draw()
+        
+    def draw_rightPlot(self):
+        """ Redraws the righthand plot
+        """
+        # clear the axes and redraw the plot anew
+        #
+        self.rightAxes.clear()        
+        self.rightAxes.grid(True)
+        self.rightAxes.plot(self.out_Odom, antialiased=True)
+        self.rightAxes.plot(self.in_Ref, antialiased=True)
+        self.rightCanvas.draw()
 
     def setLandsharkSpeed(self):
         self.desired_speed_pub.publish(Float32(float(self.ui.desiredSpeedEdit.text())))
@@ -275,10 +295,11 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.out_Odom.append(msg.twist.twist.linear.x)
 #         self.outPlotCurve.setData(self.out_Odom, range(len(self.out_Odom)))
 #         self.outPlot.replot()
-        self.draw_outputPlot()
+        self.draw_rightPlot()
         
     def captureEncL(self, msg):
         self.out_EncL.append(msg.twist.linear.x)
+        self.draw_outputPlot()
         
     def captureEncR(self, msg):
         self.out_EncR.append(msg.twist.linear.x)
