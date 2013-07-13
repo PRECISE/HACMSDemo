@@ -6,7 +6,6 @@ import rospy
 from std_msgs.msg import Int32, Float32
 from geometry_msgs.msg import TwistStamped
 from nav_msgs.msg import Odometry
-#from PySide.QtGui import *
 from PyQt4 import QtGui, Qwt5
 import matplotlib
 #matplotlib.use('Qt4Agg')
@@ -22,7 +21,6 @@ import ui
         #TODO: Try to look into flushing queue as it gets backlogged (CPU overloaded...)
         #TODO: Add save figure capabilities
         #TODO: Layout widgets so that the console and plots will resize with the window
-        #TODO: Make plots act as a 1 minute window, for all plots (use deque, push/pop)
         #TODO: Add a third plot on the right (tall plot) containing odometry (with reference)
         #TODO: Add legend for plot lines, embed titles and axes labels
         #TODO: Use timestamps for x-axis, data will be plotted accordingly
@@ -41,7 +39,6 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui.rcButton.toggled.connect(self.rc)
         self.ui.attackButton.toggled.connect(self.attack)
         self.ui.setSpeedButton.clicked.connect(self.setLandsharkSpeed)
-        self.windowSize = 300
         self.dpi = 100
         self.outFig = Figure((3.31, 2.01), dpi=self.dpi)
         self.outCanvas = FigureCanvas(self.outFig)
@@ -55,11 +52,8 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.rightCanvas = FigureCanvas(self.rightFig)
         self.rightCanvas.setParent(self.ui.rightPlot)
         self.rightAxes = self.rightFig.add_subplot(111)
-#         self.outPlot = Qwt5.QwtPlot()
-#         self.outPlot.setParent(self.ui.outputPlot)
-#         self.outPlotCurve = Qwt5.QwtPlotCurve()
-#         self.outPlotCurve.attach(self.outPlot)
         self.remote = Remote(self.ui.console)
+        self.windowSize = 300
         self.in_Base = deque(maxlen=self.windowSize)
         self.in_Ref = deque(maxlen=self.windowSize)
         self.out_Odom = deque(maxlen=self.windowSize)
@@ -101,10 +95,15 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui.actualSpeedLCD.setEnabled(True)
         self.ui.estimatedSpeedLabel.setEnabled(True)
         self.ui.estimatedSpeedLCD.setEnabled(True)
+        self.ui.outputPlot.setEnabled(True)
         self.ui.outputPlotLabel.setEnabled(True)
-        self.ui.outputPlotLabel.setEnabled(True)
+        self.ui.inputPlot.setEnabled(True)
         self.ui.inputPlotLabel.setEnabled(True)
-        self.ui.inputPlotLabel.setEnabled(True)
+        self.ui.rightPlot.setEnabled(True)
+        self.ui.rightPlotLabel.setEnabled(True)
+        self.ui.attack1RadioButton.setEnabled(True)
+        self.ui.attack2RadioButton.setEnabled(True)
+        self.ui.attack3RadioButton.setEnabled(True)
         self.zeroData()
         
     def disableAllElements(self):
@@ -123,10 +122,15 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui.actualSpeedLCD.setEnabled(False)
         self.ui.estimatedSpeedLabel.setEnabled(False)
         self.ui.estimatedSpeedLCD.setEnabled(False)
+        self.ui.outputPlot.setEnabled(False)
         self.ui.outputPlotLabel.setEnabled(False)
-        self.ui.outputPlotLabel.setEnabled(False)
+        self.ui.inputPlot.setEnabled(False)
         self.ui.inputPlotLabel.setEnabled(False)
-        self.ui.inputPlotLabel.setEnabled(False)
+        self.ui.rightPlot.setEnabled(False)
+        self.ui.rightPlotLabel.setEnabled(False)
+        self.ui.attack1RadioButton.setEnabled(False)
+        self.ui.attack2RadioButton.setEnabled(False)
+        self.ui.attack3RadioButton.setEnabled(False)
 
     def landshark(self, checked):
         if checked:
@@ -166,14 +170,13 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         if checked:
             try:
             	mode = 0
-#             	if self.ui.attack1RadioButton.isChecked:
-#             		mode = 1
-#             	elif self.ui.attack2RadioButton.isChecked:
-#             		mode = 2
-#             	elif self.ui.attack3RadioButton.isChecked:
-#             		mode = 3
-				#TODO: Add radio button group to GUI
-            	self.run_attack_pub.publish(Int32(1))
+            	if self.ui.attack1RadioButton.isChecked:
+            		mode = 1
+            	elif self.ui.attack2RadioButton.isChecked:
+            		mode = 2
+            	elif self.ui.attack3RadioButton.isChecked:
+            		mode = 3
+            	self.run_attack_pub.publish(Int32(mode))
             except:
                 self.ui.attackButton.setChecked(False)
         else:
@@ -302,8 +305,6 @@ class HACMSDemoWindow(QtGui.QMainWindow):
     def captureOdom(self, msg):
         self.updateActualSpeedLCD(msg.twist.twist.linear.x)
         self.out_Odom.append(msg.twist.twist.linear.x)
-#         self.outPlotCurve.setData(self.out_Odom, range(len(self.out_Odom)))
-#         self.outPlot.replot()
         self.draw_rightPlot()
         
     def captureEncL(self, msg):
