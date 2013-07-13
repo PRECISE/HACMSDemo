@@ -48,12 +48,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
 #         self.outPlotCurve = Qwt5.QwtPlotCurve()
 #         self.outPlotCurve.attach(self.outPlot)
         self.remote = Remote(self.ui.console)
-        self.in_Base = []
-        self.in_Ref = []
-        self.out_Odom = []
-        self.out_EncL = []
-        self.out_EncR = []
-        self.out_GPS = []
+        self.zeroData()
 
     def about(self):
         QtGui.QMessageBox.about(self, "About HACMS Demo",
@@ -67,6 +62,14 @@ class HACMSDemoWindow(QtGui.QMainWindow):
 
     def closeEvent(self, ce):
         self.fileQuit()
+        
+    def zeroData():
+        self.in_Base = []
+        self.in_Ref = []
+        self.out_Odom = []
+        self.out_EncL = []
+        self.out_EncR = []
+        self.out_GPS = []
                 
     def enableAllElements(self):
         self.ui.ccButton.setEnabled(True)
@@ -85,12 +88,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui.outputPlotLabel.setEnabled(True)
         self.ui.inputPlotLabel.setEnabled(True)
         self.ui.inputPlotLabel.setEnabled(True)
-        self.in_Base = []
-        self.in_Ref = []
-        self.out_Odom = []
-        self.out_EncL = []
-        self.out_EncR = []
-        self.out_GPS = []
+        self.zeroData()
         
     def disableAllElements(self):
         self.cc(False)
@@ -127,6 +125,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
     def cc(self, checked):
         if checked:
             res = self.remote.startCC()
+            self.zeroData()
         else:
             res = self.remote.stopCC()           
         self.ui.ccButton.setChecked(res)
