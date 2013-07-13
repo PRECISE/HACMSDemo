@@ -106,15 +106,15 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>400</y>
-      <width>221</width>
-      <height>51</height>
+      <x>160</x>
+      <y>370</y>
+      <width>91</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>30</pointsize>
+      <pointsize>16</pointsize>
      </font>
     </property>
     <property name="styleSheet">
@@ -133,15 +133,15 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>160</x>
       <y>330</y>
-      <width>221</width>
-      <height>51</height>
+      <width>91</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>30</pointsize>
+      <pointsize>16</pointsize>
      </font>
     </property>
     <property name="styleSheet">
@@ -421,6 +421,57 @@
     </property>
     <property name="text">
      <string>Odometry</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="attack1RadioButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>320</y>
+      <width>121</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Attack Mode 1</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="attack2RadioButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>350</y>
+      <width>121</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Attack Mode 2</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="attack3RadioButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>380</y>
+      <width>121</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Attack Mode 3</string>
     </property>
    </widget>
   </widget>
