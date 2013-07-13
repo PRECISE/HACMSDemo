@@ -226,7 +226,6 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.gps_sub.unregister()
 
         self.desired_speed_pub.unregister()
-        self.run_cc_pub.unregister()
         self.run_rc_pub.unregister()
         self.run_attack_pub.unregister()
 
