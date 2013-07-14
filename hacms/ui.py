@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Sun Jul 14 19:13:52 2013
+# Created: Sun Jul 14 19:16:34 2013
 #      by: PyQt4 UI code generator 4.10.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -290,7 +290,7 @@ class Ui_MainWindow(object):
         self.autotrimLabel.setEnabled(False)
         self.autotrimLabel.setGeometry(QtCore.QRect(280, 110, 51, 20))
         font = QtGui.QFont()
-        font.setPointSize(12)
+        font.setPointSize(10)
         self.autotrimLabel.setFont(font)
         self.autotrimLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.autotrimLabel.setObjectName(_fromUtf8("autotrimLabel"))
