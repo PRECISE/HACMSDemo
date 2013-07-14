@@ -24,7 +24,7 @@ import ui
         #TODO: Use timestamps for x-axis, data will be plotted accordingly
         #TODO: Add navigation tab with Google Maps
         #TODO: Combine three plots into a single plot (using subplots)?
-        #TODO: Add error-check on desired speed (using validator), set box to red if invalid
+        #TODO: Change big buttons to be darker or colored when checked
         
 class HACMSDemoWindow(QtGui.QMainWindow):
     def __init__(self):
@@ -46,6 +46,8 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui.setSpeedButton.clicked.connect(self.setLandsharkSpeed)
         self.ui.setKPButton.clicked.connect(self.setKP)
         self.ui.setKIButton.clicked.connect(self.setKI)
+        self.ui.setTrimLeftButton.clicked.connect(self.setTrimLeft)
+        self.ui.setTrimRightButton.clicked.connect(self.setTrimRight)
         self.ui.saveInputPlotButton.clicked.connect(self.save_inputPlot)
         self.ui.saveOutputPlotButton.clicked.connect(self.save_outputPlot)
         self.ui.saveRightPlotButton.clicked.connect(self.save_rightPlot)
@@ -56,6 +58,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui.kiEdit.setValidator(self.validator)
         
     def init_data_structs(self):
+        self.trimIncrement = 0.001
         self.windowSize = 300
         self.in_Base = deque(maxlen=self.windowSize)
         self.in_Ref = deque(maxlen=self.windowSize)
@@ -130,6 +133,10 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui.kiLabel.setEnabled(True)
         self.ui.kiEdit.setEnabled(True)
         self.ui.setKIButton.setEnabled(True)
+        self.ui.trimLabel.setEnabled(True)
+        self.ui.trimValueLabel.setEnabled(True)
+        self.ui.setTrimLeftButton.setEnabled(True)
+        self.ui.setTrimRightButton.setEnabled(True)
         self.ui.actualSpeedLabel.setEnabled(True)
         self.ui.actualSpeedLCD.setEnabled(True)
         self.ui.estimatedSpeedLabel.setEnabled(True)
@@ -166,6 +173,10 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui.kiLabel.setEnabled(False)
         self.ui.kiEdit.setEnabled(False)
         self.ui.setKIButton.setEnabled(False)
+        self.ui.trimLabel.setEnabled(False)
+        self.ui.trimValueLabel.setEnabled(False)
+        self.ui.setTrimLeftButton.setEnabled(False)
+        self.ui.setTrimRightButton.setEnabled(False)
         self.ui.actualSpeedLabel.setEnabled(False)
         self.ui.actualSpeedLCD.setEnabled(False)
         self.ui.estimatedSpeedLabel.setEnabled(False)
@@ -284,7 +295,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.inAxes.clear()
         self.inAxes.grid(True)
         self.inAxes.set_ybound(0, 1.5)
-#         self.inAxes.set_autoscaley_on(False)
+        self.inAxes.set_autoscaley_on(False)
         self.inAxes.set_xlabel('time')
         self.inAxes.set_ylabel('speed')
         self.inAxes.set_title('Input')
@@ -306,7 +317,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.outAxes.clear()
         self.outAxes.grid(True)
         self.outAxes.set_ybound(0, 1.5)
-#         self.outAxes.set_autoscaley_on(False)
+        self.outAxes.set_autoscaley_on(False)
         self.outAxes.set_xlabel('time')
         self.outAxes.set_ylabel('speed')
         self.outAxes.set_title('Output')
@@ -329,7 +340,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.rightAxes.clear()
         self.rightAxes.grid(True)
         self.rightAxes.set_ybound(0, 1.5)
-#         self.rightAxes.set_autoscaley_on(False)
+        self.rightAxes.set_autoscaley_on(False)
         self.rightAxes.set_xlabel('time')
         self.rightAxes.set_ylabel('speed')
         self.rightAxes.set_title('Odometry')
@@ -351,6 +362,32 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         
     def setKI(self):
         self.ki_pub.publish(Float32(float(self.ui.kiEdit.text())))
+    
+    def setTrimLeft(self):
+        # Get current trim value
+        trim = float(self.ui.trimValueLabel.text())
+        
+        # Decrement trim value
+        trim -= self.trimIncrement
+        
+        # Display updated trim value
+        self.ui.trimValueLabel.setText(trim)
+        
+        # Publish new trim value
+        self.trim_pub.publish(Float32(trim))
+    
+    def setTrimRight(self):
+        # Get current trim value
+        trim = float(self.ui.trimValueLabel.text())
+        
+        # Increment trim value
+        trim += self.trimIncrement
+        
+        # Display updated trim value
+        self.ui.trimValueLabel.setText(trim)
+        
+        # Publish new trim value
+        self.trim_pub.publish(Float32(trim))
 
     def start_landshark_comm(self):
         # Initialize ROS node
@@ -367,6 +404,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
 
 		# Publish to HACMS Demo topics
         self.desired_speed_pub = rospy.Publisher('/landshark_demo/desired_speed', Float32)
+        self.trim_pub = rospy.Publisher('/landshark_demo/trim', Float32)
         self.kp_pub = rospy.Publisher('/landshark_demo/kp', Float32)
         self.ki_pub = rospy.Publisher('/landshark_demo/ki', Float32)
         self.run_rc_pub = rospy.Publisher('/landshark_demo/run_rc', Int32)
@@ -386,6 +424,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
 
         # Unregister HACMS Demo published topics
         self.desired_speed_pub.unregister()
+        self.trim_pub.unregister()
         self.kp_pub.unregister()
         self.ki_pub.unregister()
         self.run_rc_pub.unregister()
