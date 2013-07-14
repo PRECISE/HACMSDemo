@@ -20,7 +20,7 @@ import ui
 
         #TODO: Try to look into flushing queue as it gets backlogged (CPU overloaded...)
         #TODO: Layout widgets so that the console and plots will resize with the window
-        #TODO: Add legend for plot lines, embed titles and axes labels
+        #TODO: Add legend for plot lines, fit titles and axes labels, too
         #TODO: Use timestamps for x-axis, data will be plotted accordingly
         #TODO: Add navigation tab with Google Maps
         #TODO: Combine three plots into a single plot (using subplots)?
@@ -60,8 +60,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.inCanvas.setParent(self.ui.inputPlot)
         self.inAxes = self.inFig.add_subplot(111)
         self.inAxes.grid(True)
-        self.inAxes.set_ylim(0, 1.5)
-        self.inAxes.set_autoscaley_on(False)
+        self.inAxes.set_ybound(0, 1.5)
         self.inAxes.set_xlabel('time')
         self.inAxes.set_ylabel('speed')
         self.inAxes.set_title('Input')
@@ -70,8 +69,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.outCanvas.setParent(self.ui.outputPlot)
         self.outAxes = self.outFig.add_subplot(111)
         self.outAxes.grid(True)
-        self.outAxes.set_ylim(0, 1.5)
-        self.outAxes.set_autoscaley_on(False)
+        self.outAxes.set_ybound(0, 1.5)
         self.outAxes.set_xlabel('time')
         self.outAxes.set_ylabel('speed')
         self.outAxes.set_title('Output')
@@ -80,8 +78,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.rightCanvas.setParent(self.ui.rightPlot)
         self.rightAxes = self.rightFig.add_subplot(111)
         self.rightAxes.grid(True)
-        self.rightAxes.set_ylim(0, 1.5)
-        self.rightAxes.set_autoscaley_on(False)
+        self.rightAxes.set_ybound(0, 1.5)
         self.rightAxes.set_xlabel('time')
         self.rightAxes.set_ylabel('speed')
         self.rightAxes.set_title('Odometry')
@@ -263,8 +260,8 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         #
         self.inAxes.clear()
         self.inAxes.grid(True)
-        self.inAxes.set_ylim(0, 1.5)
-        self.inAxes.set_autoscaley_on(False)
+        self.inAxes.set_ybound(0, 1.5)
+#         self.inAxes.set_autoscaley_on(False)
         self.inAxes.set_xlabel('time')
         self.inAxes.set_ylabel('speed')
         self.inAxes.set_title('Input')
@@ -285,8 +282,8 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         #
         self.outAxes.clear()
         self.outAxes.grid(True)
-        self.outAxes.set_ylim(0, 1.5)
-        self.outAxes.set_autoscaley_on(False)
+        self.outAxes.set_ybound(0, 1.5)
+#         self.outAxes.set_autoscaley_on(False)
         self.outAxes.set_xlabel('time')
         self.outAxes.set_ylabel('speed')
         self.outAxes.set_title('Output')
@@ -308,8 +305,8 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         #
         self.rightAxes.clear()
         self.rightAxes.grid(True)
-        self.rightAxes.set_ylim(0, 1.5)
-        self.rightAxes.set_autoscaley_on(False)
+        self.rightAxes.set_ybound(0, 1.5)
+#         self.rightAxes.set_autoscaley_on(False)
         self.rightAxes.set_xlabel('time')
         self.rightAxes.set_ylabel('speed')
         self.rightAxes.set_title('Odometry')
