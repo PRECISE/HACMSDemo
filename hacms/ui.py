@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Sun Jul 14 13:59:49 2013
+# Created: Sun Jul 14 16:05:34 2013
 #      by: PyQt4 UI code generator 4.10.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -77,7 +77,7 @@ class Ui_MainWindow(object):
         self.actualLabel.setObjectName(_fromUtf8("actualLabel"))
         self.desiredSpeedLabel = QtGui.QLabel(self.centralWidget)
         self.desiredSpeedLabel.setEnabled(False)
-        self.desiredSpeedLabel.setGeometry(QtCore.QRect(280, 20, 161, 20))
+        self.desiredSpeedLabel.setGeometry(QtCore.QRect(280, 20, 171, 20))
         font = QtGui.QFont()
         font.setPointSize(14)
         self.desiredSpeedLabel.setFont(font)
@@ -85,7 +85,7 @@ class Ui_MainWindow(object):
         self.desiredSpeedLabel.setObjectName(_fromUtf8("desiredSpeedLabel"))
         self.desiredSpeedEdit = QtGui.QLineEdit(self.centralWidget)
         self.desiredSpeedEdit.setEnabled(False)
-        self.desiredSpeedEdit.setGeometry(QtCore.QRect(310, 50, 101, 41))
+        self.desiredSpeedEdit.setGeometry(QtCore.QRect(310, 50, 111, 41))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.desiredSpeedEdit.setFont(font)
@@ -138,7 +138,7 @@ class Ui_MainWindow(object):
         self.ccButton.setObjectName(_fromUtf8("ccButton"))
         self.setSpeedButton = QtGui.QPushButton(self.centralWidget)
         self.setSpeedButton.setEnabled(False)
-        self.setSpeedButton.setGeometry(QtCore.QRect(310, 100, 101, 32))
+        self.setSpeedButton.setGeometry(QtCore.QRect(310, 100, 111, 32))
         font = QtGui.QFont()
         font.setPointSize(14)
         self.setSpeedButton.setFont(font)
@@ -191,6 +191,16 @@ class Ui_MainWindow(object):
         self.saveRightPlotButton.setGeometry(QtCore.QRect(890, 10, 31, 21))
         self.saveRightPlotButton.setIcon(icon)
         self.saveRightPlotButton.setObjectName(_fromUtf8("saveRightPlotButton"))
+        self.line = QtGui.QFrame(self.centralWidget)
+        self.line.setGeometry(QtCore.QRect(260, 10, 20, 471))
+        self.line.setFrameShape(QtGui.QFrame.VLine)
+        self.line.setFrameShadow(QtGui.QFrame.Sunken)
+        self.line.setObjectName(_fromUtf8("line"))
+        self.line_2 = QtGui.QFrame(self.centralWidget)
+        self.line_2.setGeometry(QtCore.QRect(450, 10, 20, 471))
+        self.line_2.setFrameShape(QtGui.QFrame.VLine)
+        self.line_2.setFrameShadow(QtGui.QFrame.Sunken)
+        self.line_2.setObjectName(_fromUtf8("line_2"))
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtGui.QMenuBar(MainWindow)
         self.menuBar.setGeometry(QtCore.QRect(0, 0, 1251, 22))
