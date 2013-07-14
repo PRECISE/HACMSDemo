@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Sun Jul 14 13:33:46 2013
+# Created: Sun Jul 14 13:57:00 2013
 #      by: PyQt4 UI code generator 4.10.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -186,11 +186,11 @@ class Ui_MainWindow(object):
         self.saveOutputPlotButton.setGeometry(QtCore.QRect(530, 250, 31, 21))
         self.saveOutputPlotButton.setIcon(icon)
         self.saveOutputPlotButton.setObjectName(_fromUtf8("saveOutputPlotButton"))
-        self.saveOdomPlotButton = QtGui.QPushButton(self.centralWidget)
-        self.saveOdomPlotButton.setEnabled(False)
-        self.saveOdomPlotButton.setGeometry(QtCore.QRect(890, 10, 31, 21))
-        self.saveOdomPlotButton.setIcon(icon)
-        self.saveOdomPlotButton.setObjectName(_fromUtf8("saveOdomPlotButton"))
+        self.saveRightPlotButton = QtGui.QPushButton(self.centralWidget)
+        self.saveRightPlotButton.setEnabled(False)
+        self.saveRightPlotButton.setGeometry(QtCore.QRect(890, 10, 31, 21))
+        self.saveRightPlotButton.setIcon(icon)
+        self.saveRightPlotButton.setObjectName(_fromUtf8("saveRightPlotButton"))
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtGui.QMenuBar(MainWindow)
         self.menuBar.setGeometry(QtCore.QRect(0, 0, 1251, 22))

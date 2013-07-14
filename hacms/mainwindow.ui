@@ -508,7 +508,7 @@
       <normaloff>../images/folder_image.png</normaloff>../images/folder_image.png</iconset>
     </property>
    </widget>
-   <widget class="QPushButton" name="saveOdomPlotButton">
+   <widget class="QPushButton" name="saveRightPlotButton">
     <property name="enabled">
      <bool>false</bool>
     </property>
