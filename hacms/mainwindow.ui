@@ -114,7 +114,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>16</pointsize>
+      <pointsize>12</pointsize>
      </font>
     </property>
     <property name="styleSheet">
@@ -141,7 +141,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>16</pointsize>
+      <pointsize>12</pointsize>
      </font>
     </property>
     <property name="styleSheet">
@@ -430,7 +430,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>320</y>
+      <y>330</y>
       <width>121</width>
       <height>20</height>
      </rect>
@@ -449,7 +449,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>350</y>
+      <y>360</y>
       <width>121</width>
       <height>20</height>
      </rect>
@@ -465,7 +465,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>380</y>
+      <y>390</y>
       <width>121</width>
       <height>20</height>
      </rect>

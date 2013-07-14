@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Sun Jul 14 13:57:00 2013
+# Created: Sun Jul 14 13:59:49 2013
 #      by: PyQt4 UI code generator 4.10.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -61,7 +61,7 @@ class Ui_MainWindow(object):
         self.estimatedLabel.setEnabled(False)
         self.estimatedLabel.setGeometry(QtCore.QRect(160, 370, 91, 31))
         font = QtGui.QFont()
-        font.setPointSize(16)
+        font.setPointSize(12)
         self.estimatedLabel.setFont(font)
         self.estimatedLabel.setStyleSheet(_fromUtf8("background-color: green; color: white;"))
         self.estimatedLabel.setAlignment(QtCore.Qt.AlignCenter)
@@ -70,7 +70,7 @@ class Ui_MainWindow(object):
         self.actualLabel.setEnabled(False)
         self.actualLabel.setGeometry(QtCore.QRect(160, 330, 91, 31))
         font = QtGui.QFont()
-        font.setPointSize(16)
+        font.setPointSize(12)
         self.actualLabel.setFont(font)
         self.actualLabel.setStyleSheet(_fromUtf8("background-color: green; color: white;"))
         self.actualLabel.setAlignment(QtCore.Qt.AlignCenter)
@@ -163,16 +163,16 @@ class Ui_MainWindow(object):
         self.rightPlotLabel.setObjectName(_fromUtf8("rightPlotLabel"))
         self.attack1RadioButton = QtGui.QRadioButton(self.centralWidget)
         self.attack1RadioButton.setEnabled(False)
-        self.attack1RadioButton.setGeometry(QtCore.QRect(30, 320, 121, 20))
+        self.attack1RadioButton.setGeometry(QtCore.QRect(30, 330, 121, 20))
         self.attack1RadioButton.setChecked(True)
         self.attack1RadioButton.setObjectName(_fromUtf8("attack1RadioButton"))
         self.attack2RadioButton = QtGui.QRadioButton(self.centralWidget)
         self.attack2RadioButton.setEnabled(False)
-        self.attack2RadioButton.setGeometry(QtCore.QRect(30, 350, 121, 20))
+        self.attack2RadioButton.setGeometry(QtCore.QRect(30, 360, 121, 20))
         self.attack2RadioButton.setObjectName(_fromUtf8("attack2RadioButton"))
         self.attack3RadioButton = QtGui.QRadioButton(self.centralWidget)
         self.attack3RadioButton.setEnabled(False)
-        self.attack3RadioButton.setGeometry(QtCore.QRect(30, 380, 121, 20))
+        self.attack3RadioButton.setGeometry(QtCore.QRect(30, 390, 121, 20))
         self.attack3RadioButton.setObjectName(_fromUtf8("attack3RadioButton"))
         self.saveInputPlotButton = QtGui.QPushButton(self.centralWidget)
         self.saveInputPlotButton.setEnabled(False)
