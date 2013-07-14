@@ -232,10 +232,16 @@ class HACMSDemoWindow(QtGui.QMainWindow):
 
     def toggleWidgetColor(self, widget, setColor=None):
         style = widget.styleSheet()
-        if self.getWidgetColor(widget) is "green" or setColor == "red":
-            widget.setStyleSheet(string.replace(style, "background-color: green;", "background-color: red;"))
-        elif self.getWidgetColor(widget) is "red" or setColor == "green":
-            widget.setStyleSheet(string.replace(style, "background-color: red;", "background-color: green;"))
+        if setColor is None:
+            if self.getWidgetColor(widget) is "green":
+                widget.setStyleSheet(string.replace(style, "background-color: green;", "background-color: red;"))
+            elif self.getWidgetColor(widget) is "red":
+                widget.setStyleSheet(string.replace(style, "background-color: red;", "background-color: green;"))
+        else:
+            if setColor is "red":
+                widget.setStyleSheet(string.replace(style, "background-color: green;", "background-color: red;"))
+            elif setColor is "green":
+                widget.setStyleSheet(string.replace(style, "background-color: red;", "background-color: green;"))
 
     def updateActualSpeedLCD(self, value):
         self.ui.actualSpeedLCD.display(value)
