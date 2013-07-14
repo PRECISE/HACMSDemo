@@ -59,6 +59,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.outCanvas = FigureCanvas(self.outFig)
         self.outCanvas.setParent(self.ui.outputPlot)
         self.outAxes = self.outFig.add_subplot(111)
+        self.outAxes.grid(True)
         self.outAxes.set_xlabel('time')
         self.outAxes.set_ylabel('speed')
         self.outAxes.set_title('Output')
@@ -66,6 +67,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.inCanvas = FigureCanvas(self.inFig)
         self.inCanvas.setParent(self.ui.inputPlot)
         self.inAxes = self.inFig.add_subplot(111)
+        self.inAxes.grid(True)
         self.inAxes.set_xlabel('time')
         self.inAxes.set_ylabel('speed')
         self.inAxes.set_title('Input')
@@ -73,14 +75,15 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.rightCanvas = FigureCanvas(self.rightFig)
         self.rightCanvas.setParent(self.ui.rightPlot)
         self.rightAxes = self.rightFig.add_subplot(111)
+        self.rightAxes.grid(True)
         self.rightAxes.set_xlabel('time')
         self.rightAxes.set_ylabel('speed')
         self.rightAxes.set_title('Odometry')
 
     def about(self):
         QtGui.QMessageBox.about(self, "About HACMS Demo",
-                "The <b>HACMS Demo</b> application displays the current ROS telemetry "
-                "data.")
+                "The <b>HACMS Demo</b> application allows for control of the LandShark "
+                "robot while displaying live ROS telemetry data.")
                 
     def fileQuit(self):
         if self.ui.landsharkButton.isChecked():
@@ -209,7 +212,10 @@ class HACMSDemoWindow(QtGui.QMainWindow):
                 self.ui.attackButton.setChecked(True)
                 return
         self.ui.attackButton.setChecked(checked)
-        self.toggleWidgetColor(self.ui.actualLabel)
+        if checked:
+            self.toggleWidgetColor(self.ui.actualLabel, "red")
+        else:
+            self.toggleWidgetColor(self.ui.actualLabel, "green")
 
     def getWidgetColor(self, widget):
         style = widget.styleSheet()
@@ -218,11 +224,11 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         if "background-color: red;" in style:
             return "red"
 
-    def toggleWidgetColor(self, widget):
+    def toggleWidgetColor(self, widget, setColor=None):
         style = widget.styleSheet()
-        if self.getWidgetColor(widget) is "green":
+        if self.getWidgetColor(widget) is "green" or setColor == "red":
             widget.setStyleSheet(string.replace(style, "background-color: green;", "background-color: red;"))
-        elif self.getWidgetColor(widget) is "red":
+        elif self.getWidgetColor(widget) is "red" or setColor == "green":
             widget.setStyleSheet(string.replace(style, "background-color: red;", "background-color: green;"))
 
     def updateActualSpeedLCD(self, value):
@@ -243,8 +249,11 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         """
         # clear the axes and redraw the plot anew
         #
-        self.inAxes.clear()        
+        self.inAxes.clear()
         self.inAxes.grid(True)
+        self.inAxes.set_xlabel('time')
+        self.inAxes.set_ylabel('speed')
+        self.inAxes.set_title('Input')
         self.inAxes.plot(self.in_Base)
         self.inAxes.plot(self.in_Ref)
         self.inCanvas.draw()
@@ -253,15 +262,18 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         path = self.save_plot()
         if path:
             self.inCanvas.print_figure(path, dpi=self.dpi)
-            self.statusBar.showMessage('Saved to %s' % path, 2000)
+            self.statusBar().showMessage('Saved to %s' % path, 2000)
     
     def draw_outputPlot(self):
         """ Redraws the output plot
         """
         # clear the axes and redraw the plot anew
         #
-        self.outAxes.clear()        
+        self.outAxes.clear()
         self.outAxes.grid(True)
+        self.outAxes.set_xlabel('time')
+        self.outAxes.set_ylabel('speed')
+        self.outAxes.set_title('Output')
         self.outAxes.plot(self.out_EncL)
         self.outAxes.plot(self.out_EncR)
         self.outAxes.plot(self.out_GPS)
@@ -271,15 +283,18 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         path = self.save_plot()
         if path:
             self.outCanvas.print_figure(path, dpi=self.dpi)
-            self.statusBar.showMessage('Saved to %s' % path, 2000)
+            self.statusBar().showMessage('Saved to %s' % path, 2000)
         
     def draw_rightPlot(self):
         """ Redraws the righthand plot
         """
         # clear the axes and redraw the plot anew
         #
-        self.rightAxes.clear()        
+        self.rightAxes.clear()
         self.rightAxes.grid(True)
+        self.rightAxes.set_xlabel('time')
+        self.rightAxes.set_ylabel('speed')
+        self.rightAxes.set_title('Odometry')
         self.rightAxes.plot(self.out_Odom)
         self.rightAxes.plot(self.in_Ref)
         self.rightCanvas.draw()
@@ -288,7 +303,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         path = self.save_plot()
         if path:
             self.rightCanvas.print_figure(path, dpi=self.dpi)
-            self.statusBar.showMessage('Saved to %s' % path, 2000)
+            self.statusBar().showMessage('Saved to %s' % path, 2000)
 
     def setLandsharkSpeed(self):
         self.desired_speed_pub.publish(Float32(float(self.ui.desiredSpeedEdit.text())))
