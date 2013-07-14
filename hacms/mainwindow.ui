@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>825</width>
-    <height>727</height>
+    <width>1251</width>
+    <height>701</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -106,15 +106,15 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>400</y>
-      <width>221</width>
-      <height>51</height>
+      <x>160</x>
+      <y>370</y>
+      <width>91</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>30</pointsize>
+      <pointsize>12</pointsize>
      </font>
     </property>
     <property name="styleSheet">
@@ -133,15 +133,15 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>160</x>
       <y>330</y>
-      <width>221</width>
-      <height>51</height>
+      <width>91</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>30</pointsize>
+      <pointsize>12</pointsize>
      </font>
     </property>
     <property name="styleSheet">
@@ -162,7 +162,7 @@
      <rect>
       <x>280</x>
       <y>20</y>
-      <width>161</width>
+      <width>171</width>
       <height>20</height>
      </rect>
     </property>
@@ -186,7 +186,7 @@
      <rect>
       <x>310</x>
       <y>50</y>
-      <width>101</width>
+      <width>111</width>
       <height>41</height>
      </rect>
     </property>
@@ -231,7 +231,7 @@
      <rect>
       <x>20</x>
       <y>490</y>
-      <width>781</width>
+      <width>1211</width>
       <height>161</height>
      </rect>
     </property>
@@ -252,10 +252,13 @@
     <property name="geometry">
      <rect>
       <x>470</x>
-      <y>30</y>
+      <y>280</y>
       <width>331</width>
       <height>201</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: white;</string>
     </property>
    </widget>
    <widget class="QLabel" name="outputPlotLabel">
@@ -265,8 +268,8 @@
     <property name="geometry">
      <rect>
       <x>470</x>
-      <y>10</y>
-      <width>62</width>
+      <y>250</y>
+      <width>51</width>
       <height>16</height>
      </rect>
     </property>
@@ -343,7 +346,7 @@
      <rect>
       <x>310</x>
       <y>100</y>
-      <width>101</width>
+      <width>111</width>
       <height>32</height>
      </rect>
     </property>
@@ -363,8 +366,8 @@
     <property name="geometry">
      <rect>
       <x>470</x>
-      <y>250</y>
-      <width>62</width>
+      <y>10</y>
+      <width>41</width>
       <height>16</height>
      </rect>
     </property>
@@ -379,10 +382,173 @@
     <property name="geometry">
      <rect>
       <x>470</x>
-      <y>270</y>
+      <y>40</y>
       <width>331</width>
       <height>201</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: white;</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="rightPlot" native="true">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>810</x>
+      <y>40</y>
+      <width>421</width>
+      <height>441</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: white;</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="rightPlotLabel">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>810</x>
+      <y>10</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Odometry</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="attack1RadioButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>330</y>
+      <width>121</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Attack Mode 1</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="attack2RadioButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>360</y>
+      <width>121</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Attack Mode 2</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="attack3RadioButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>390</y>
+      <width>121</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Attack Mode 3</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="saveInputPlotButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>10</y>
+      <width>31</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>../images/folder_image.png</normaloff>../images/folder_image.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="saveOutputPlotButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>250</y>
+      <width>31</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>../images/folder_image.png</normaloff>../images/folder_image.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="saveRightPlotButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>10</y>
+      <width>31</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>../images/folder_image.png</normaloff>../images/folder_image.png</iconset>
+    </property>
+   </widget>
+   <widget class="Line" name="line">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>10</y>
+      <width>20</width>
+      <height>471</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_2">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>10</y>
+      <width>20</width>
+      <height>471</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
     </property>
    </widget>
   </widget>
@@ -391,7 +557,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>825</width>
+     <width>1251</width>
      <height>22</height>
     </rect>
    </property>
@@ -406,14 +572,6 @@
     <addaction name="actionQuit"/>
    </widget>
    <addaction name="menuFile"/>
-  </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionQuit">
