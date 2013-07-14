@@ -72,12 +72,14 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         
     def init_plots(self):
         self.dpi = 100
+        self.y_top = 1.5
         self.inFig = Figure((3.31, 2.01), dpi=self.dpi)
         self.inCanvas = FigureCanvas(self.inFig)
         self.inCanvas.setParent(self.ui.inputPlot)
         self.inAxes = self.inFig.add_subplot(111)
         self.inAxes.grid(True)
-        self.inAxes.set_ybound(0, 1.5)
+        self.inAxes.set_ybound(0, self.y_top)
+        self.inAxes.set_autoscaley_on(False)
         self.inAxes.set_xlabel('time')
         self.inAxes.set_ylabel('speed')
         self.inAxes.set_title('Input')
@@ -86,7 +88,8 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.outCanvas.setParent(self.ui.outputPlot)
         self.outAxes = self.outFig.add_subplot(111)
         self.outAxes.grid(True)
-        self.outAxes.set_ybound(0, 1.5)
+        self.outAxes.set_ybound(0, self.y_top)
+        self.outAxes.set_autoscaley_on(False)
         self.outAxes.set_xlabel('time')
         self.outAxes.set_ylabel('speed')
         self.outAxes.set_title('Output')
@@ -95,7 +98,8 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.rightCanvas.setParent(self.ui.rightPlot)
         self.rightAxes = self.rightFig.add_subplot(111)
         self.rightAxes.grid(True)
-        self.rightAxes.set_ybound(0, 1.5)
+        self.rightAxes.set_ybound(0, self.y_top)
+        self.rightAxes.set_autoscaley_on(False)
         self.rightAxes.set_xlabel('time')
         self.rightAxes.set_ylabel('speed')
         self.rightAxes.set_title('Odometry')
@@ -307,7 +311,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         #
         self.inAxes.clear()
         self.inAxes.grid(True)
-        self.inAxes.set_ybound(0, 1.5)
+        self.inAxes.set_ybound(0, self.y_top)
         self.inAxes.set_autoscaley_on(False)
         self.inAxes.set_xlabel('time')
         self.inAxes.set_ylabel('speed')
@@ -329,7 +333,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         #
         self.outAxes.clear()
         self.outAxes.grid(True)
-        self.outAxes.set_ybound(0, 1.5)
+        self.outAxes.set_ybound(0, self.y_top)
         self.outAxes.set_autoscaley_on(False)
         self.outAxes.set_xlabel('time')
         self.outAxes.set_ylabel('speed')
@@ -352,7 +356,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         #
         self.rightAxes.clear()
         self.rightAxes.grid(True)
-        self.rightAxes.set_ybound(0, 1.5)
+        self.rightAxes.set_ybound(0, self.y_top)
         self.rightAxes.set_autoscaley_on(False)
         self.rightAxes.set_xlabel('time')
         self.rightAxes.set_ylabel('speed')
