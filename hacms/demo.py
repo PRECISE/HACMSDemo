@@ -234,7 +234,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
     def save_plot(self):
         file_choices = "PNG (*.png)|*.png"
         
-        return unicode(QFileDialog.getSaveFileName(self, 
+        return unicode(QtGui.QFileDialog.getSaveFileName(self, 
                         'Save file', '', 
                         file_choices))
 
