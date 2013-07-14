@@ -8,7 +8,7 @@
     <x>0</x>
     <y>0</y>
     <width>1251</width>
-    <height>718</height>
+    <height>701</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -252,7 +252,7 @@
     <property name="geometry">
      <rect>
       <x>470</x>
-      <y>30</y>
+      <y>280</y>
       <width>331</width>
       <height>201</height>
      </rect>
@@ -268,8 +268,8 @@
     <property name="geometry">
      <rect>
       <x>470</x>
-      <y>10</y>
-      <width>62</width>
+      <y>250</y>
+      <width>51</width>
       <height>16</height>
      </rect>
     </property>
@@ -366,8 +366,8 @@
     <property name="geometry">
      <rect>
       <x>470</x>
-      <y>250</y>
-      <width>62</width>
+      <y>10</y>
+      <width>41</width>
       <height>16</height>
      </rect>
     </property>
@@ -382,7 +382,7 @@
     <property name="geometry">
      <rect>
       <x>470</x>
-      <y>270</y>
+      <y>40</y>
       <width>331</width>
       <height>201</height>
      </rect>
@@ -398,7 +398,7 @@
     <property name="geometry">
      <rect>
       <x>810</x>
-      <y>30</y>
+      <y>40</y>
       <width>421</width>
       <height>441</height>
      </rect>
@@ -474,6 +474,57 @@
      <string>Attack Mode 3</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="saveInputPlotButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>10</y>
+      <width>31</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>../images/folder_image.png</normaloff>../images/folder_image.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="saveOutputPlotButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>250</y>
+      <width>31</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>../images/folder_image.png</normaloff>../images/folder_image.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="saveOdomPlotButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>10</y>
+      <width>31</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>../images/folder_image.png</normaloff>../images/folder_image.png</iconset>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -495,14 +546,6 @@
     <addaction name="actionQuit"/>
    </widget>
    <addaction name="menuFile"/>
-  </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionQuit">
