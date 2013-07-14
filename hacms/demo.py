@@ -25,6 +25,7 @@ import ui
         #TODO: Add navigation tab with Google Maps
         #TODO: Combine three plots into a single plot (using subplots)?
         #TODO: Change big buttons to be darker or colored when checked
+        #TODO: Put all main widgets into a list
         
 class HACMSDemoWindow(QtGui.QMainWindow):
     def __init__(self):
@@ -35,6 +36,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.init_data_structs()
         self.init_plots()
         self.remote = Remote(self.ui.console)
+        #self.mainWidgets = [self.ui.ccButton]
         
     def init_signals(self):
         self.ui.actionAbout.triggered.connect(self.about)
@@ -46,6 +48,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui.setSpeedButton.clicked.connect(self.setLandsharkSpeed)
         self.ui.setKPButton.clicked.connect(self.setKP)
         self.ui.setKIButton.clicked.connect(self.setKI)
+        self.ui.setAutotrimButton.clicked.connect(self.setAutotrim)
         self.ui.setTrimLeftButton.clicked.connect(self.setTrimLeft)
         self.ui.setTrimRightButton.clicked.connect(self.setTrimRight)
         self.ui.saveInputPlotButton.clicked.connect(self.save_inputPlot)
@@ -119,6 +122,9 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.out_GPS.clear()
                 
     def enableAllElements(self):
+#         for widget in self.mainWidgets:
+#             widget.setEnabled(True)
+        
         self.ui.ccButton.setEnabled(True)
         self.ui.rcButton.setEnabled(True)
         self.ui.attackButton.setEnabled(True)
@@ -133,6 +139,9 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui.kiLabel.setEnabled(True)
         self.ui.kiEdit.setEnabled(True)
         self.ui.setKIButton.setEnabled(True)
+        self.ui.autotrimLabel.setEnabled(True)
+        self.ui.autotrimEdit.setEnabled(True)
+        self.ui.setAutotrimButton.setEnabled(True)
         self.ui.trimLabel.setEnabled(True)
         self.ui.trimValueLabel.setEnabled(True)
         self.ui.setTrimLeftButton.setEnabled(True)
@@ -159,6 +168,10 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.cc(False)
         self.rc(False)
         self.attack(False)
+
+#         for widget in self.mainWidgets:
+#             widget.setEnabled(False)
+
         self.ui.ccButton.setEnabled(False)
         self.ui.rcButton.setEnabled(False)
         self.ui.attackButton.setEnabled(False)
@@ -173,6 +186,9 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui.kiLabel.setEnabled(False)
         self.ui.kiEdit.setEnabled(False)
         self.ui.setKIButton.setEnabled(False)
+        self.ui.autotrimLabel.setEnabled(False)
+        self.ui.autotrimEdit.setEnabled(False)
+        self.ui.setAutotrimButton.setEnabled(False)
         self.ui.trimLabel.setEnabled(False)
         self.ui.trimValueLabel.setEnabled(False)
         self.ui.setTrimLeftButton.setEnabled(False)
@@ -282,10 +298,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
 
     def save_plot(self):
         file_choices = "PNG (*.png)|*.png"
-        
-        return unicode(QtGui.QFileDialog.getSaveFileName(self, 
-                        'Save file', '', 
-                        file_choices))
+        return unicode(QtGui.QFileDialog.getSaveFileName(self, 'Save file', '', file_choices))
 
     def draw_inputPlot(self):
         """ Redraws the input plot
@@ -362,6 +375,9 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         
     def setKI(self):
         self.ki_pub.publish(Float32(float(self.ui.kiEdit.text())))
+        
+    def setAutotrim(self):
+        self.autotrim_pub.publish(Float32(float(self.ui.autotrimEdit.text())))
     
     def setTrimLeft(self):
         # Get current trim value
@@ -371,7 +387,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         trim -= self.trimIncrement
         
         # Display updated trim value
-        self.ui.trimValueLabel.setText(trim)
+        self.ui.trimValueLabel.setText(str(trim))
         
         # Publish new trim value
         self.trim_pub.publish(Float32(trim))
@@ -384,7 +400,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         trim += self.trimIncrement
         
         # Display updated trim value
-        self.ui.trimValueLabel.setText(trim)
+        self.ui.trimValueLabel.setText(str(trim))
         
         # Publish new trim value
         self.trim_pub.publish(Float32(trim))
@@ -404,6 +420,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
 
 		# Publish to HACMS Demo topics
         self.desired_speed_pub = rospy.Publisher('/landshark_demo/desired_speed', Float32)
+        self.autotrim_pub = rospy.Publisher('/landshark_demo/autotrim', Float32)
         self.trim_pub = rospy.Publisher('/landshark_demo/trim', Float32)
         self.kp_pub = rospy.Publisher('/landshark_demo/kp', Float32)
         self.ki_pub = rospy.Publisher('/landshark_demo/ki', Float32)
@@ -424,6 +441,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
 
         # Unregister HACMS Demo published topics
         self.desired_speed_pub.unregister()
+        self.autotrim_pub.unregister()
         self.trim_pub.unregister()
         self.kp_pub.unregister()
         self.ki_pub.unregister()
