@@ -26,6 +26,7 @@ import ui
         #TODO: Combine three plots into a single plot (using subplots)?
         #TODO: Change big buttons to be darker or colored when checked
         #TODO: Put all main widgets into a list
+        #TODO: put red line to mark attack moment or attack region
         
 class HACMSDemoWindow(QtGui.QMainWindow):
     def __init__(self):
