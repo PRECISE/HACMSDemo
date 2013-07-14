@@ -19,13 +19,11 @@ from remote import Remote
 import ui
 
         #TODO: Try to look into flushing queue as it gets backlogged (CPU overloaded...)
-        #TODO: Add save figure capabilities
         #TODO: Layout widgets so that the console and plots will resize with the window
-        #TODO: Add a third plot on the right (tall plot) containing odometry (with reference)
         #TODO: Add legend for plot lines, embed titles and axes labels
         #TODO: Use timestamps for x-axis, data will be plotted accordingly
-        #TODO: Actual Label turns red when Attack button is pressed
         #TODO: Add navigation tab with Google Maps
+        #TODO: Combine three plots into a single plot (using subplots)?
 
 class HACMSDemoWindow(QtGui.QMainWindow):
     def __init__(self):
@@ -39,20 +37,14 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui.rcButton.toggled.connect(self.rc)
         self.ui.attackButton.toggled.connect(self.attack)
         self.ui.setSpeedButton.clicked.connect(self.setLandsharkSpeed)
-        self.dpi = 100
-        self.outFig = Figure((3.31, 2.01), dpi=self.dpi)
-        self.outCanvas = FigureCanvas(self.outFig)
-        self.outCanvas.setParent(self.ui.outputPlot)
-        self.outAxes = self.outFig.add_subplot(111)
-        self.inFig = Figure((3.31, 2.01), dpi=self.dpi)
-        self.inCanvas = FigureCanvas(self.inFig)
-        self.inCanvas.setParent(self.ui.inputPlot)
-        self.inAxes = self.inFig.add_subplot(111)
-        self.rightFig = Figure((4.21, 4.41), dpi=self.dpi)
-        self.rightCanvas = FigureCanvas(self.rightFig)
-        self.rightCanvas.setParent(self.ui.rightPlot)
-        self.rightAxes = self.rightFig.add_subplot(111)
+        self.ui.saveInputPlotButton.clicked.connect(self.save_inputPlot)
+        self.ui.saveOutputPlotButton.clicked.connect(self.save_outputPlot)
+        self.ui.saveRightPlotButton.clicked.connect(self.save_rightPlot)
         self.remote = Remote(self.ui.console)
+        self.init_data_structs()
+        self.init_plots()
+        
+    def init_data_structs(self):
         self.windowSize = 300
         self.in_Base = deque(maxlen=self.windowSize)
         self.in_Ref = deque(maxlen=self.windowSize)
@@ -60,6 +52,30 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.out_EncL = deque(maxlen=self.windowSize)
         self.out_EncR = deque(maxlen=self.windowSize)
         self.out_GPS = deque(maxlen=self.windowSize)
+        
+    def init_plots(self):
+        self.dpi = 100
+        self.outFig = Figure((3.31, 2.01), dpi=self.dpi)
+        self.outCanvas = FigureCanvas(self.outFig)
+        self.outCanvas.setParent(self.ui.outputPlot)
+        self.outAxes = self.outFig.add_subplot(111)
+        self.outAxes.set_xlabel('time')
+        self.outAxes.set_ylabel('speed')
+        self.outAxes.set_title('Output')
+        self.inFig = Figure((3.31, 2.01), dpi=self.dpi)
+        self.inCanvas = FigureCanvas(self.inFig)
+        self.inCanvas.setParent(self.ui.inputPlot)
+        self.inAxes = self.inFig.add_subplot(111)
+        self.inAxes.set_xlabel('time')
+        self.inAxes.set_ylabel('speed')
+        self.inAxes.set_title('Input')
+        self.rightFig = Figure((4.21, 4.41), dpi=self.dpi)
+        self.rightCanvas = FigureCanvas(self.rightFig)
+        self.rightCanvas.setParent(self.ui.rightPlot)
+        self.rightAxes = self.rightFig.add_subplot(111)
+        self.rightAxes.set_xlabel('time')
+        self.rightAxes.set_ylabel('speed')
+        self.rightAxes.set_title('Odometry')
 
     def about(self):
         QtGui.QMessageBox.about(self, "About HACMS Demo",
@@ -104,6 +120,9 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui.attack1RadioButton.setEnabled(True)
         self.ui.attack2RadioButton.setEnabled(True)
         self.ui.attack3RadioButton.setEnabled(True)
+        self.ui.saveInputPlotButton.setEnabled(True)
+        self.ui.saveOutputPlotButton.setEnabled(True)
+        self.ui.saveRightPlotButton.setEnabled(True)
         self.zeroData()
         
     def disableAllElements(self):
@@ -131,6 +150,9 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui.attack1RadioButton.setEnabled(False)
         self.ui.attack2RadioButton.setEnabled(False)
         self.ui.attack3RadioButton.setEnabled(False)
+        self.ui.saveInputPlotButton.setEnabled(False)
+        self.ui.saveOutputPlotButton.setEnabled(False)
+        self.ui.saveRightPlotButton.setEnabled(False)
 
     def landshark(self, checked):
         if checked:
@@ -179,12 +201,15 @@ class HACMSDemoWindow(QtGui.QMainWindow):
             	self.run_attack_pub.publish(Int32(mode))
             except:
                 self.ui.attackButton.setChecked(False)
+                return
         else:
             try:
                 self.run_attack_pub.publish(Int32(0))
             except:
                 self.ui.attackButton.setChecked(True)
+                return
         self.ui.attackButton.setChecked(checked)
+        self.toggleWidgetColor(self.ui.actualLabel)
 
     def getWidgetColor(self, widget):
         style = widget.styleSheet()
@@ -206,15 +231,12 @@ class HACMSDemoWindow(QtGui.QMainWindow):
     def updateEstimatedSpeedLCD(self, value):
         self.ui.estimatedSpeedLCD.display(value)
 
-#     def save_plot(self):
-#         file_choices = "PNG (*.png)|*.png"
-#         
-#         path = unicode(QFileDialog.getSaveFileName(self, 
-#                         'Save file', '', 
-#                         file_choices))
-#         if path:
-#             self.outCanvas.print_figure(path, dpi=self.dpi)
-#             #self.statusBar().showMessage('Saved to %s' % path, 2000)
+    def save_plot(self):
+        file_choices = "PNG (*.png)|*.png"
+        
+        return unicode(QFileDialog.getSaveFileName(self, 
+                        'Save file', '', 
+                        file_choices))
 
     def draw_inputPlot(self):
         """ Redraws the input plot
@@ -223,9 +245,15 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         #
         self.inAxes.clear()        
         self.inAxes.grid(True)
-        self.inAxes.plot(self.in_Base, antialiased=True)
-        self.inAxes.plot(self.in_Ref, antialiased=True)
+        self.inAxes.plot(self.in_Base)
+        self.inAxes.plot(self.in_Ref)
         self.inCanvas.draw()
+        
+    def save_inputPlot(self):
+        path = self.save_plot()
+        if path:
+            self.inCanvas.print_figure(path, dpi=self.dpi)
+            self.statusBar.showMessage('Saved to %s' % path, 2000)
     
     def draw_outputPlot(self):
         """ Redraws the output plot
@@ -234,10 +262,16 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         #
         self.outAxes.clear()        
         self.outAxes.grid(True)
-        self.outAxes.plot(self.out_EncL, antialiased=True)
-        self.outAxes.plot(self.out_EncR, antialiased=True)
-        self.outAxes.plot(self.out_GPS, antialiased=True)
+        self.outAxes.plot(self.out_EncL)
+        self.outAxes.plot(self.out_EncR)
+        self.outAxes.plot(self.out_GPS)
         self.outCanvas.draw()
+        
+    def save_outputPlot(self):
+        path = self.save_plot()
+        if path:
+            self.outCanvas.print_figure(path, dpi=self.dpi)
+            self.statusBar.showMessage('Saved to %s' % path, 2000)
         
     def draw_rightPlot(self):
         """ Redraws the righthand plot
@@ -246,9 +280,15 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         #
         self.rightAxes.clear()        
         self.rightAxes.grid(True)
-        self.rightAxes.plot(self.out_Odom, antialiased=True)
-        self.rightAxes.plot(self.in_Ref, antialiased=True)
+        self.rightAxes.plot(self.out_Odom)
+        self.rightAxes.plot(self.in_Ref)
         self.rightCanvas.draw()
+    
+    def save_rightPlot(self):
+        path = self.save_plot()
+        if path:
+            self.rightCanvas.print_figure(path, dpi=self.dpi)
+            self.statusBar.showMessage('Saved to %s' % path, 2000)
 
     def setLandsharkSpeed(self):
         self.desired_speed_pub.publish(Float32(float(self.ui.desiredSpeedEdit.text())))
