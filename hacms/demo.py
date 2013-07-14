@@ -24,12 +24,19 @@ import ui
         #TODO: Use timestamps for x-axis, data will be plotted accordingly
         #TODO: Add navigation tab with Google Maps
         #TODO: Combine three plots into a single plot (using subplots)?
-
+        #TODO: Add error-check on desired speed (using validator), set box to red if invalid
+        
 class HACMSDemoWindow(QtGui.QMainWindow):
     def __init__(self):
         super(HACMSDemoWindow, self).__init__()
         self.ui = ui.Ui_MainWindow()
         self.ui.setupUi(self)
+        self.init_signals()
+        self.init_data_structs()
+        self.init_plots()
+        self.remote = Remote(self.ui.console)
+        
+    def init_signals(self):
         self.ui.actionAbout.triggered.connect(self.about)
         self.ui.actionQuit.triggered.connect(self.fileQuit)
         self.ui.landsharkButton.toggled.connect(self.landshark)
@@ -37,12 +44,16 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui.rcButton.toggled.connect(self.rc)
         self.ui.attackButton.toggled.connect(self.attack)
         self.ui.setSpeedButton.clicked.connect(self.setLandsharkSpeed)
+        self.ui.setKPButton.clicked.connect(self.setKP)
+        self.ui.setKIButton.clicked.connect(self.setKI)
         self.ui.saveInputPlotButton.clicked.connect(self.save_inputPlot)
         self.ui.saveOutputPlotButton.clicked.connect(self.save_outputPlot)
         self.ui.saveRightPlotButton.clicked.connect(self.save_rightPlot)
-        self.remote = Remote(self.ui.console)
-        self.init_data_structs()
-        self.init_plots()
+        self.validator = QtGui.QDoubleValidator()
+        self.validator.setNotation(QtGui.QDoubleValidator.StandardNotation)
+        self.ui.desiredSpeedEdit.setValidator(self.validator)
+        self.ui.kpEdit.setValidator(self.validator)
+        self.ui.kiEdit.setValidator(self.validator)
         
     def init_data_structs(self):
         self.windowSize = 300
@@ -322,6 +333,12 @@ class HACMSDemoWindow(QtGui.QMainWindow):
 
     def setLandsharkSpeed(self):
         self.desired_speed_pub.publish(Float32(float(self.ui.desiredSpeedEdit.text())))
+    
+    def setKP(self):
+        self.kp_pub.publish(Float32(float(self.ui.kpEdit.text())))
+        
+    def setKI(self):
+        self.ki_pub.publish(Float32(float(self.ui.kiEdit.text())))
 
     def start_landshark_comm(self):
         # Initialize ROS node
@@ -338,6 +355,8 @@ class HACMSDemoWindow(QtGui.QMainWindow):
 
 		# Publish to HACMS Demo topics
         self.desired_speed_pub = rospy.Publisher('/landshark_demo/desired_speed', Float32)
+        self.kp_pub = rospy.Publisher('/landshark_demo/kp', Float32)
+        self.ki_pub = rospy.Publisher('/landshark_demo/ki', Float32)
         self.run_rc_pub = rospy.Publisher('/landshark_demo/run_rc', Int32)
         self.run_attack_pub = rospy.Publisher('/landshark_demo/run_attack', Int32)
 
@@ -355,6 +374,8 @@ class HACMSDemoWindow(QtGui.QMainWindow):
 
         # Unregister HACMS Demo published topics
         self.desired_speed_pub.unregister()
+        self.kp_pub.unregister()
+        self.ki_pub.unregister()
         self.run_rc_pub.unregister()
         self.run_attack_pub.unregister()
 
