@@ -24,6 +24,7 @@ import ui
         #TODO: Use timestamps for x-axis, data will be plotted accordingly
         #TODO: Add navigation tab with Google Maps
         #TODO: Combine three plots into a single plot (using subplots)?
+        #TODO: Fix plot y-axes to 0 to 1.5
 
 class HACMSDemoWindow(QtGui.QMainWindow):
     def __init__(self):
