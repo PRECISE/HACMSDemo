@@ -149,6 +149,7 @@ class HACMSWindow(QtGui.QMainWindow):
         self.ui.ccButton.setEnabled(True)
         self.ui.rcButton.setEnabled(True)
         self.ui.attackButton.setEnabled(True)
+        self.ui.saveButton.setEnabled(True)
         self.ui.actualLabel.setEnabled(True)
         self.ui.estimatedLabel.setEnabled(True)
         self.ui.desiredSpeedLabel.setEnabled(True)
@@ -191,6 +192,7 @@ class HACMSWindow(QtGui.QMainWindow):
         self.cc(False)
         self.rc(False)
         self.attack(False)
+        self.saveData(False)
 
 #         for widget in self.mainWidgets:
 #             widget.setEnabled(False)
@@ -198,6 +200,7 @@ class HACMSWindow(QtGui.QMainWindow):
         self.ui.ccButton.setEnabled(False)
         self.ui.rcButton.setEnabled(False)
         self.ui.attackButton.setEnabled(False)
+        self.ui.saveButton.setEnabled(False)
         self.ui.actualLabel.setEnabled(False)
         self.ui.estimatedLabel.setEnabled(False)
         self.ui.desiredSpeedLabel.setEnabled(False)
