@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui/demo.ui'
 #
-# Created: Mon Jul 15 17:18:06 2013
+# Created: Mon Jul 15 17:21:31 2013
 #      by: PyQt4 UI code generator 4.10.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -33,7 +33,7 @@ class Ui_MainWindow(object):
         self.landsharkButton = QtGui.QPushButton(self.centralWidget)
         self.landsharkButton.setGeometry(QtCore.QRect(20, 10, 241, 101))
         font = QtGui.QFont()
-        font.setPointSize(19)
+        font.setPointSize(18)
         font.setBold(True)
         font.setWeight(75)
         self.landsharkButton.setFont(font)
@@ -44,7 +44,7 @@ class Ui_MainWindow(object):
         self.rcButton.setEnabled(False)
         self.rcButton.setGeometry(QtCore.QRect(20, 230, 241, 101))
         font = QtGui.QFont()
-        font.setPointSize(19)
+        font.setPointSize(18)
         font.setBold(True)
         font.setWeight(75)
         self.rcButton.setFont(font)
@@ -55,7 +55,7 @@ class Ui_MainWindow(object):
         self.attackButton.setEnabled(False)
         self.attackButton.setGeometry(QtCore.QRect(20, 340, 241, 101))
         font = QtGui.QFont()
-        font.setPointSize(19)
+        font.setPointSize(18)
         font.setBold(True)
         font.setWeight(75)
         self.attackButton.setFont(font)
@@ -141,7 +141,7 @@ class Ui_MainWindow(object):
         self.ccButton.setEnabled(False)
         self.ccButton.setGeometry(QtCore.QRect(20, 120, 241, 101))
         font = QtGui.QFont()
-        font.setPointSize(19)
+        font.setPointSize(18)
         font.setBold(True)
         font.setWeight(75)
         self.ccButton.setFont(font)
