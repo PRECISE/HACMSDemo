@@ -4,11 +4,11 @@
 import sys, string
 from collections import deque
 
-# ROSPy modules
-# import rospy
-# from std_msgs.msg import Int32, Float32
-# from geometry_msgs.msg import TwistStamped
-# from nav_msgs.msg import Odometry
+#ROSPy modules
+import rospy
+from std_msgs.msg import Int32, Float32
+from geometry_msgs.msg import TwistStamped
+from nav_msgs.msg import Odometry
 
 # QT modules
 from PyQt4 import QtGui
