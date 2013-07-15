@@ -40,6 +40,9 @@ import ui.images_rc
 class HACMSWindow(QtGui.QMainWindow):
     def __init__(self):
         super(HACMSWindow, self).__init__()
+        self.ui = ui.demo_ui.Ui_MainWindow()
+        self.ui.setupUi(self)
+        self.init_window()
         
     def init_window(self):
         self.init_widgets()
@@ -521,7 +524,7 @@ def main():
         h = debug.HACMSDebugWindow()
     else:
         import demo
-        h = demo.HACMSDemoWindow()
+        h = HACMSWindow()
     h.show()
     app.aboutToQuit.connect(h.fileQuit)
     app.lastWindowClosed.connect(app.quit)
