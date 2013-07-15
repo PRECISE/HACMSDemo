@@ -70,6 +70,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.out_EncL = deque(maxlen=self.windowSize)
         self.out_EncR = deque(maxlen=self.windowSize)
         self.out_GPS = deque(maxlen=self.windowSize)
+        self.out_Trim = deque(maxlen=self.windowSize)
         
     def init_plots(self):
         self.dpi = 100
@@ -104,6 +105,12 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.rightAxes.set_xlabel('time')
         self.rightAxes.set_ylabel('speed')
         self.rightAxes.set_title('Odometry')
+        self.trimFig = Figure((3.31, 2.01), dpi=self.dpi)
+        self.trimCanvas = FigureCanvas(self.trimFig)
+        self.trimCanvas.setParent(self.ui.trimPlot)
+        self.trimAxes = self.trimFig.add_subplot(111)
+        self.trimAxes.grid(True)
+        self.trimAxes.set_title('Trim')
 
     def about(self):
         QtGui.QMessageBox.about(self, "About HACMS Demo",
@@ -125,6 +132,7 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.out_EncL.clear()
         self.out_EncR.clear()
         self.out_GPS.clear()
+        self.out_Trim.clear()
                 
     def enableAllElements(self):
 #         for widget in self.mainWidgets:
@@ -161,6 +169,8 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui.inputPlotLabel.setEnabled(True)
         self.ui.rightPlot.setEnabled(True)
         self.ui.rightPlotLabel.setEnabled(True)
+        self.ui.trimPlot.setEnabled(True)
+        self.ui.trimPlotLabel.setEnabled(True)
         self.ui.attack1RadioButton.setEnabled(True)
         self.ui.attack2RadioButton.setEnabled(True)
         self.ui.attack3RadioButton.setEnabled(True)
@@ -208,6 +218,8 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.ui.inputPlotLabel.setEnabled(False)
         self.ui.rightPlot.setEnabled(False)
         self.ui.rightPlotLabel.setEnabled(False)
+        self.ui.trimPlot.setEnabled(False)
+        self.ui.trimPlotLabel.setEnabled(False)
         self.ui.attack1RadioButton.setEnabled(False)
         self.ui.attack2RadioButton.setEnabled(False)
         self.ui.attack3RadioButton.setEnabled(False)
@@ -371,6 +383,17 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         if path:
             self.rightCanvas.print_figure(path, dpi=self.dpi)
             self.statusBar().showMessage('Saved to %s' % path, 2000)
+            
+    def draw_trimPlot(self):
+        """ Redraws the trim plot
+        """
+        # clear the axes and redraw the plot anew
+        #
+        self.trimAxes.clear()
+        self.trimAxes.grid(True)
+        self.trimAxes.set_title('Trim')
+        self.trimAxes.plot(self.out_Trim)
+        self.trimCanvas.draw()
 
     def setLandsharkSpeed(self):
         self.desired_speed_pub.publish(Float32(float(self.ui.desiredSpeedEdit.text())))
@@ -471,6 +494,8 @@ class HACMSDemoWindow(QtGui.QMainWindow):
         self.updateActualSpeedLCD(msg.twist.twist.linear.x)
         self.out_Odom.append(msg.twist.twist.linear.x)
         self.draw_rightPlot()
+        self.out_Trim.append(msg.pose.pose.position.y)
+        self.draw_trimPlot()
         
     def captureEncL(self, msg):
         self.out_EncL.append(msg.twist.linear.x)

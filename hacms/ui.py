@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Sun Jul 14 19:18:42 2013
+# Created: Mon Jul 15 11:16:35 2013
 #      by: PyQt4 UI code generator 4.10.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,7 +26,7 @@ except AttributeError:
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
-        MainWindow.resize(1251, 701)
+        MainWindow.resize(1602, 705)
         MainWindow.setUnifiedTitleAndToolBarOnMac(True)
         self.centralWidget = QtGui.QWidget(MainWindow)
         self.centralWidget.setObjectName(_fromUtf8("centralWidget"))
@@ -302,9 +302,23 @@ class Ui_MainWindow(object):
         self.autotrimEdit.setFont(font)
         self.autotrimEdit.setAlignment(QtCore.Qt.AlignCenter)
         self.autotrimEdit.setObjectName(_fromUtf8("autotrimEdit"))
+        self.trimPlotLabel = QtGui.QLabel(self.centralWidget)
+        self.trimPlotLabel.setEnabled(False)
+        self.trimPlotLabel.setGeometry(QtCore.QRect(1250, 10, 91, 16))
+        self.trimPlotLabel.setObjectName(_fromUtf8("trimPlotLabel"))
+        self.trimPlot = QtGui.QWidget(self.centralWidget)
+        self.trimPlot.setEnabled(False)
+        self.trimPlot.setGeometry(QtCore.QRect(1250, 40, 331, 201))
+        self.trimPlot.setStyleSheet(_fromUtf8("background-color: white;"))
+        self.trimPlot.setObjectName(_fromUtf8("trimPlot"))
+        self.line_3 = QtGui.QFrame(self.centralWidget)
+        self.line_3.setGeometry(QtCore.QRect(1230, 10, 20, 641))
+        self.line_3.setFrameShape(QtGui.QFrame.VLine)
+        self.line_3.setFrameShadow(QtGui.QFrame.Sunken)
+        self.line_3.setObjectName(_fromUtf8("line_3"))
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtGui.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 1251, 22))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 1602, 22))
         self.menuBar.setNativeMenuBar(False)
         self.menuBar.setObjectName(_fromUtf8("menuBar"))
         self.menuFile = QtGui.QMenu(self.menuBar)
@@ -362,6 +376,7 @@ class Ui_MainWindow(object):
         self.setAutotrimButton.setText(_translate("MainWindow", "Set", None))
         self.autotrimLabel.setText(_translate("MainWindow", "Autotrim", None))
         self.autotrimEdit.setText(_translate("MainWindow", "0.001", None))
+        self.trimPlotLabel.setText(_translate("MainWindow", "DEBUG - Trim", None))
         self.menuFile.setTitle(_translate("MainWindow", "File", None))
         self.actionQuit.setText(_translate("MainWindow", "Quit", None))
         self.actionAbout.setText(_translate("MainWindow", "About", None))
