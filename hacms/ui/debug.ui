@@ -12,7 +12,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>HACMS Demo</string>
+   <string>HACMS Demo - DEBUG</string>
   </property>
   <property name="unifiedTitleAndToolBarOnMac">
    <bool>true</bool>
@@ -31,6 +31,9 @@
      <font>
       <pointsize>18</pointsize>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton:checked {background: rgba(60, 179, 113, 255);}</string>
     </property>
     <property name="text">
      <string>Landshark</string>
@@ -56,6 +59,9 @@
       <pointsize>18</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton:checked {background: rgba(60, 179, 113, 255);}</string>
+    </property>
     <property name="text">
      <string>Resilient Controller</string>
     </property>
@@ -79,6 +85,9 @@
      <font>
       <pointsize>18</pointsize>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton:checked {background: rgba(60, 179, 113, 255);}</string>
     </property>
     <property name="text">
      <string>Attack</string>
@@ -331,6 +340,9 @@
       <pointsize>18</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton:checked {background: rgba(60, 179, 113, 255);}</string>
+    </property>
     <property name="text">
      <string>Cruise Control</string>
     </property>
@@ -487,8 +499,8 @@
      </rect>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>../images/folder_image.png</normaloff>../images/folder_image.png</iconset>
+     <iconset resource="images.qrc">
+      <normaloff>:/images/folder_image.png</normaloff>:/images/folder_image.png</iconset>
     </property>
    </widget>
    <widget class="QPushButton" name="saveOutputPlotButton">
@@ -504,8 +516,8 @@
      </rect>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>../images/folder_image.png</normaloff>../images/folder_image.png</iconset>
+     <iconset resource="images.qrc">
+      <normaloff>:/images/folder_image.png</normaloff>:/images/folder_image.png</iconset>
     </property>
    </widget>
    <widget class="QPushButton" name="saveRightPlotButton">
@@ -521,8 +533,8 @@
      </rect>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>../images/folder_image.png</normaloff>../images/folder_image.png</iconset>
+     <iconset resource="images.qrc">
+      <normaloff>:/images/folder_image.png</normaloff>:/images/folder_image.png</iconset>
     </property>
    </widget>
    <widget class="Line" name="line">
@@ -702,8 +714,8 @@
      </rect>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>../images/arrow_left_12x12.png</normaloff>../images/arrow_left_12x12.png</iconset>
+     <iconset resource="images.qrc">
+      <normaloff>:/images/arrow_left_12x12.png</normaloff>:/images/arrow_left_12x12.png</iconset>
     </property>
    </widget>
    <widget class="QPushButton" name="setTrimRightButton">
@@ -719,8 +731,8 @@
      </rect>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>../images/arrow_right_12x12.png</normaloff>../images/arrow_right_12x12.png</iconset>
+     <iconset resource="images.qrc">
+      <normaloff>:/images/arrow_right_12x12.png</normaloff>:/images/arrow_right_12x12.png</iconset>
     </property>
    </widget>
    <widget class="QLabel" name="trimLabel">
@@ -937,6 +949,8 @@
   <tabstop>setSpeedButton</tabstop>
   <tabstop>console</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="images.qrc"/>
+ </resources>
  <connections/>
 </ui>

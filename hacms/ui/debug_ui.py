@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'mainwindow.ui'
+# Form implementation generated from reading ui file 'debug.ui'
 #
-# Created: Mon Jul 15 11:16:35 2013
+# Created: Mon Jul 15 16:23:00 2013
 #      by: PyQt4 UI code generator 4.10.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -35,6 +35,7 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(18)
         self.landsharkButton.setFont(font)
+        self.landsharkButton.setStyleSheet(_fromUtf8("QPushButton:checked {background: rgba(60, 179, 113, 255);}"))
         self.landsharkButton.setCheckable(True)
         self.landsharkButton.setObjectName(_fromUtf8("landsharkButton"))
         self.rcButton = QtGui.QPushButton(self.centralWidget)
@@ -43,6 +44,7 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(18)
         self.rcButton.setFont(font)
+        self.rcButton.setStyleSheet(_fromUtf8("QPushButton:checked {background: rgba(60, 179, 113, 255);}"))
         self.rcButton.setCheckable(True)
         self.rcButton.setObjectName(_fromUtf8("rcButton"))
         self.attackButton = QtGui.QPushButton(self.centralWidget)
@@ -51,6 +53,7 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(18)
         self.attackButton.setFont(font)
+        self.attackButton.setStyleSheet(_fromUtf8("QPushButton:checked {background: rgba(60, 179, 113, 255);}"))
         self.attackButton.setCheckable(True)
         self.attackButton.setObjectName(_fromUtf8("attackButton"))
         self.actualSpeedLCD = QtGui.QLCDNumber(self.centralWidget)
@@ -134,6 +137,7 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(18)
         self.ccButton.setFont(font)
+        self.ccButton.setStyleSheet(_fromUtf8("QPushButton:checked {background: rgba(60, 179, 113, 255);}"))
         self.ccButton.setCheckable(True)
         self.ccButton.setObjectName(_fromUtf8("ccButton"))
         self.setSpeedButton = QtGui.QPushButton(self.centralWidget)
@@ -178,7 +182,7 @@ class Ui_MainWindow(object):
         self.saveInputPlotButton.setEnabled(False)
         self.saveInputPlotButton.setGeometry(QtCore.QRect(520, 10, 31, 21))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(_fromUtf8("../images/folder_image.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/images/folder_image.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.saveInputPlotButton.setIcon(icon)
         self.saveInputPlotButton.setObjectName(_fromUtf8("saveInputPlotButton"))
         self.saveOutputPlotButton = QtGui.QPushButton(self.centralWidget)
@@ -251,14 +255,14 @@ class Ui_MainWindow(object):
         self.setTrimLeftButton.setEnabled(False)
         self.setTrimLeftButton.setGeometry(QtCore.QRect(290, 160, 41, 21))
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(_fromUtf8("../images/arrow_left_12x12.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/images/arrow_left_12x12.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.setTrimLeftButton.setIcon(icon1)
         self.setTrimLeftButton.setObjectName(_fromUtf8("setTrimLeftButton"))
         self.setTrimRightButton = QtGui.QPushButton(self.centralWidget)
         self.setTrimRightButton.setEnabled(False)
         self.setTrimRightButton.setGeometry(QtCore.QRect(400, 160, 41, 21))
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(_fromUtf8("../images/arrow_right_12x12.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap(_fromUtf8(":/images/arrow_right_12x12.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.setTrimRightButton.setIcon(icon2)
         self.setTrimRightButton.setObjectName(_fromUtf8("setTrimRightButton"))
         self.trimLabel = QtGui.QLabel(self.centralWidget)
@@ -347,7 +351,7 @@ class Ui_MainWindow(object):
         MainWindow.setTabOrder(self.setSpeedButton, self.console)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(_translate("MainWindow", "HACMS Demo", None))
+        MainWindow.setWindowTitle(_translate("MainWindow", "HACMS Demo - DEBUG", None))
         self.landsharkButton.setText(_translate("MainWindow", "Landshark", None))
         self.rcButton.setText(_translate("MainWindow", "Resilient Controller", None))
         self.attackButton.setText(_translate("MainWindow", "Attack", None))
@@ -381,3 +385,4 @@ class Ui_MainWindow(object):
         self.actionQuit.setText(_translate("MainWindow", "Quit", None))
         self.actionAbout.setText(_translate("MainWindow", "About", None))
 
+import images_rc
