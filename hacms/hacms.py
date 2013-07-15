@@ -51,7 +51,6 @@ class HACMSWindow(QtGui.QMainWindow):
         self.init_plots()
         
     def init_widgets(self):
-        self.ui.landsharkButton.setStyleSheet
         self.remote = Remote(self.ui.console)
         #self.mainWidgets = [self.ui.ccButton]
         
@@ -504,8 +503,8 @@ class HACMSWindow(QtGui.QMainWindow):
         self.updateActualSpeedLCD(msg.twist.twist.linear.x)
         self.out_Odom.append(msg.twist.twist.linear.x)
         self.draw_rightPlot()
-        self.out_Trim.append(msg.pose.pose.position.y)
-        self.draw_trimPlot()
+#         self.out_Trim.append(msg.pose.pose.position.y)
+#         self.draw_trimPlot()
         
     def captureEncL(self, msg):
         self.out_EncL.append(msg.twist.linear.x)
