@@ -911,7 +911,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>18</pointsize>
+      <pointsize>16</pointsize>
      </font>
     </property>
     <property name="text">
@@ -929,7 +929,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>18</pointsize>
+      <pointsize>16</pointsize>
      </font>
     </property>
     <property name="text">
@@ -941,13 +941,13 @@
      <rect>
       <x>750</x>
       <y>250</y>
-      <width>41</width>
+      <width>51</width>
       <height>21</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>18</pointsize>
+      <pointsize>16</pointsize>
      </font>
     </property>
     <property name="text">
@@ -976,7 +976,7 @@
    <widget class="QFrame" name="frame_4">
     <property name="geometry">
      <rect>
-      <x>660</x>
+      <x>670</x>
       <y>10</y>
       <width>21</width>
       <height>21</height>
@@ -995,7 +995,7 @@
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>690</x>
+      <x>700</x>
       <y>10</y>
       <width>41</width>
       <height>21</height>
@@ -1003,7 +1003,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>18</pointsize>
+      <pointsize>16</pointsize>
      </font>
     </property>
     <property name="text">
@@ -1040,7 +1040,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>18</pointsize>
+      <pointsize>16</pointsize>
      </font>
     </property>
     <property name="text">
@@ -1050,7 +1050,7 @@
    <widget class="QFrame" name="frame_6">
     <property name="geometry">
      <rect>
-      <x>1050</x>
+      <x>1060</x>
       <y>10</y>
       <width>21</width>
       <height>21</height>
@@ -1069,7 +1069,7 @@
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>1080</x>
+      <x>1090</x>
       <y>10</y>
       <width>41</width>
       <height>21</height>
@@ -1077,7 +1077,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>18</pointsize>
+      <pointsize>16</pointsize>
      </font>
     </property>
     <property name="text">
@@ -1114,7 +1114,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>18</pointsize>
+      <pointsize>16</pointsize>
      </font>
     </property>
     <property name="text">
@@ -1128,9 +1128,9 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>440</y>
-      <width>114</width>
-      <height>41</height>
+      <y>450</y>
+      <width>241</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
