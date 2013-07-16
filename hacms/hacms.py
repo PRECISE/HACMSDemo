@@ -231,17 +231,17 @@ class HACMSWindow(QMainWindow):
     def attack(self, checked):
         if checked:
             try:
-            	mode = 0
-            	if self.ui.attack1RadioButton.isChecked:
-            	    print "radio1"
-            		mode = 1
-            	elif self.ui.attack2RadioButton.isChecked:
-            	    print "radio2"
-            		mode = 2
-            	elif self.ui.attack3RadioButton.isChecked:
-            	    print "radio3"
-            		mode = 3
-            	self.run_attack_pub.publish(Int32(mode))
+                mode = 0
+                if self.ui.attack1RadioButton.isChecked:
+                    print "radio1"
+                    mode = 1
+                elif self.ui.attack2RadioButton.isChecked:
+                    print "radio2"
+                    mode = 2
+                elif self.ui.attack3RadioButton.isChecked:
+                    print "radio3"
+                    mode = 3
+                self.run_attack_pub.publish(Int32(mode))
             except:
                 self.ui.attackButton.setChecked(False)
                 return
@@ -408,7 +408,7 @@ class HACMSWindow(QMainWindow):
         self.encR_sub = rospy.Subscriber("/landshark_demo/right_enc_vel", TwistStamped, self.captureEncR)
         self.gps_sub = rospy.Subscriber("/landshark_demo/gps_vel", TwistStamped, self.captureGPS)
 
-		# Publish to HACMS Demo topics
+        # Publish to HACMS Demo topics
         self.desired_speed_pub = rospy.Publisher('/landshark_demo/desired_speed', Float32)
         self.autotrim_pub = rospy.Publisher('/landshark_demo/autotrim', Float32)
         self.trim_pub = rospy.Publisher('/landshark_demo/trim', Float32)
