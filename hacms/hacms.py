@@ -232,13 +232,13 @@ class HACMSWindow(QMainWindow):
         if checked:
             try:
                 mode = 0
-                if self.ui.attack1RadioButton.isChecked:
-                    print "radio1"
-                    mode = 1
-                elif self.ui.attack2RadioButton.isChecked:
+                if self.ui.attack2RadioButton.checked:
                     print "radio2"
                     mode = 2
-                elif self.ui.attack3RadioButton.isChecked:
+                elif self.ui.attack1RadioButton.checked:
+                    print "radio1"
+                    mode = 1
+                elif self.ui.attack3RadioButton.checked:
                     print "radio3"
                     mode = 3
                 self.run_attack_pub.publish(Int32(mode))
