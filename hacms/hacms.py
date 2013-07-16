@@ -247,10 +247,6 @@ class HACMSWindow(QMainWindow):
                 self.ui.attackButton.setChecked(True)
                 return
         self.ui.attackButton.setChecked(checked)
-        if checked:
-            self.toggleWidgetColor(self.ui.actualLabel, "red")
-        else:
-            self.toggleWidgetColor(self.ui.actualLabel, "green")
 
     def saveData(self, checked):
         if checked:
