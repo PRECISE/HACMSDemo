@@ -86,7 +86,7 @@ class HACMSWindow(QMainWindow):
             self.ui.saveInputPlotButton,
             self.ui.saveOutputPlotButton,
             self.ui.saveRightPlotButton
-            ]
+        ]
 
     def init_signals(self):
         self.ui.actionAbout.triggered.connect(self.about)
@@ -104,6 +104,8 @@ class HACMSWindow(QMainWindow):
         self.ui.saveInputPlotButton.clicked.connect(self.save_inputPlot)
         self.ui.saveOutputPlotButton.clicked.connect(self.save_outputPlot)
         self.ui.saveRightPlotButton.clicked.connect(self.save_rightPlot)
+        
+        # Set Validator for parameter fields
         self.validator = QDoubleValidator()
         self.validator.setNotation(QDoubleValidator.StandardNotation)
         self.ui.desiredSpeedEdit.setValidator(self.validator)
@@ -231,10 +233,13 @@ class HACMSWindow(QMainWindow):
             try:
             	mode = 0
             	if self.ui.attack1RadioButton.isChecked:
+            	    print "radio1"
             		mode = 1
             	elif self.ui.attack2RadioButton.isChecked:
+            	    print "radio2"
             		mode = 2
             	elif self.ui.attack3RadioButton.isChecked:
+            	    print "radio3"
             		mode = 3
             	self.run_attack_pub.publish(Int32(mode))
             except:
