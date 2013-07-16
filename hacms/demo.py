@@ -22,6 +22,5 @@ class HACMSDemoWindow(hacms.HACMSWindow):
     def __init__(self):
         super(HACMSDemoWindow, self).__init__()
         self.ui = ui.demo_ui.Ui_MainWindow()
-        self.ui.setupUi(self)
         self.init_window()
-
+        #self.widgets.append

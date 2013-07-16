@@ -11,11 +11,10 @@ from geometry_msgs.msg import TwistStamped
 from nav_msgs.msg import Odometry
 
 # QT modules
-from PyQt4 import QtGui
+from PyQt4.QtGui import *
 
 # Matplotlib modules
 import matplotlib
-import pylab
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
@@ -36,15 +35,16 @@ import ui.images_rc
         #TODO: Ability to save plots showing the entire data set, save data in Matlab-friendly format (write to a file in real-time? file name and location?)
         #TODO: Ability to save/transfer .bag files (for video)
         #TODO: Fix plots so that the titles and axes labels are shown completely
+        #TODO: Navigation tab
+        #TODO: Change attack mode whenever attack radio button changes (if Attack button is pressed)
+        #TODO: Update GUI tabstop order
      
-class HACMSWindow(QtGui.QMainWindow):
+class HACMSWindow(QMainWindow):
     def __init__(self):
         super(HACMSWindow, self).__init__()
-        self.ui = ui.demo_ui.Ui_MainWindow()
-        self.ui.setupUi(self)
-        self.init_window()
         
     def init_window(self):
+        self.ui.setupUi(self)
         self.init_widgets()
         self.init_signals()
         self.init_data_structs()
@@ -52,8 +52,42 @@ class HACMSWindow(QtGui.QMainWindow):
         
     def init_widgets(self):
         self.remote = Remote(self.ui.console)
-        #self.mainWidgets = [self.ui.ccButton]
-        
+        self.widgets = [
+            self.ui.ccButton, 
+            self.ui.rcButton, 
+            self.ui.attackButton, 
+            self.ui.saveButton, 
+            self.ui.desiredSpeedLabel, 
+            self.ui.desiredSpeedEdit, 
+            self.ui.setSpeedButton, 
+            self.ui.kpLabel, 
+            self.ui.kpEdit, 
+            self.ui.setKPButton, 
+            self.ui.kiLabel, 
+            self.ui.kiEdit, 
+            self.ui.setKIButton, 
+            self.ui.trimLabel, 
+            self.ui.trimValueLabel, 
+            self.ui.setTrimLeftButton, 
+            self.ui.setTrimRightButton, 
+            self.ui.actualSpeedLabel, 
+            self.ui.actualSpeedLCD,
+            self.ui.estimatedSpeedLabel,
+            self.ui.estimatedSpeedLCD,
+            self.ui.outputPlot,
+            self.ui.outputPlotLabel,
+            self.ui.inputPlot,
+            self.ui.inputPlotLabel,
+            self.ui.rightPlot,
+            self.ui.rightPlotLabel,
+            self.ui.attack1RadioButton,
+            self.ui.attack2RadioButton,
+            self.ui.attack3RadioButton,
+            self.ui.saveInputPlotButton,
+            self.ui.saveOutputPlotButton,
+            self.ui.saveRightPlotButton
+            ]
+
     def init_signals(self):
         self.ui.actionAbout.triggered.connect(self.about)
         self.ui.actionQuit.triggered.connect(self.fileQuit)
@@ -65,14 +99,13 @@ class HACMSWindow(QtGui.QMainWindow):
         self.ui.setSpeedButton.clicked.connect(self.setLandsharkSpeed)
         self.ui.setKPButton.clicked.connect(self.setKP)
         self.ui.setKIButton.clicked.connect(self.setKI)
-        self.ui.setAutotrimButton.clicked.connect(self.setAutotrim)
         self.ui.setTrimLeftButton.clicked.connect(self.setTrimLeft)
         self.ui.setTrimRightButton.clicked.connect(self.setTrimRight)
         self.ui.saveInputPlotButton.clicked.connect(self.save_inputPlot)
         self.ui.saveOutputPlotButton.clicked.connect(self.save_outputPlot)
         self.ui.saveRightPlotButton.clicked.connect(self.save_rightPlot)
-        self.validator = QtGui.QDoubleValidator()
-        self.validator.setNotation(QtGui.QDoubleValidator.StandardNotation)
+        self.validator = QDoubleValidator()
+        self.validator.setNotation(QDoubleValidator.StandardNotation)
         self.ui.desiredSpeedEdit.setValidator(self.validator)
         self.ui.kpEdit.setValidator(self.validator)
         self.ui.kiEdit.setValidator(self.validator)
@@ -97,7 +130,7 @@ class HACMSWindow(QtGui.QMainWindow):
         self.inAxes = self.inFig.add_subplot(111)
         self.inAxes.grid(True)
         self.inAxes.set_ybound(0, self.y_top)
-        self.inAxes.set_autoscaley_on(False)# 
+        self.inAxes.set_autoscaley_on(False)
 #         self.inAxes.set_xlabel('time')
 #         self.inAxes.set_ylabel('speed')
 #         self.inAxes.set_title('Input')
@@ -107,7 +140,7 @@ class HACMSWindow(QtGui.QMainWindow):
         self.outAxes = self.outFig.add_subplot(111)
         self.outAxes.grid(True)
         self.outAxes.set_ybound(0, self.y_top)
-        self.outAxes.set_autoscaley_on(False)# 
+#         self.outAxes.set_autoscaley_on(False)
 #         self.outAxes.set_xlabel('time')
 #         self.outAxes.set_ylabel('speed')
 #         self.outAxes.set_title('Output')
@@ -117,15 +150,16 @@ class HACMSWindow(QtGui.QMainWindow):
         self.rightAxes = self.rightFig.add_subplot(111)
         self.rightAxes.grid(True)
         self.rightAxes.set_ybound(0, self.y_top)
-        self.rightAxes.set_autoscaley_on(False)# 
+        self.rightAxes.set_autoscaley_on(False)
 #         self.rightAxes.set_xlabel('time')
 #         self.rightAxes.set_ylabel('speed')
 #         self.rightAxes.set_title('Odometry')
 
     def about(self):
-        QtGui.QMessageBox.about(self, "About HACMS Demo",
+        QMessageBox.about(self, "About HACMS Demo",
                 "The <b>HACMS Demo</b> application allows for control of the LandShark "
-                "robot while displaying live ROS telemetry data.")
+                "robot while displaying live ROS telemetry data.\n\nDeveloped by the "
+                "PRECISE Lab at Penn.")
                 
     def fileQuit(self):
         if self.ui.landsharkButton.isChecked():
@@ -145,49 +179,8 @@ class HACMSWindow(QtGui.QMainWindow):
         self.out_Trim.clear()
                 
     def enableAllElements(self):
-#         for widget in self.mainWidgets:
-#             widget.setEnabled(True)
-        
-        self.ui.ccButton.setEnabled(True)
-        self.ui.rcButton.setEnabled(True)
-        self.ui.attackButton.setEnabled(True)
-        self.ui.saveButton.setEnabled(True)
-        self.ui.actualLabel.setEnabled(True)
-        self.ui.estimatedLabel.setEnabled(True)
-        self.ui.desiredSpeedLabel.setEnabled(True)
-        self.ui.desiredSpeedEdit.setEnabled(True)
-        self.ui.setSpeedButton.setEnabled(True)
-        self.ui.kpLabel.setEnabled(True)
-        self.ui.kpEdit.setEnabled(True)
-        self.ui.setKPButton.setEnabled(True)
-        self.ui.kiLabel.setEnabled(True)
-        self.ui.kiEdit.setEnabled(True)
-        self.ui.setKIButton.setEnabled(True)
-        self.ui.autotrimLabel.setEnabled(True)
-        self.ui.autotrimEdit.setEnabled(True)
-        self.ui.setAutotrimButton.setEnabled(True)
-        self.ui.trimLabel.setEnabled(True)
-        self.ui.trimValueLabel.setEnabled(True)
-        self.ui.setTrimLeftButton.setEnabled(True)
-        self.ui.setTrimRightButton.setEnabled(True)
-        self.ui.actualSpeedLabel.setEnabled(True)
-        self.ui.actualSpeedLCD.setEnabled(True)
-        self.ui.estimatedSpeedLabel.setEnabled(True)
-        self.ui.estimatedSpeedLCD.setEnabled(True)
-        self.ui.outputPlot.setEnabled(True)
-        self.ui.outputPlotLabel.setEnabled(True)
-        self.ui.inputPlot.setEnabled(True)
-        self.ui.inputPlotLabel.setEnabled(True)
-        self.ui.rightPlot.setEnabled(True)
-        self.ui.rightPlotLabel.setEnabled(True)
-        self.ui.trimPlot.setEnabled(True)
-        self.ui.trimPlotLabel.setEnabled(True)
-        self.ui.attack1RadioButton.setEnabled(True)
-        self.ui.attack2RadioButton.setEnabled(True)
-        self.ui.attack3RadioButton.setEnabled(True)
-        self.ui.saveInputPlotButton.setEnabled(True)
-        self.ui.saveOutputPlotButton.setEnabled(True)
-        self.ui.saveRightPlotButton.setEnabled(True)
+        for widget in self.widgets:
+            widget.setEnabled(True)
         self.zeroData()
         
     def disableAllElements(self):
@@ -196,49 +189,8 @@ class HACMSWindow(QtGui.QMainWindow):
         self.attack(False)
         self.saveData(False)
 
-#         for widget in self.mainWidgets:
-#             widget.setEnabled(False)
-
-        self.ui.ccButton.setEnabled(False)
-        self.ui.rcButton.setEnabled(False)
-        self.ui.attackButton.setEnabled(False)
-        self.ui.saveButton.setEnabled(False)
-        self.ui.actualLabel.setEnabled(False)
-        self.ui.estimatedLabel.setEnabled(False)
-        self.ui.desiredSpeedLabel.setEnabled(False)
-        self.ui.desiredSpeedEdit.setEnabled(False)
-        self.ui.setSpeedButton.setEnabled(False)
-        self.ui.kpLabel.setEnabled(False)
-        self.ui.kpEdit.setEnabled(False)
-        self.ui.setKPButton.setEnabled(False)
-        self.ui.kiLabel.setEnabled(False)
-        self.ui.kiEdit.setEnabled(False)
-        self.ui.setKIButton.setEnabled(False)
-        self.ui.autotrimLabel.setEnabled(False)
-        self.ui.autotrimEdit.setEnabled(False)
-        self.ui.setAutotrimButton.setEnabled(False)
-        self.ui.trimLabel.setEnabled(False)
-        self.ui.trimValueLabel.setEnabled(False)
-        self.ui.setTrimLeftButton.setEnabled(False)
-        self.ui.setTrimRightButton.setEnabled(False)
-        self.ui.actualSpeedLabel.setEnabled(False)
-        self.ui.actualSpeedLCD.setEnabled(False)
-        self.ui.estimatedSpeedLabel.setEnabled(False)
-        self.ui.estimatedSpeedLCD.setEnabled(False)
-        self.ui.outputPlot.setEnabled(False)
-        self.ui.outputPlotLabel.setEnabled(False)
-        self.ui.inputPlot.setEnabled(False)
-        self.ui.inputPlotLabel.setEnabled(False)
-        self.ui.rightPlot.setEnabled(False)
-        self.ui.rightPlotLabel.setEnabled(False)
-        self.ui.trimPlot.setEnabled(False)
-        self.ui.trimPlotLabel.setEnabled(False)
-        self.ui.attack1RadioButton.setEnabled(False)
-        self.ui.attack2RadioButton.setEnabled(False)
-        self.ui.attack3RadioButton.setEnabled(False)
-        self.ui.saveInputPlotButton.setEnabled(False)
-        self.ui.saveOutputPlotButton.setEnabled(False)
-        self.ui.saveRightPlotButton.setEnabled(False)
+        for widget in self.widgets:
+            widget.setEnabled(False)
 
     def landshark(self, checked):
         if checked:
@@ -335,7 +287,7 @@ class HACMSWindow(QtGui.QMainWindow):
 
     def save_plot(self):
         file_choices = "PNG (*.png)|*.png"
-        return unicode(QtGui.QFileDialog.getSaveFileName(self, 'Save file', '', file_choices))
+        return unicode(QFileDialog.getSaveFileName(self, 'Save file', '', file_choices))
 
     def draw_inputPlot(self):
         """ Redraws the input plot
@@ -345,7 +297,7 @@ class HACMSWindow(QtGui.QMainWindow):
         self.inAxes.clear()
         self.inAxes.grid(True)
         self.inAxes.set_ybound(0, self.y_top)
-        self.inAxes.set_autoscaley_on(False)# 
+        self.inAxes.set_autoscaley_on(False) 
 #         self.inAxes.set_xlabel('time')
 #         self.inAxes.set_ylabel('speed')
 #         self.inAxes.set_title('Input')
@@ -367,7 +319,7 @@ class HACMSWindow(QtGui.QMainWindow):
         self.outAxes.clear()
         self.outAxes.grid(True)
         self.outAxes.set_ybound(0, self.y_top)
-        self.outAxes.set_autoscaley_on(False)# 
+#         self.outAxes.set_autoscaley_on(False) 
 #         self.outAxes.set_xlabel('time')
 #         self.outAxes.set_ylabel('speed')
 #         self.outAxes.set_title('Output')
@@ -390,7 +342,7 @@ class HACMSWindow(QtGui.QMainWindow):
         self.rightAxes.clear()
         self.rightAxes.grid(True)
         self.rightAxes.set_ybound(0, self.y_top)
-        self.rightAxes.set_autoscaley_on(False)# 
+        self.rightAxes.set_autoscaley_on(False) 
 #         self.rightAxes.set_xlabel('time')
 #         self.rightAxes.set_ylabel('speed')
 #         self.rightAxes.set_title('Odometry')
@@ -508,22 +460,24 @@ class HACMSWindow(QtGui.QMainWindow):
         
     def captureEncL(self, msg):
         self.out_EncL.append(msg.twist.linear.x)
+        self.out_GPS.append(msg.twist.linear.y)
         self.draw_outputPlot()
         
     def captureEncR(self, msg):
         self.out_EncR.append(msg.twist.linear.x)
         
     def captureGPS(self, msg):
-        self.out_GPS.append(msg.twist.linear.x)
+        #self.out_GPS.append(msg.twist.linear.x)
+        return
 
 def main():
-    app = QtGui.QApplication(sys.argv)
+    app = QApplication(sys.argv)
     if len(sys.argv) > 1 and sys.argv[1] == "debug":
         import debug
         h = debug.HACMSDebugWindow()
     else:
         import demo
-        h = HACMSWindow()
+        h = demo.HACMSDemoWindow()
     h.show()
     app.aboutToQuit.connect(h.fileQuit)
     app.lastWindowClosed.connect(app.quit)

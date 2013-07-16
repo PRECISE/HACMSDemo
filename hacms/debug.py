@@ -5,8 +5,10 @@ class HACMSDebugWindow(hacms.HACMSWindow):
     def __init__(self):
         super(HACMSDebugWindow, self).__init__()
         self.ui = ui.debug_ui.Ui_MainWindow()
-        self.ui.setupUi(self)
         self.init_window()
+        self.widgets.append(
+            self.ui.trimPlot,
+            self.ui.trimPlotLabel)
         
     def init_plots(self):
         super(HACMSDebugWindow, self).init_plots()
