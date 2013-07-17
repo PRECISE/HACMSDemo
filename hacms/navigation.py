@@ -2,6 +2,7 @@
 
 import mapnik2 as mapnik
 from PyQt4.QtGui import *
+from PyQt4.QtCore import *
 
 class MapnikScene(QGraphicsScene):
 
