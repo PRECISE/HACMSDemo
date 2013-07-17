@@ -2,7 +2,11 @@ HACMSDemo
 ===============
 
 ADD LICENSE INFO
-DESCRIBE TOOL: ROSPy-based
+
+Required third-party libraries:
+- ROS (ROSPy, paramiko, matplotlib included)
+- PyQt (Qt4)
+- Mapnik (python-mapnik)
 
 ROS setup tips:
 - Ensure that the ~/.bashrc file contains the correct ROS\_IP and ROS\_MASTER\_URI values.
