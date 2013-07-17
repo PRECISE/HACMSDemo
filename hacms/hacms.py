@@ -21,6 +21,7 @@ from matplotlib.figure import Figure
 # HACMS modules
 from remote import Remote
 import ui.images_rc
+from navigation import MapnikScene
 
         #TODO: Try to look into flushing queue as it gets backlogged (CPU overloaded...)
         #TODO: Layout widgets so that the console and plots will resize with the window
@@ -46,9 +47,7 @@ class HACMSWindow(QMainWindow):
     def init_window(self):
         self.ui.setupUi(self)
         self.init_widgets()
-        self.init_signals()
         self.init_data_structs()
-        self.init_plots()
         
     def init_widgets(self):
         self.remote = Remote(self.ui.console)
@@ -85,8 +84,12 @@ class HACMSWindow(QMainWindow):
             self.ui.attack3RadioButton,
             self.ui.saveInputPlotButton,
             self.ui.saveOutputPlotButton,
-            self.ui.saveRightPlotButton
+            self.ui.saveRightPlotButton,
+            self.ui.mapView
         ]
+        self.ui.mapView.setScene(MapnikScene(self.ui.mapView))
+        self.init_signals()
+        self.init_plots()
 
     def init_signals(self):
         self.ui.actionAbout.triggered.connect(self.about)
@@ -233,13 +236,10 @@ class HACMSWindow(QMainWindow):
             try:
                 mode = 0
                 if self.ui.attack1RadioButton.isChecked():
-                    print "radio1"
                     mode = 1
                 elif self.ui.attack2RadioButton.isChecked():
-                    print "radio2"
                     mode = 2
                 elif self.ui.attack3RadioButton.isChecked():
-                    print "radio3"
                     mode = 3
                 self.run_attack_pub.publish(Int32(mode))
             except:

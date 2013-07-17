@@ -6,10 +6,10 @@ from PyQt4.QtGui import *
 class MapnikScene(QGraphicsScene):
 
    def __init__(self, parent=None): 
-       QGraphicsScene.__init__(self, parent) 
-
-       self.map = mapnik.Map(256, 256) 
-       self.qim = QImage() 
+       QGraphicsScene.__init__(self, parent)
+       
+       self.pixmap = QPixmap(256, 256)
+       self.map = mapnik.Map(256, 256)
        self.startDragPos = QPoint() 
        self.endDragPos   = QPoint() 
        self.drag         = False 
@@ -18,7 +18,9 @@ class MapnikScene(QGraphicsScene):
 
        self.timer.timeout.connect(self.updateMap) 
 
-       self.total_scale = 1.0 
+       self.total_scale = 1.0
+       
+       self.addPixmap(self.pixmap)
 
    def load_map(self, xml): 
        self.map = mapnik.Map(256, 256) 
@@ -37,8 +39,8 @@ class MapnikScene(QGraphicsScene):
 
        im = mapnik.Image(self.map.width, self.map.height) 
        mapnik.render(self.map, im) 
-       self.qim = QImage(im.tostring(),self.map.width, self.map.height,QImage.Format_ARGB32).rgbSwapped() 
-       #self.qim.loadFromData(QByteArray(im.tostring('png'))) 
+       #self.qim = QImage(im.tostring(), self.map.width, self.map.height, QImage.Format_ARGB32).rgbSwapped() 
+       self.pixmap = QPixmap.fromImage(QImage.loadFromData(QByteArray(im.tostring('png'))))
        self.update() 
 
    def paintEvent(self, event): 
