@@ -216,10 +216,18 @@ class HACMSWindow(QMainWindow):
             res = self.remote.startCC()
             self.zeroData()
         else:
+            self.saveData(False)
             self.rc(False)
             self.attack(False)
-            res = self.remote.stopCC()           
+            res = self.remote.stopCC()
         self.ui.ccButton.setChecked(res)
+        
+    def saveData(self, checked):
+        if checked:
+            res = self.remote.startSaveData()
+        else:
+            res = self.remote.stopSaveData()
+        self.ui.saveButton.setChecked(res)
 
     def rc(self, checked):
         if checked:
@@ -234,6 +242,9 @@ class HACMSWindow(QMainWindow):
             except:
                 self.ui.rcButton.setChecked(True)
                 return
+                
+        # For when the button is set via direct method call, not by event call
+        self.ui.rcButton.setChecked(checked)
 
     def attack(self, checked):
         if checked:
@@ -256,6 +267,9 @@ class HACMSWindow(QMainWindow):
                 self.ui.attackButton.setChecked(True)
                 return
         
+        # For when the button is set via direct method call, not by event call
+        self.ui.attackButton.setChecked(checked)
+        
     def attack1(self, checked):
         if checked and self.ui.attackButton.isChecked():
             try:
@@ -276,13 +290,6 @@ class HACMSWindow(QMainWindow):
                 self.run_attack_pub.publish(Int32(3))
             except:
                 return
-
-    def saveData(self, checked):
-        if checked:
-            res = self.remote.startSaveData()
-        else:
-            res = self.remote.stopSaveData()           
-        self.ui.saveButton.setChecked(res)
 
     def getWidgetColor(self, widget):
         style = widget.styleSheet()
