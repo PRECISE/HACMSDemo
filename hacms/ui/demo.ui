@@ -24,7 +24,7 @@
       <x>20</x>
       <y>20</y>
       <width>241</width>
-      <height>101</height>
+      <height>91</height>
      </rect>
     </property>
     <property name="font">
@@ -51,7 +51,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>250</y>
+      <y>270</y>
       <width>241</width>
       <height>91</height>
      </rect>
@@ -80,7 +80,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>340</y>
+      <y>370</y>
       <width>241</width>
       <height>91</height>
      </rect>
@@ -157,10 +157,15 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>440</y>
-      <width>121</width>
+      <y>460</y>
+      <width>141</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Attack Mode 1</string>
@@ -176,10 +181,15 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>470</y>
-      <width>121</width>
+      <y>480</y>
+      <width>141</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Attack Mode 2</string>
@@ -193,9 +203,14 @@
      <rect>
       <x>30</x>
       <y>500</y>
-      <width>121</width>
+      <width>141</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Attack Mode 3</string>
@@ -208,7 +223,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>210</y>
+      <y>220</y>
       <width>241</width>
       <height>41</height>
      </rect>
@@ -239,7 +254,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="control_tab">
      <attribute name="title">

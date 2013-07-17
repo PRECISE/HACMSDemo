@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui/demo.ui'
 #
-# Created: Tue Jul 16 16:35:43 2013
+# Created: Wed Jul 17 12:07:13 2013
 #      by: PyQt4 UI code generator 4.10.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -31,7 +31,7 @@ class Ui_MainWindow(object):
         self.centralWidget = QtGui.QWidget(MainWindow)
         self.centralWidget.setObjectName(_fromUtf8("centralWidget"))
         self.landsharkButton = QtGui.QPushButton(self.centralWidget)
-        self.landsharkButton.setGeometry(QtCore.QRect(20, 20, 241, 101))
+        self.landsharkButton.setGeometry(QtCore.QRect(20, 20, 241, 91))
         font = QtGui.QFont()
         font.setPointSize(18)
         font.setBold(True)
@@ -42,7 +42,7 @@ class Ui_MainWindow(object):
         self.landsharkButton.setObjectName(_fromUtf8("landsharkButton"))
         self.rcButton = QtGui.QPushButton(self.centralWidget)
         self.rcButton.setEnabled(False)
-        self.rcButton.setGeometry(QtCore.QRect(20, 250, 241, 91))
+        self.rcButton.setGeometry(QtCore.QRect(20, 270, 241, 91))
         font = QtGui.QFont()
         font.setPointSize(18)
         font.setBold(True)
@@ -53,7 +53,7 @@ class Ui_MainWindow(object):
         self.rcButton.setObjectName(_fromUtf8("rcButton"))
         self.attackButton = QtGui.QPushButton(self.centralWidget)
         self.attackButton.setEnabled(False)
-        self.attackButton.setGeometry(QtCore.QRect(20, 340, 241, 91))
+        self.attackButton.setGeometry(QtCore.QRect(20, 370, 241, 91))
         font = QtGui.QFont()
         font.setPointSize(18)
         font.setBold(True)
@@ -83,20 +83,29 @@ class Ui_MainWindow(object):
         self.ccButton.setObjectName(_fromUtf8("ccButton"))
         self.attack1RadioButton = QtGui.QRadioButton(self.centralWidget)
         self.attack1RadioButton.setEnabled(False)
-        self.attack1RadioButton.setGeometry(QtCore.QRect(30, 440, 121, 20))
+        self.attack1RadioButton.setGeometry(QtCore.QRect(30, 460, 141, 20))
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.attack1RadioButton.setFont(font)
         self.attack1RadioButton.setChecked(True)
         self.attack1RadioButton.setObjectName(_fromUtf8("attack1RadioButton"))
         self.attack2RadioButton = QtGui.QRadioButton(self.centralWidget)
         self.attack2RadioButton.setEnabled(False)
-        self.attack2RadioButton.setGeometry(QtCore.QRect(30, 470, 121, 20))
+        self.attack2RadioButton.setGeometry(QtCore.QRect(30, 480, 141, 20))
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.attack2RadioButton.setFont(font)
         self.attack2RadioButton.setObjectName(_fromUtf8("attack2RadioButton"))
         self.attack3RadioButton = QtGui.QRadioButton(self.centralWidget)
         self.attack3RadioButton.setEnabled(False)
-        self.attack3RadioButton.setGeometry(QtCore.QRect(30, 500, 121, 20))
+        self.attack3RadioButton.setGeometry(QtCore.QRect(30, 500, 141, 20))
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.attack3RadioButton.setFont(font)
         self.attack3RadioButton.setObjectName(_fromUtf8("attack3RadioButton"))
         self.saveButton = QtGui.QPushButton(self.centralWidget)
         self.saveButton.setEnabled(False)
-        self.saveButton.setGeometry(QtCore.QRect(20, 210, 241, 41))
+        self.saveButton.setGeometry(QtCore.QRect(20, 220, 241, 41))
         self.saveButton.setStyleSheet(_fromUtf8("QPushButton:checked {background: rgba(60, 179, 113, 255);}"))
         self.saveButton.setCheckable(True)
         self.saveButton.setObjectName(_fromUtf8("saveButton"))
@@ -403,7 +412,7 @@ class Ui_MainWindow(object):
         self.menuBar.addAction(self.menuFile.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         MainWindow.setTabOrder(self.landsharkButton, self.ccButton)
         MainWindow.setTabOrder(self.ccButton, self.rcButton)
