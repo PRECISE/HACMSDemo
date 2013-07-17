@@ -9,8 +9,8 @@ class MapnikScene(QGraphicsScene):
    def __init__(self, parent=None): 
        QGraphicsScene.__init__(self, parent)
        
-       self.pixmap = QPixmap(256, 256)
-       self.map = mapnik.Map(256, 256)
+       self.pixmap = QPixmap(parent.width(), parent.width())
+       self.map = mapnik.Map(parent.width(), parent.width())
        self.startDragPos = QPoint() 
        self.endDragPos   = QPoint() 
        self.drag         = False 
@@ -24,13 +24,13 @@ class MapnikScene(QGraphicsScene):
        self.addPixmap(self.pixmap)
 
    def load_map(self, xml): 
-       self.map = mapnik.Map(256, 256) 
+       self.map = mapnik.Map(self.width(), self.width()) 
        mapnik.load_map(self.map, xml) 
        self.map.resize(self.width(), self.height()) 
        self.zoom_all() 
 
    def close_map(self): 
-       self.map = mapnik.Map(256, 256) 
+       self.map = mapnik.Map(self.width(), self.width()) 
        self.updateMap() 
 
    def updateMap(self): 
