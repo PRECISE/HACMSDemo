@@ -1,6 +1,6 @@
 # From http://old.nabble.com/Simple-PyQt4-Application-with-Mapnik-without-PyQGIS-(QGIS-API)-td29243400.html
 
-import mapnik2
+import mapnik2 as mapnik
 from PyQt4.QtGui import *
 
 class MapnikScene(QGraphicsScene):
