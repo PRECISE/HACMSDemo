@@ -24,7 +24,7 @@
       <x>20</x>
       <y>20</y>
       <width>241</width>
-      <height>91</height>
+      <height>101</height>
      </rect>
     </property>
     <property name="font">
@@ -51,9 +51,9 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>270</y>
+      <y>300</y>
       <width>241</width>
-      <height>91</height>
+      <height>101</height>
      </rect>
     </property>
     <property name="font">
@@ -79,10 +79,10 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>370</y>
-      <width>241</width>
-      <height>91</height>
+      <x>150</x>
+      <y>410</y>
+      <width>111</width>
+      <height>111</height>
      </rect>
     </property>
     <property name="font">
@@ -128,9 +128,9 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>120</y>
+      <y>130</y>
       <width>241</width>
-      <height>91</height>
+      <height>101</height>
      </rect>
     </property>
     <property name="font">
@@ -157,18 +157,18 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>460</y>
-      <width>141</width>
+      <y>420</y>
+      <width>121</width>
       <height>20</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>11</pointsize>
+      <pointsize>16</pointsize>
      </font>
     </property>
     <property name="text">
-     <string>Attack Mode 1</string>
+     <string>Constant</string>
     </property>
     <property name="checked">
      <bool>true</bool>
@@ -181,18 +181,18 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>480</y>
-      <width>141</width>
+      <y>450</y>
+      <width>121</width>
       <height>20</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>11</pointsize>
+      <pointsize>16</pointsize>
      </font>
     </property>
     <property name="text">
-     <string>Attack Mode 2</string>
+     <string>Random</string>
     </property>
    </widget>
    <widget class="QRadioButton" name="attack3RadioButton">
@@ -202,18 +202,18 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>500</y>
-      <width>141</width>
+      <y>480</y>
+      <width>131</width>
       <height>20</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>11</pointsize>
+      <pointsize>16</pointsize>
      </font>
     </property>
     <property name="text">
-     <string>Attack Mode 3</string>
+     <string>Alternating</string>
     </property>
    </widget>
    <widget class="QPushButton" name="saveButton">
@@ -223,9 +223,9 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>220</y>
+      <y>240</y>
       <width>241</width>
-      <height>41</height>
+      <height>51</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -254,7 +254,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="control_tab">
      <attribute name="title">

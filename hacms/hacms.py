@@ -98,6 +98,9 @@ class HACMSWindow(QMainWindow):
         self.ui.ccButton.toggled.connect(self.cc)
         self.ui.rcButton.toggled.connect(self.rc)
         self.ui.attackButton.toggled.connect(self.attack)
+        self.ui.attack1RadioButton.toggled.connect(self.attack1)
+        self.ui.attack2RadioButton.toggled.connect(self.attack2)
+        self.ui.attack3RadioButton.toggled.connect(self.attack3)
         self.ui.saveButton.toggled.connect(self.saveData)
         self.ui.setSpeedButton.clicked.connect(self.setLandsharkSpeed)
         self.ui.setKPButton.clicked.connect(self.setKP)
@@ -224,12 +227,13 @@ class HACMSWindow(QMainWindow):
                 self.run_rc_pub.publish(Int32(1))
             except:
                 self.ui.rcButton.setChecked(False)
+                return
         else:
             try:
                 self.run_rc_pub.publish(Int32(0))
             except:
                 self.ui.rcButton.setChecked(True)
-        self.ui.rcButton.setChecked(checked)
+                return
 
     def attack(self, checked):
         if checked:
@@ -251,7 +255,27 @@ class HACMSWindow(QMainWindow):
             except:
                 self.ui.attackButton.setChecked(True)
                 return
-        self.ui.attackButton.setChecked(checked)
+        
+    def attack1(self, checked):
+        if checked and self.ui.attackButton.isChecked():
+            try:
+                self.run_attack_pub.publish(Int32(1))
+            except:
+                return
+    
+    def attack2(self, checked):
+        if checked and self.ui.attackButton.isChecked():
+            try:
+                self.run_attack_pub.publish(Int32(2))
+            except:
+                return
+                
+    def attack3(self, checked):
+        if checked and self.ui.attackButton.isChecked():
+            try:
+                self.run_attack_pub.publish(Int32(3))
+            except:
+                return
 
     def saveData(self, checked):
         if checked:
