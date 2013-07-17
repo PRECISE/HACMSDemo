@@ -67,7 +67,8 @@
      <string notr="true">QPushButton:checked {background: rgba(60, 179, 113, 255);}</string>
     </property>
     <property name="text">
-     <string>Resilient Controller</string>
+     <string>Resilient
+Controller</string>
     </property>
     <property name="checkable">
      <bool>true</bool>
@@ -156,7 +157,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>20</x>
       <y>420</y>
       <width>121</width>
       <height>20</height>
@@ -164,7 +165,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>16</pointsize>
+      <pointsize>14</pointsize>
      </font>
     </property>
     <property name="text">
@@ -180,7 +181,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>20</x>
       <y>450</y>
       <width>121</width>
       <height>20</height>
@@ -188,7 +189,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>16</pointsize>
+      <pointsize>14</pointsize>
      </font>
     </property>
     <property name="text">
@@ -201,7 +202,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>20</x>
       <y>480</y>
       <width>131</width>
       <height>20</height>
@@ -209,7 +210,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>16</pointsize>
+      <pointsize>14</pointsize>
      </font>
     </property>
     <property name="text">
@@ -227,6 +228,11 @@
       <width>241</width>
       <height>51</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton:checked {background: rgba(60, 179, 113, 255);}</string>
