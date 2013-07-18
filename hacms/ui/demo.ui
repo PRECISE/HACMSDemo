@@ -1091,9 +1091,9 @@ Controller</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>20</x>
       <y>430</y>
-      <width>102</width>
+      <width>121</width>
       <height>20</height>
      </rect>
     </property>
@@ -1115,9 +1115,9 @@ Controller</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>20</x>
       <y>460</y>
-      <width>102</width>
+      <width>121</width>
       <height>20</height>
      </rect>
     </property>
@@ -1136,9 +1136,9 @@ Controller</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>20</x>
       <y>490</y>
-      <width>102</width>
+      <width>121</width>
       <height>20</height>
      </rect>
     </property>

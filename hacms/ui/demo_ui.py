@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui/demo.ui'
 #
-# Created: Thu Jul 18 14:53:03 2013
+# Created: Thu Jul 18 15:00:52 2013
 #      by: PyQt4 UI code generator 4.10.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -386,7 +386,7 @@ class Ui_MainWindow(object):
         self.tabWidget.addTab(self.nav_tab, _fromUtf8(""))
         self.attack1RadioButton = QtGui.QRadioButton(self.centralWidget)
         self.attack1RadioButton.setEnabled(False)
-        self.attack1RadioButton.setGeometry(QtCore.QRect(30, 430, 102, 20))
+        self.attack1RadioButton.setGeometry(QtCore.QRect(20, 430, 121, 20))
         font = QtGui.QFont()
         font.setPointSize(14)
         self.attack1RadioButton.setFont(font)
@@ -394,14 +394,14 @@ class Ui_MainWindow(object):
         self.attack1RadioButton.setObjectName(_fromUtf8("attack1RadioButton"))
         self.attack2RadioButton = QtGui.QRadioButton(self.centralWidget)
         self.attack2RadioButton.setEnabled(False)
-        self.attack2RadioButton.setGeometry(QtCore.QRect(30, 460, 102, 20))
+        self.attack2RadioButton.setGeometry(QtCore.QRect(20, 460, 121, 20))
         font = QtGui.QFont()
         font.setPointSize(14)
         self.attack2RadioButton.setFont(font)
         self.attack2RadioButton.setObjectName(_fromUtf8("attack2RadioButton"))
         self.attack3RadioButton = QtGui.QRadioButton(self.centralWidget)
         self.attack3RadioButton.setEnabled(False)
-        self.attack3RadioButton.setGeometry(QtCore.QRect(30, 490, 102, 20))
+        self.attack3RadioButton.setGeometry(QtCore.QRect(20, 490, 121, 20))
         font = QtGui.QFont()
         font.setPointSize(14)
         self.attack3RadioButton.setFont(font)
