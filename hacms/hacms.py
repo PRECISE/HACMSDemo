@@ -12,6 +12,7 @@ from nav_msgs.msg import Odometry
 
 # QT modules
 from PyQt4.QtGui import *
+from PyQt4.QtCore import *
 
 # Matplotlib modules
 import matplotlib
@@ -22,6 +23,7 @@ from matplotlib.figure import Figure
 from remote import Remote
 import ui.images_rc
 from navigation import MapnikScene
+from mapview import MapView
 
         #TODO: Try to look into flushing queue as it gets backlogged (CPU overloaded...)
         #TODO: Layout widgets so that the console and plots will resize with the window
@@ -55,6 +57,9 @@ class HACMSWindow(QMainWindow):
             self.ui.ccButton, 
             self.ui.rcButton, 
             self.ui.attackButton, 
+            self.ui.attack1RadioButton, 
+            self.ui.attack2RadioButton, 
+            self.ui.attack3RadioButton, 
             self.ui.saveButton, 
             self.ui.desiredSpeedLabel, 
             self.ui.desiredSpeedEdit, 
@@ -79,17 +84,15 @@ class HACMSWindow(QMainWindow):
             self.ui.inputPlotLabel,
             self.ui.rightPlot,
             self.ui.rightPlotLabel,
-            self.ui.attack1RadioButton,
-            self.ui.attack2RadioButton,
-            self.ui.attack3RadioButton,
             self.ui.saveInputPlotButton,
             self.ui.saveOutputPlotButton,
             self.ui.saveRightPlotButton,
-            self.ui.mapView
         ]
-        self.ui.mapView.setScene(MapnikScene(self.ui.mapView))
+        #self.ui.mapView.setScene(MapnikScene(self.ui.mapView))
+        #self.ui.mapView = MapView(self.ui.mapWidget)
         self.init_signals()
         self.init_plots()
+        #self.init_waypoints()
 
     def init_signals(self):
         self.ui.actionAbout.triggered.connect(self.about)
@@ -162,6 +165,13 @@ class HACMSWindow(QMainWindow):
 #         self.rightAxes.set_xlabel('time')
 #         self.rightAxes.set_ylabel('speed')
 #         self.rightAxes.set_title('Odometry')
+
+    def init_waypoints(self):
+        self.waypointList = QStringList()
+        self.waypointList.append("test")
+        self.waypointModel = QStringListModel()
+        self.ui.waypointListView.setModel(self.waypointModel)
+        self.waypointModel.setStringList(self.waypointList)
 
     def about(self):
         QMessageBox.about(self, "About HACMS Demo",

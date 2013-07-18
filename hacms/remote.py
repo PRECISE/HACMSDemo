@@ -31,7 +31,7 @@ class Remote(object):
             self.client.load_system_host_keys()
             self.client.set_missing_host_key_policy(paramiko.WarningPolicy())
             config = ConfigParser.SafeConfigParser()
-            config.read('ssh.cfg')
+            config.read('hacms.cfg')
             self.client.connect(config.get('SSH','hostname'), int(config.get('SSH','port')), config.get('SSH','username'), config.get('SSH','password'))
             self.isConnected = True
             self.output.appendPlainText('*** Connected!')

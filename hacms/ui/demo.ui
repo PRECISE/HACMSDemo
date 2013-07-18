@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1300</width>
-    <height>715</height>
+    <width>1302</width>
+    <height>718</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -151,72 +151,6 @@ Controller</string>
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QRadioButton" name="attack1RadioButton">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>420</y>
-      <width>121</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Constant</string>
-    </property>
-    <property name="checked">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="attack2RadioButton">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>450</y>
-      <width>121</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Random</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="attack3RadioButton">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>480</y>
-      <width>131</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Alternating</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="saveButton">
     <property name="enabled">
      <bool>false</bool>
@@ -334,6 +268,7 @@ Controller</string>
       <property name="styleSheet">
        <string notr="true">background-color: white;</string>
       </property>
+      <zorder>doubleSpinBox</zorder>
      </widget>
      <widget class="QFrame" name="frame_5">
       <property name="geometry">
@@ -395,7 +330,7 @@ Controller</string>
       </property>
       <property name="geometry">
        <rect>
-        <x>10</x>
+        <x>0</x>
         <y>150</y>
         <width>61</width>
         <height>20</height>
@@ -583,9 +518,9 @@ Controller</string>
       </property>
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>10</x>
         <y>50</y>
-        <width>91</width>
+        <width>101</width>
         <height>39</height>
        </rect>
       </property>
@@ -608,9 +543,9 @@ Controller</string>
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>19</y>
+        <y>9</y>
         <width>171</width>
-        <height>21</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="font">
@@ -699,7 +634,7 @@ Controller</string>
       </property>
       <property name="geometry">
        <rect>
-        <x>70</x>
+        <x>60</x>
         <y>120</y>
         <width>61</width>
         <height>21</height>
@@ -767,7 +702,7 @@ Controller</string>
       </property>
       <property name="geometry">
        <rect>
-        <x>70</x>
+        <x>60</x>
         <y>150</y>
         <width>61</width>
         <height>21</height>
@@ -975,7 +910,7 @@ Controller</string>
       </property>
       <property name="geometry">
        <rect>
-        <x>10</x>
+        <x>0</x>
         <y>120</y>
         <width>61</width>
         <height>20</height>
@@ -1055,19 +990,6 @@ Controller</string>
      <attribute name="title">
       <string>Navigation</string>
      </attribute>
-     <widget class="QGraphicsView" name="mapView">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>225</x>
-        <y>11</y>
-        <width>761</width>
-        <height>471</height>
-       </rect>
-      </property>
-     </widget>
      <widget class="QListView" name="waypointListView">
       <property name="enabled">
        <bool>false</bool>
@@ -1077,7 +999,7 @@ Controller</string>
         <x>10</x>
         <y>31</y>
         <width>201</width>
-        <height>451</height>
+        <height>421</height>
        </rect>
       </property>
      </widget>
@@ -1097,7 +1019,188 @@ Controller</string>
        <string>Waypoints</string>
       </property>
      </widget>
+     <widget class="QWidget" name="mapWidget" native="true">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>230</x>
+        <y>20</y>
+        <width>751</width>
+        <height>461</height>
+       </rect>
+      </property>
+      <property name="autoFillBackground">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>460</y>
+        <width>51</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>+</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_2">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>460</y>
+        <width>51</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>-</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_3">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>460</y>
+        <width>101</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Upload</string>
+      </property>
+     </widget>
     </widget>
+   </widget>
+   <widget class="QComboBox" name="sensorAttackComboBox">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>1440</x>
+      <y>350</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <item>
+     <property name="text">
+      <string>GPS</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Left Enc.</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Right Enc.</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QComboBox" name="attackComboBox">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>1440</x>
+      <y>400</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <item>
+     <property name="text">
+      <string>Constant</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Random</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Alternating</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QRadioButton" name="attack1RadioButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>420</y>
+      <width>102</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Constant</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="attack2RadioButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>450</y>
+      <width>102</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Random</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="attack3RadioButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>480</y>
+      <width>102</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Alternating</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -1105,7 +1208,7 @@ Controller</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1300</width>
+     <width>1302</width>
      <height>22</height>
     </rect>
    </property>
@@ -1145,9 +1248,6 @@ Controller</string>
   <tabstop>ccButton</tabstop>
   <tabstop>saveButton</tabstop>
   <tabstop>rcButton</tabstop>
-  <tabstop>attack1RadioButton</tabstop>
-  <tabstop>attack2RadioButton</tabstop>
-  <tabstop>attack3RadioButton</tabstop>
   <tabstop>attackButton</tabstop>
   <tabstop>desiredSpeedEdit</tabstop>
   <tabstop>setSpeedButton</tabstop>
@@ -1162,7 +1262,6 @@ Controller</string>
   <tabstop>saveRightPlotButton</tabstop>
   <tabstop>console</tabstop>
   <tabstop>tabWidget</tabstop>
-  <tabstop>mapView</tabstop>
   <tabstop>waypointListView</tabstop>
  </tabstops>
  <resources>
