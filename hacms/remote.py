@@ -14,9 +14,11 @@ class Remote(object):
         self.throttle6_shell = None
         self.throttle7_shell = None
         self.cc_shell = None
+        self.saveData_shell = None
         self.isConnected = False
         self.landsharkRunning = False
         self.ccRunning = False
+        self.saveDataRunning = False
 
     def connect(self):
         if self.isConnected:
@@ -29,7 +31,7 @@ class Remote(object):
             self.client.load_system_host_keys()
             self.client.set_missing_host_key_policy(paramiko.WarningPolicy())
             config = ConfigParser.SafeConfigParser()
-            config.read('ssh.cfg')
+            config.read('hacms.cfg')
             self.client.connect(config.get('SSH','hostname'), int(config.get('SSH','port')), config.get('SSH','username'), config.get('SSH','password'))
             self.isConnected = True
             self.output.appendPlainText('*** Connected!')
@@ -138,6 +140,54 @@ class Remote(object):
             pass
 
         return self.ccRunning
+        
+    def startSaveData(self):
+        if self.saveDataRunning:
+            return True
+        if not self.isConnected:
+            self.output.appendPlainText('*** You must first start Landshark.')
+            return False
+        if not self.landsharkRunning:
+            self.output.appendPlainText('*** You must first start Landshark.')
+            return False
+        if not self.ccRunning:
+            self.output.appendPlainText('*** You must first start Cruise Control.')
+            return False
+
+        try:
+            self.output.appendPlainText('*** Starting Save Data...')
+            self.saveData_shell = self.client.invoke_shell()
+            self.saveData_shell.send('source ~/.bashrc\nroslaunch log_data_demo.launch\n')
+            self.output.appendPlainText('*** Started Save Data.')
+            self.saveDataRunning = True
+        except:
+            pass
+
+        return self.saveDataRunning
+        
+    def stopSaveData(self):
+        if not self.saveDataRunning:
+            return False
+        if not self.isConnected:
+            self.output.appendPlainText('*** You must first start Landshark.')
+            return False
+        if not self.landsharkRunning:
+            self.output.appendPlainText('*** You must first start Landshark.')
+            return False
+        if not self.ccRunning:
+            self.output.appendPlainText('*** You must first start Cruise Control.')
+            return False
+
+        try:
+            self.output.appendPlainText('*** Stopping Save Data...')
+            self.saveData_shell.close()
+            self.output.appendPlainText('*** Stopped Save Data.')
+            self.saveDataRunning = False
+        except:
+            pass
+
+        return self.saveDataRunning
+        
 
     def writeLinesToOutput(self, lines):
         for line in lines:
