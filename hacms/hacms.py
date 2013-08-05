@@ -479,7 +479,7 @@ class HACMSWindow(QMainWindow):
         self.run_rc_pub.unregister()
         self.run_attack_pub.unregister()
 
-        #rospy.signal_shutdown("Turning off ROSPy")
+        rospy.signal_shutdown("Turning off ROSPy")
 
         return True
 
