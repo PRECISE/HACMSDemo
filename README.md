@@ -3,10 +3,13 @@ HACMSDemo
 
 ADD LICENSE INFO
 
-Required third-party libraries:
-- ROS (ROSPy, paramiko, matplotlib included)
-- PyQt (Qt4)
-- Mapnik (python-mapnik)
+Installation steps
+------------------
+
+Install the following required third-party libraries:
+- ROS (ROSPy, paramiko, matplotlib are included in this package)
+- PyQt (PyQt 4.10.2, Qt4 version)
+- Mapnik (package name: python-mapnik)
 
 ROS setup tips:
 - Ensure that the ~/.bashrc file contains the correct ROS\_IP and ROS\_MASTER\_URI values.
