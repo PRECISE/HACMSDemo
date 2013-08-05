@@ -1,6 +1,7 @@
 <RCC>
   <qresource>
     <file>images/map_pin_stroke_15x24.png</file>
+    <file>images/seas_logo.png</file>
     <file>images/arrow_left_12x12.png</file>
     <file>images/arrow_right_12x12.png</file>
     <file>images/folder_image.png</file>
