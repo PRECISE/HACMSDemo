@@ -177,9 +177,7 @@ class HACMSWindow(QMainWindow):
         self.waypointModel.setStringList(self.waypointList)
 
     def about(self):
-        about = ui.about_ui.Ui_Dialog()
-        about.setModal(true)
-        about.show()
+        ui.about_ui.Ui_Dialog().exec()
                 
     def fileQuit(self):
         if self.ui.landsharkButton.isChecked():
