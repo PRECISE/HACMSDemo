@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>431</width>
-    <height>194</height>
+    <width>451</width>
+    <height>207</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,16 +17,16 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>100</y>
-     <width>431</width>
-     <height>91</height>
+     <y>110</y>
+     <width>451</width>
+     <height>101</height>
     </rect>
    </property>
    <property name="text">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The &lt;span style=&quot; font-weight:600;&quot;&gt;HACMS Demo&lt;/span&gt; application allows for control of the LandShark robot while displaying live ROS telemetry data. Developed by the &lt;a href=&quot;http://precise.seas.upenn.edu&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;PRECISE Center&lt;/span&gt;&lt;/a&gt; at &lt;a href=&quot;http://www.seas.upenn.edu&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;University of Pennsylvania&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter</set>
+    <set>Qt::AlignHCenter|Qt::AlignTop</set>
    </property>
    <property name="wordWrap">
     <bool>true</bool>
@@ -43,7 +43,7 @@
     <rect>
      <x>-1</x>
      <y>2</y>
-     <width>431</width>
+     <width>451</width>
      <height>101</height>
     </rect>
    </property>
