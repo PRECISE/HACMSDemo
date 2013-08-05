@@ -40,7 +40,6 @@ from mapview import MapView
         #TODO: Fix plots so that the titles and axes labels are shown completely
         #TODO: Navigation tab
         #TODO: Change attack mode whenever attack radio button changes (if Attack button is pressed)
-        #TODO: Update GUI tabstop order
      
 class HACMSWindow(QMainWindow):
     def __init__(self):
@@ -479,7 +478,7 @@ class HACMSWindow(QMainWindow):
         self.run_rc_pub.unregister()
         self.run_attack_pub.unregister()
 
-        rospy.signal_shutdown("Turning off ROSPy")
+        #rospy.signal_shutdown("Turning off ROSPy") TODO - How do we restart ROSPy
 
         return True
 
