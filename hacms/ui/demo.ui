@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1288</width>
-    <height>714</height>
+    <width>1290</width>
+    <height>715</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,7 +24,7 @@
       <x>20</x>
       <y>20</y>
       <width>241</width>
-      <height>101</height>
+      <height>91</height>
      </rect>
     </property>
     <property name="font">
@@ -51,9 +51,9 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>300</y>
+      <y>280</y>
       <width>241</width>
-      <height>101</height>
+      <height>91</height>
      </rect>
     </property>
     <property name="font">
@@ -80,10 +80,10 @@ Controller</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>410</y>
+      <x>20</x>
+      <y>380</y>
       <width>111</width>
-      <height>121</height>
+      <height>151</height>
      </rect>
     </property>
     <property name="font">
@@ -129,9 +129,9 @@ Controller</string>
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>130</y>
+      <y>120</y>
       <width>241</width>
-      <height>101</height>
+      <height>91</height>
      </rect>
     </property>
     <property name="font">
@@ -158,7 +158,7 @@ Controller</string>
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>240</y>
+      <y>220</y>
       <width>241</width>
       <height>51</height>
      </rect>
@@ -179,6 +179,9 @@ Controller</string>
     </property>
    </widget>
    <widget class="QTabWidget" name="tabWidget">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>280</x>
@@ -268,7 +271,6 @@ Controller</string>
       <property name="styleSheet">
        <string notr="true">background-color: white;</string>
       </property>
-      <zorder>doubleSpinBox</zorder>
      </widget>
      <widget class="QFrame" name="frame_5">
       <property name="geometry">
@@ -1085,70 +1087,80 @@ Controller</string>
      </widget>
     </widget>
    </widget>
-   <widget class="QRadioButton" name="attack1RadioButton">
+   <widget class="QCheckBox" name="enclCheckBox">
     <property name="enabled">
      <bool>false</bool>
     </property>
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>430</y>
-      <width>121</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Constant</string>
-    </property>
-    <property name="checked">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="attack2RadioButton">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>20</x>
+      <x>140</x>
       <y>460</y>
-      <width>121</width>
+      <width>111</width>
       <height>20</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
     <property name="text">
-     <string>Random</string>
+     <string>ENC LEFT</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="attack3RadioButton">
+   <widget class="QComboBox" name="attackComboBox">
     <property name="enabled">
      <bool>false</bool>
     </property>
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>140</x>
+      <y>390</y>
+      <width>131</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Constant</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Random</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Alternating</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QCheckBox" name="encrCheckBox">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>140</x>
       <y>490</y>
-      <width>121</width>
+      <width>111</width>
       <height>20</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>14</pointsize>
-     </font>
+    <property name="text">
+     <string>ENC RIGHT</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="gpsCheckBox">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>430</y>
+      <width>111</width>
+      <height>20</height>
+     </rect>
     </property>
     <property name="text">
-     <string>Alternating</string>
+     <string>GPS</string>
     </property>
    </widget>
   </widget>
@@ -1157,7 +1169,7 @@ Controller</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1288</width>
+     <width>1290</width>
      <height>22</height>
     </rect>
    </property>

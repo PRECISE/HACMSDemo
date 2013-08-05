@@ -22,6 +22,7 @@ from matplotlib.figure import Figure
 # HACMS modules
 from remote import Remote
 import ui.images_rc
+import ui.about_ui
 from navigation import MapnikScene
 from mapview import MapView
 
@@ -53,12 +54,14 @@ class HACMSWindow(QMainWindow):
     def init_widgets(self):
         self.remote = Remote(self.ui.console)
         self.widgets = [
+            self.ui.tabWidget, 
             self.ui.ccButton, 
             self.ui.rcButton, 
             self.ui.attackButton, 
-            self.ui.attack1RadioButton, 
-            self.ui.attack2RadioButton, 
-            self.ui.attack3RadioButton, 
+            self.ui.attackComboBox, 
+            self.ui.gpsCheckBox, 
+            self.ui.enclCheckBox, 
+            self.ui.encrCheckBox, 
             self.ui.saveButton, 
             self.ui.desiredSpeedLabel, 
             self.ui.desiredSpeedEdit, 
@@ -100,9 +103,10 @@ class HACMSWindow(QMainWindow):
         self.ui.ccButton.toggled.connect(self.cc)
         self.ui.rcButton.toggled.connect(self.rc)
         self.ui.attackButton.toggled.connect(self.attack)
-        self.ui.attack1RadioButton.toggled.connect(self.attack1)
-        self.ui.attack2RadioButton.toggled.connect(self.attack2)
-        self.ui.attack3RadioButton.toggled.connect(self.attack3)
+        self.ui.attackComboBox.currentIndexChanged.connect(self.attackMode)
+        self.ui.gpsCheckBox.toggled.connect(self.attackSensor)
+        self.ui.enclCheckBox.toggled.connect(self.attackSensor)
+        self.ui.enclCheckBox.toggled.connect(self.attackSensor)
         self.ui.saveButton.toggled.connect(self.saveData)
         self.ui.setSpeedButton.clicked.connect(self.setLandsharkSpeed)
         self.ui.setKPButton.clicked.connect(self.setKP)
@@ -173,10 +177,9 @@ class HACMSWindow(QMainWindow):
         self.waypointModel.setStringList(self.waypointList)
 
     def about(self):
-        QMessageBox.about(self, "About HACMS Demo",
-                "The <b>HACMS Demo</b> application allows for control of the LandShark "
-                "robot while displaying live ROS telemetry data.\n\nDeveloped by the "
-                "PRECISE Lab at Penn.")
+        about = ui.about_ui.Ui_Dialog()
+        about.setModal(true)
+        about.show()
                 
     def fileQuit(self):
         if self.ui.landsharkButton.isChecked():
@@ -258,14 +261,8 @@ class HACMSWindow(QMainWindow):
     def attack(self, checked):
         if checked:
             try:
-                mode = 0
-                if self.ui.attack1RadioButton.isChecked():
-                    mode = 1
-                elif self.ui.attack2RadioButton.isChecked():
-                    mode = 2
-                elif self.ui.attack3RadioButton.isChecked():
-                    mode = 3
-                self.run_attack_pub.publish(Int32(mode))
+                self.run_attack_pub.publish(Int32(self.ui.attackComboBox.currentIndex()+1))
+                self.sensor_attack_pub.publish(Int32(self.getAttackSensorValue()))
             except:
                 self.ui.attackButton.setChecked(False)
                 return
@@ -279,26 +276,29 @@ class HACMSWindow(QMainWindow):
         # For when the button is set via direct method call, not by event call
         self.ui.attackButton.setChecked(checked)
         
-    def attack1(self, checked):
-        if checked and self.ui.attackButton.isChecked():
+    def attackMode(self, index):
+        if self.ui.attackButton.isChecked():
             try:
-                self.run_attack_pub.publish(Int32(1))
+                self.run_attack_pub.publish(Int32(index+1)) # Start base index at 1
             except:
                 return
     
-    def attack2(self, checked):
-        if checked and self.ui.attackButton.isChecked():
+    def attackSensor(self):
+        if self.ui.attackButton.isChecked():
             try:
-                self.run_attack_pub.publish(Int32(2))
+                self.sensor_attack_pub.publish(Int32(self.getAttackSensorValue()))
             except:
                 return
                 
-    def attack3(self, checked):
-        if checked and self.ui.attackButton.isChecked():
-            try:
-                self.run_attack_pub.publish(Int32(3))
-            except:
-                return
+    def getAttackSensorValue(self):
+        value = 0
+        if self.ui.gpsCheckBox.isChecked():
+            value += 4
+        if self.ui.enclCheckBox.isChecked():
+            value += 2
+        if self.ui.encrCheckBox.isChecked():
+            value += 1
+        return value
 
     def getWidgetColor(self, widget):
         style = widget.styleSheet()
@@ -456,6 +456,7 @@ class HACMSWindow(QMainWindow):
         self.ki_pub = rospy.Publisher('/landshark_demo/ki', Float32)
         self.run_rc_pub = rospy.Publisher('/landshark_demo/run_rc', Int32)
         self.run_attack_pub = rospy.Publisher('/landshark_demo/run_attack', Int32)
+        self.sensor_attack_pub = rospy.Publisher('/landshark_demo/sensor_attack', Int32)
 
         return True
         
@@ -477,6 +478,7 @@ class HACMSWindow(QMainWindow):
         self.ki_pub.unregister()
         self.run_rc_pub.unregister()
         self.run_attack_pub.unregister()
+        self.sensor_attack_pub.unregister()
 
         #rospy.signal_shutdown("Turning off ROSPy") TODO - How do we restart ROSPy
 
