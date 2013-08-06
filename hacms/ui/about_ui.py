@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'about.ui'
 #
-# Created: Mon Aug  5 20:13:22 2013
+# Created: Mon Aug  5 20:20:02 2013
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,7 +26,11 @@ except AttributeError:
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName(_fromUtf8("Dialog"))
-        Dialog.resize(372, 213)
+        Dialog.setWindowModality(QtCore.Qt.ApplicationModal)
+        Dialog.resize(372, 221)
+        Dialog.setMinimumSize(QtCore.QSize(372, 221))
+        Dialog.setMaximumSize(QtCore.QSize(372, 221))
+        Dialog.setModal(True)
         self.aboutText = QtGui.QLabel(Dialog)
         self.aboutText.setGeometry(QtCore.QRect(0, 110, 371, 101))
         self.aboutText.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)

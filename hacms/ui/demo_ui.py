@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'demo.ui'
 #
-# Created: Mon Aug  5 20:13:55 2013
+# Created: Mon Aug  5 20:19:59 2013
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -396,7 +396,7 @@ class Ui_MainWindow(object):
         self.attackComboBox.setEnabled(False)
         self.attackComboBox.setGeometry(QtCore.QRect(140, 390, 121, 26))
         font = QtGui.QFont()
-        font.setPointSize(14)
+        font.setPointSize(13)
         self.attackComboBox.setFont(font)
         self.attackComboBox.setObjectName(_fromUtf8("attackComboBox"))
         self.attackComboBox.addItem(_fromUtf8(""))
