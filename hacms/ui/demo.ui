@@ -1094,10 +1094,15 @@ Controller</string>
     <property name="geometry">
      <rect>
       <x>140</x>
-      <y>460</y>
+      <y>459</y>
       <width>111</width>
-      <height>20</height>
+      <height>21</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>15</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>ENC LEFT</string>
@@ -1111,7 +1116,7 @@ Controller</string>
      <rect>
       <x>140</x>
       <y>390</y>
-      <width>131</width>
+      <width>121</width>
       <height>26</height>
      </rect>
     </property>
@@ -1138,10 +1143,15 @@ Controller</string>
     <property name="geometry">
      <rect>
       <x>140</x>
-      <y>490</y>
+      <y>489</y>
       <width>111</width>
-      <height>20</height>
+      <height>21</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>15</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>ENC RIGHT</string>
@@ -1154,10 +1164,15 @@ Controller</string>
     <property name="geometry">
      <rect>
       <x>140</x>
-      <y>430</y>
+      <y>429</y>
       <width>111</width>
-      <height>20</height>
+      <height>21</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>15</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>GPS</string>

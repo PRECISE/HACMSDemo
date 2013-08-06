@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'demo.ui'
 #
-# Created: Mon Aug  5 16:29:27 2013
+# Created: Mon Aug  5 20:04:22 2013
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -387,22 +387,31 @@ class Ui_MainWindow(object):
         self.tabWidget.addTab(self.nav_tab, _fromUtf8(""))
         self.enclCheckBox = QtGui.QCheckBox(self.centralWidget)
         self.enclCheckBox.setEnabled(False)
-        self.enclCheckBox.setGeometry(QtCore.QRect(140, 460, 111, 20))
+        self.enclCheckBox.setGeometry(QtCore.QRect(140, 459, 111, 21))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.enclCheckBox.setFont(font)
         self.enclCheckBox.setObjectName(_fromUtf8("enclCheckBox"))
         self.attackComboBox = QtGui.QComboBox(self.centralWidget)
         self.attackComboBox.setEnabled(False)
-        self.attackComboBox.setGeometry(QtCore.QRect(140, 390, 131, 26))
+        self.attackComboBox.setGeometry(QtCore.QRect(140, 390, 121, 26))
         self.attackComboBox.setObjectName(_fromUtf8("attackComboBox"))
         self.attackComboBox.addItem(_fromUtf8(""))
         self.attackComboBox.addItem(_fromUtf8(""))
         self.attackComboBox.addItem(_fromUtf8(""))
         self.encrCheckBox = QtGui.QCheckBox(self.centralWidget)
         self.encrCheckBox.setEnabled(False)
-        self.encrCheckBox.setGeometry(QtCore.QRect(140, 490, 111, 20))
+        self.encrCheckBox.setGeometry(QtCore.QRect(140, 489, 111, 21))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.encrCheckBox.setFont(font)
         self.encrCheckBox.setObjectName(_fromUtf8("encrCheckBox"))
         self.gpsCheckBox = QtGui.QCheckBox(self.centralWidget)
         self.gpsCheckBox.setEnabled(False)
-        self.gpsCheckBox.setGeometry(QtCore.QRect(140, 430, 111, 20))
+        self.gpsCheckBox.setGeometry(QtCore.QRect(140, 429, 111, 21))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.gpsCheckBox.setFont(font)
         self.gpsCheckBox.setObjectName(_fromUtf8("gpsCheckBox"))
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtGui.QMenuBar(MainWindow)
