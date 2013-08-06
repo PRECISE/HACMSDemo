@@ -106,7 +106,7 @@ class HACMSWindow(QMainWindow):
         self.ui.attackComboBox.currentIndexChanged.connect(self.attackMode)
         self.ui.gpsCheckBox.toggled.connect(self.attackSensor)
         self.ui.enclCheckBox.toggled.connect(self.attackSensor)
-        self.ui.enclCheckBox.toggled.connect(self.attackSensor)
+        self.ui.encrCheckBox.toggled.connect(self.attackSensor)
         self.ui.saveButton.toggled.connect(self.saveData)
         self.ui.setSpeedButton.clicked.connect(self.setLandsharkSpeed)
         self.ui.setKPButton.clicked.connect(self.setKP)
