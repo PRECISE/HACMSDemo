@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'about.ui'
 #
-# Created: Mon Aug  5 19:56:14 2013
+# Created: Mon Aug  5 20:13:22 2013
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,16 +26,16 @@ except AttributeError:
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName(_fromUtf8("Dialog"))
-        Dialog.resize(451, 207)
+        Dialog.resize(372, 213)
         self.aboutText = QtGui.QLabel(Dialog)
-        self.aboutText.setGeometry(QtCore.QRect(0, 110, 451, 101))
+        self.aboutText.setGeometry(QtCore.QRect(0, 110, 371, 101))
         self.aboutText.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
         self.aboutText.setWordWrap(True)
         self.aboutText.setMargin(15)
         self.aboutText.setOpenExternalLinks(True)
         self.aboutText.setObjectName(_fromUtf8("aboutText"))
         self.pennLogo = QtGui.QLabel(Dialog)
-        self.pennLogo.setGeometry(QtCore.QRect(-1, 2, 451, 101))
+        self.pennLogo.setGeometry(QtCore.QRect(-1, 2, 371, 101))
         self.pennLogo.setFrameShape(QtGui.QFrame.NoFrame)
         self.pennLogo.setFrameShadow(QtGui.QFrame.Plain)
         self.pennLogo.setText(_fromUtf8(""))

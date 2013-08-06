@@ -1103,13 +1103,13 @@ Controller</string>
      <rect>
       <x>140</x>
       <y>459</y>
-      <width>111</width>
+      <width>131</width>
       <height>21</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>15</pointsize>
+      <pointsize>14</pointsize>
      </font>
     </property>
     <property name="text">
@@ -1130,7 +1130,7 @@ Controller</string>
     </property>
     <property name="font">
      <font>
-      <pointsize>15</pointsize>
+      <pointsize>14</pointsize>
      </font>
     </property>
     <item>
@@ -1157,13 +1157,13 @@ Controller</string>
      <rect>
       <x>140</x>
       <y>489</y>
-      <width>111</width>
+      <width>131</width>
       <height>21</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>15</pointsize>
+      <pointsize>14</pointsize>
      </font>
     </property>
     <property name="text">
@@ -1178,13 +1178,13 @@ Controller</string>
      <rect>
       <x>140</x>
       <y>429</y>
-      <width>111</width>
+      <width>131</width>
       <height>21</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>15</pointsize>
+      <pointsize>14</pointsize>
      </font>
     </property>
     <property name="text">
