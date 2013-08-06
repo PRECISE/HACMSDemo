@@ -271,8 +271,16 @@ Controller</string>
       <property name="styleSheet">
        <string notr="true">background-color: white;</string>
       </property>
+      <zorder>reLabel</zorder>
+      <zorder>leLabel</zorder>
+      <zorder>leLabelColor</zorder>
+      <zorder>reLabelColor</zorder>
+      <zorder>reLabel</zorder>
+      <zorder>leLabel</zorder>
+      <zorder>leLabelColor</zorder>
+      <zorder>reLabelColor</zorder>
      </widget>
-     <widget class="QFrame" name="frame_5">
+     <widget class="QFrame" name="cmdLabelColor">
       <property name="geometry">
        <rect>
         <x>310</x>
@@ -308,10 +316,10 @@ Controller</string>
         <normaloff>:/images/arrow_left_12x12.png</normaloff>:/images/arrow_left_12x12.png</iconset>
       </property>
      </widget>
-     <widget class="QLabel" name="label_3">
+     <widget class="QLabel" name="gpsLabel">
       <property name="geometry">
        <rect>
-        <x>490</x>
+        <x>350</x>
         <y>250</y>
         <width>51</width>
         <height>21</height>
@@ -425,7 +433,7 @@ Controller</string>
         <normaloff>:/images/folder_image.png</normaloff>:/images/folder_image.png</iconset>
       </property>
      </widget>
-     <widget class="QLabel" name="label_5">
+     <widget class="QLabel" name="cmdLabel">
       <property name="geometry">
        <rect>
         <x>340</x>
@@ -443,10 +451,10 @@ Controller</string>
        <string>CMD</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label">
+     <widget class="QLabel" name="leLabel">
       <property name="geometry">
        <rect>
-        <x>350</x>
+        <x>430</x>
         <y>250</y>
         <width>31</width>
         <height>21</height>
@@ -461,7 +469,7 @@ Controller</string>
        <string>LE</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_6">
+     <widget class="QLabel" name="refLabel2">
       <property name="geometry">
        <rect>
         <x>830</x>
@@ -479,7 +487,7 @@ Controller</string>
        <string>REF</string>
       </property>
      </widget>
-     <widget class="QFrame" name="frame_6">
+     <widget class="QFrame" name="refLabelColor2">
       <property name="geometry">
        <rect>
         <x>800</x>
@@ -654,7 +662,7 @@ Controller</string>
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
-     <widget class="QLabel" name="label_7">
+     <widget class="QLabel" name="speedLabel">
       <property name="geometry">
        <rect>
         <x>710</x>
@@ -778,7 +786,7 @@ Controller</string>
        <string>Input</string>
       </property>
      </widget>
-     <widget class="QFrame" name="frame_7">
+     <widget class="QFrame" name="speedLabelColor">
       <property name="geometry">
        <rect>
         <x>680</x>
@@ -797,7 +805,7 @@ Controller</string>
        <enum>QFrame::Raised</enum>
       </property>
      </widget>
-     <widget class="QLabel" name="label_4">
+     <widget class="QLabel" name="refLabel">
       <property name="geometry">
        <rect>
         <x>440</x>
@@ -852,10 +860,10 @@ Controller</string>
        <string>Set</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_2">
+     <widget class="QLabel" name="reLabel">
       <property name="geometry">
        <rect>
-        <x>420</x>
+        <x>500</x>
         <y>250</y>
         <width>31</width>
         <height>21</height>
@@ -870,7 +878,7 @@ Controller</string>
        <string>RE</string>
       </property>
      </widget>
-     <widget class="QFrame" name="frame_4">
+     <widget class="QFrame" name="refLabelColor">
       <property name="geometry">
        <rect>
         <x>410</x>
@@ -930,10 +938,10 @@ Controller</string>
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
-     <widget class="QFrame" name="frame_2">
+     <widget class="QFrame" name="reLabelColor">
       <property name="geometry">
        <rect>
-        <x>390</x>
+        <x>470</x>
         <y>250</y>
         <width>21</width>
         <height>21</height>
@@ -949,10 +957,10 @@ Controller</string>
        <enum>QFrame::Raised</enum>
       </property>
      </widget>
-     <widget class="QFrame" name="frame">
+     <widget class="QFrame" name="leLabelColor">
       <property name="geometry">
        <rect>
-        <x>320</x>
+        <x>400</x>
         <y>250</y>
         <width>21</width>
         <height>21</height>
@@ -968,10 +976,10 @@ Controller</string>
        <enum>QFrame::Raised</enum>
       </property>
      </widget>
-     <widget class="QFrame" name="frame_3">
+     <widget class="QFrame" name="gpsLabelColor">
       <property name="geometry">
        <rect>
-        <x>460</x>
+        <x>320</x>
         <y>250</y>
         <width>21</width>
         <height>21</height>
