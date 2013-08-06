@@ -19,6 +19,8 @@ import matplotlib
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
+import pyqtgraph as pg
+
 # HACMS modules
 from remote import Remote
 import ui.images_rc
@@ -48,8 +50,19 @@ class HACMSWindow(QMainWindow):
         
     def init_window(self):
         self.ui.setupUi(self)
-        self.init_widgets()
         self.init_data_structs()
+        self.init_widgets()
+        
+    def init_data_structs(self):
+        self.trimIncrement = 0.001
+        self.windowSize = 300
+        self.in_Base = deque(maxlen=self.windowSize)
+        self.in_Ref = deque(maxlen=self.windowSize)
+        self.out_Odom = deque(maxlen=self.windowSize)
+        self.out_EncL = deque(maxlen=self.windowSize)
+        self.out_EncR = deque(maxlen=self.windowSize)
+        self.out_GPS = deque(maxlen=self.windowSize)
+        self.out_Trim = deque(maxlen=self.windowSize)
         
     def init_widgets(self):
         self.remote = Remote(self.ui.console)
@@ -87,8 +100,8 @@ class HACMSWindow(QMainWindow):
             self.ui.rightPlot,
             self.ui.rightPlotLabel,
             self.ui.saveInputPlotButton,
-            self.ui.saveOutputPlotButton,
-            self.ui.saveRightPlotButton,
+            self.ui.saveOutputPlotButton
+            #self.ui.saveRightPlotButton,
         ]
         #self.ui.mapView.setScene(MapnikScene(self.ui.mapView))
         #self.ui.mapView = MapView(self.ui.mapWidget)
@@ -124,17 +137,6 @@ class HACMSWindow(QMainWindow):
         self.ui.kpEdit.setValidator(self.validator)
         self.ui.kiEdit.setValidator(self.validator)
         
-    def init_data_structs(self):
-        self.trimIncrement = 0.001
-        self.windowSize = 300
-        self.in_Base = deque(maxlen=self.windowSize)
-        self.in_Ref = deque(maxlen=self.windowSize)
-        self.out_Odom = deque(maxlen=self.windowSize)
-        self.out_EncL = deque(maxlen=self.windowSize)
-        self.out_EncR = deque(maxlen=self.windowSize)
-        self.out_GPS = deque(maxlen=self.windowSize)
-        self.out_Trim = deque(maxlen=self.windowSize)
-        
     def init_plots(self):
         self.dpi = 100
         self.y_top = 1.5
@@ -158,13 +160,15 @@ class HACMSWindow(QMainWindow):
 #         self.outAxes.set_xlabel('time')
 #         self.outAxes.set_ylabel('speed')
 #         self.outAxes.set_title('Output')
-        self.rightFig = Figure((4.21, 4.41), dpi=self.dpi)
-        self.rightCanvas = FigureCanvas(self.rightFig)
-        self.rightCanvas.setParent(self.ui.rightPlot)
-        self.rightAxes = self.rightFig.add_subplot(111)
-        self.rightAxes.grid(True)
-        self.rightAxes.set_ybound(0, self.y_top)
-        self.rightAxes.set_autoscaley_on(False)
+        self.rightPlotOdom = self.ui.rightPlot.plot(self.out_Odom)
+        self.rightPlotRef = self.ui.rightPlot.plot(self.in_Ref)
+#         self.rightFig = Figure((4.21, 4.41), dpi=self.dpi)
+#         self.rightCanvas = FigureCanvas(self.rightFig)
+#         self.rightCanvas.setParent(self.ui.rightPlot)
+#         self.rightAxes = self.rightFig.add_subplot(111)
+#         self.rightAxes.grid(True)
+#         self.rightAxes.set_ybound(0, self.y_top)
+#         self.rightAxes.set_autoscaley_on(False)
 #         self.rightAxes.set_xlabel('time')
 #         self.rightAxes.set_ylabel('speed')
 #         self.rightAxes.set_title('Odometry')
@@ -335,7 +339,6 @@ class HACMSWindow(QMainWindow):
         """ Redraws the input plot
         """
         # clear the axes and redraw the plot anew
-        #
         self.inAxes.clear()
         self.inAxes.grid(True)
         self.inAxes.set_ybound(0, self.y_top)
@@ -357,7 +360,6 @@ class HACMSWindow(QMainWindow):
         """ Redraws the output plot
         """
         # clear the axes and redraw the plot anew
-        #
         self.outAxes.clear()
         self.outAxes.grid(True)
         self.outAxes.set_ybound(0, self.y_top)
@@ -380,17 +382,19 @@ class HACMSWindow(QMainWindow):
         """ Redraws the righthand plot
         """
         # clear the axes and redraw the plot anew
-        #
-        self.rightAxes.clear()
-        self.rightAxes.grid(True)
-        self.rightAxes.set_ybound(0, self.y_top)
-        self.rightAxes.set_autoscaley_on(False) 
+#         self.rightAxes.clear()
+#         self.rightAxes.grid(True)
+#         self.rightAxes.set_ybound(0, self.y_top)
+#         self.rightAxes.set_autoscaley_on(False) 
 #         self.rightAxes.set_xlabel('time')
 #         self.rightAxes.set_ylabel('speed')
 #         self.rightAxes.set_title('Odometry')
-        self.rightAxes.plot(self.out_Odom, 'b', linewidth=2)
-        self.rightAxes.plot(self.in_Ref, 'c', linewidth=2)
-        self.rightCanvas.draw()
+#         self.rightAxes.plot(self.out_Odom, 'b', linewidth=2)
+#         self.rightAxes.plot(self.in_Ref, 'c', linewidth=2)
+#         self.rightCanvas.draw()
+        self.rightPlotOdom.setData(self.out_Odom)
+        self.rightPlotRef.setData(self.in_Ref)
+        
     
     def save_rightPlot(self):
         path = self.save_plot()
@@ -499,8 +503,6 @@ class HACMSWindow(QMainWindow):
         self.updateActualSpeedLCD(msg.twist.twist.linear.x)
         self.out_Odom.append(msg.twist.twist.linear.x)
         self.draw_rightPlot()
-#         self.out_Trim.append(msg.pose.pose.position.y)
-#         self.draw_trimPlot()
         
     def captureEncL(self, msg):
         self.out_EncL.append(msg.twist.linear.x)

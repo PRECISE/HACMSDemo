@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'demo.ui'
 #
-# Created: Mon Aug  5 20:19:59 2013
+# Created: Tue Aug  6 17:16:29 2013
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -278,11 +278,6 @@ class Ui_MainWindow(object):
         self.estimatedSpeedLabel.setFont(font)
         self.estimatedSpeedLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.estimatedSpeedLabel.setObjectName(_fromUtf8("estimatedSpeedLabel"))
-        self.rightPlot = QtGui.QWidget(self.control_tab)
-        self.rightPlot.setEnabled(False)
-        self.rightPlot.setGeometry(QtCore.QRect(550, 40, 421, 441))
-        self.rightPlot.setStyleSheet(_fromUtf8("background-color: white;"))
-        self.rightPlot.setObjectName(_fromUtf8("rightPlot"))
         self.inputPlotLabel = QtGui.QLabel(self.control_tab)
         self.inputPlotLabel.setEnabled(False)
         self.inputPlotLabel.setGeometry(QtCore.QRect(210, 10, 41, 16))
@@ -356,6 +351,11 @@ class Ui_MainWindow(object):
         self.gpsLabelColor.setFrameShape(QtGui.QFrame.StyledPanel)
         self.gpsLabelColor.setFrameShadow(QtGui.QFrame.Raised)
         self.gpsLabelColor.setObjectName(_fromUtf8("gpsLabelColor"))
+        self.rightPlot = PlotWidget(self.control_tab)
+        self.rightPlot.setGeometry(QtCore.QRect(560, 40, 411, 441))
+        self.rightPlot.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.rightPlot.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.rightPlot.setObjectName(_fromUtf8("rightPlot"))
         self.tabWidget.addTab(self.control_tab, _fromUtf8(""))
         self.nav_tab = QtGui.QWidget()
         self.nav_tab.setObjectName(_fromUtf8("nav_tab"))
@@ -506,4 +506,5 @@ class Ui_MainWindow(object):
         self.actionQuit.setText(_translate("MainWindow", "Quit", None))
         self.actionAbout.setText(_translate("MainWindow", "About", None))
 
+from pyqtgraph import PlotWidget
 import images_rc
