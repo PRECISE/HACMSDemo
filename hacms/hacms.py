@@ -163,7 +163,7 @@ class HACMSWindow(QMainWindow):
         self.rightPlotOdom = self.ui.rightPlot.plot(self.out_Odom)
         self.rightPlotRef = self.ui.rightPlot.plot(self.in_Ref)
         self.rightPlotTimer = QTimer()
-        self.rightPlotTimer.timeout.connect(updateRightPlot)
+        self.rightPlotTimer.timeout.connect(self.updateRightPlot)
         self.rightPlotTimer.start(100)
 #         self.rightFig = Figure((4.21, 4.41), dpi=self.dpi)
 #         self.rightCanvas = FigureCanvas(self.rightFig)
