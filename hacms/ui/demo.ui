@@ -209,9 +209,9 @@ Controller</string>
       </property>
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>10</x>
         <y>300</y>
-        <width>181</width>
+        <width>171</width>
         <height>71</height>
        </rect>
       </property>
@@ -364,9 +364,9 @@ Controller</string>
       </property>
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>10</x>
         <y>410</y>
-        <width>181</width>
+        <width>171</width>
         <height>71</height>
        </rect>
       </property>
@@ -487,9 +487,9 @@ Controller</string>
       </property>
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>10</x>
         <y>50</y>
-        <width>101</width>
+        <width>91</width>
         <height>39</height>
        </rect>
       </property>
@@ -1132,6 +1132,18 @@ Controller</string>
      <string>GPS</string>
     </property>
    </widget>
+   <zorder>landsharkButton</zorder>
+   <zorder>rcButton</zorder>
+   <zorder>attackButton</zorder>
+   <zorder>console</zorder>
+   <zorder>ccButton</zorder>
+   <zorder>saveButton</zorder>
+   <zorder>tabWidget</zorder>
+   <zorder>enclCheckBox</zorder>
+   <zorder>attackComboBox</zorder>
+   <zorder>encrCheckBox</zorder>
+   <zorder>gpsCheckBox</zorder>
+   <zorder>inputPlotLabel</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

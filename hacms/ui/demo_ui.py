@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'demo.ui'
 #
-# Created: Wed Aug  7 13:17:45 2013
+# Created: Wed Aug  7 14:22:13 2013
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -100,7 +100,7 @@ class Ui_MainWindow(object):
         self.control_tab.setObjectName(_fromUtf8("control_tab"))
         self.actualSpeedLCD = QtGui.QLCDNumber(self.control_tab)
         self.actualSpeedLCD.setEnabled(False)
-        self.actualSpeedLCD.setGeometry(QtCore.QRect(0, 300, 181, 71))
+        self.actualSpeedLCD.setGeometry(QtCore.QRect(10, 300, 171, 71))
         self.actualSpeedLCD.setObjectName(_fromUtf8("actualSpeedLCD"))
         self.trimLabel = QtGui.QLabel(self.control_tab)
         self.trimLabel.setEnabled(False)
@@ -151,7 +151,7 @@ class Ui_MainWindow(object):
         self.actualSpeedLabel.setObjectName(_fromUtf8("actualSpeedLabel"))
         self.estimatedSpeedLCD = QtGui.QLCDNumber(self.control_tab)
         self.estimatedSpeedLCD.setEnabled(False)
-        self.estimatedSpeedLCD.setGeometry(QtCore.QRect(0, 410, 181, 71))
+        self.estimatedSpeedLCD.setGeometry(QtCore.QRect(10, 410, 171, 71))
         self.estimatedSpeedLCD.setObjectName(_fromUtf8("estimatedSpeedLCD"))
         self.setKIButton = QtGui.QPushButton(self.control_tab)
         self.setKIButton.setEnabled(False)
@@ -190,7 +190,7 @@ class Ui_MainWindow(object):
         self.rightPlotLabel.setObjectName(_fromUtf8("rightPlotLabel"))
         self.desiredSpeedEdit = QtGui.QLineEdit(self.control_tab)
         self.desiredSpeedEdit.setEnabled(False)
-        self.desiredSpeedEdit.setGeometry(QtCore.QRect(0, 50, 101, 39))
+        self.desiredSpeedEdit.setGeometry(QtCore.QRect(10, 50, 91, 39))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.desiredSpeedEdit.setFont(font)
