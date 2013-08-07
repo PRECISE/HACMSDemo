@@ -160,11 +160,17 @@ class HACMSWindow(QMainWindow):
 #         self.outAxes.set_xlabel('time')
 #         self.outAxes.set_ylabel('speed')
 #         self.outAxes.set_title('Output')
+        self.ui.rightPlot.disableAutoRange()
+        self.ui.rightPlot.setYRange(0, 1.4)
+        self.ui.rightPlot.setBackground('w')
+        self.ui.rightPlot.setAntialiasing(True)
         self.rightPlotOdom = self.ui.rightPlot.plot(self.out_Odom)
+        self.rightPlotOdom.setPen(pg.mkPen(width=2, color='b'))
+        self.rightPlotOdom.showGrid(True, True)
         self.rightPlotRef = self.ui.rightPlot.plot(self.in_Ref)
+        self.rightPlotRef.setPen(pg.mkPen(width=2, color='c'))
         self.rightPlotTimer = QTimer()
         self.rightPlotTimer.timeout.connect(self.updateRightPlot)
-        self.rightPlotTimer.start(100)
 #         self.rightFig = Figure((4.21, 4.41), dpi=self.dpi)
 #         self.rightCanvas = FigureCanvas(self.rightFig)
 #         self.rightCanvas.setParent(self.ui.rightPlot)
@@ -175,6 +181,12 @@ class HACMSWindow(QMainWindow):
 #         self.rightAxes.set_xlabel('time')
 #         self.rightAxes.set_ylabel('speed')
 #         self.rightAxes.set_title('Odometry')
+
+    def startPlotTimers(self):
+        self.rightPlotTimer.start(500)
+        
+    def stopPlotTimers(self):
+        self.rightPlotTimer.stop()
 
     def init_waypoints(self):
         self.waypointList = QStringList()
@@ -225,7 +237,9 @@ class HACMSWindow(QMainWindow):
             res = self.remote.startLandshark()
             self.start_landshark_comm()
             self.enableAllElements()
+            self.startPlotTimers()
         else:
+            self.stopPlotTimers()
             self.disableAllElements()
             self.stop_landshark_comm()
             res = self.remote.stopLandshark()
