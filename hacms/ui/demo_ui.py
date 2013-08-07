@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'demo.ui'
 #
-# Created: Wed Aug  7 14:29:00 2013
+# Created: Wed Aug  7 14:32:23 2013
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,7 +26,9 @@ except AttributeError:
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
-        MainWindow.resize(1275, 694)
+        MainWindow.resize(1275, 693)
+        MainWindow.setMinimumSize(QtCore.QSize(1275, 693))
+        MainWindow.setMaximumSize(QtCore.QSize(1275, 693))
         MainWindow.setUnifiedTitleAndToolBarOnMac(True)
         self.centralWidget = QtGui.QWidget(MainWindow)
         self.centralWidget.setObjectName(_fromUtf8("centralWidget"))
