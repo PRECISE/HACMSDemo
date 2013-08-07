@@ -200,7 +200,7 @@ class HACMSWindow(QMainWindow):
         self.ui.rightPlot.setBackground('w')
         self.ui.rightPlot.hideButtons()
         self.ui.rightPlot.showGrid(False, True)
-        self.ui.rightPlot.addLegend(offset=(400,10))
+        #self.ui.rightPlot.addLegend()
         #self.ui.rightPlot.setLabel('left', 'speed')
         self.ui.rightPlot.setLabel('top', ' ')
         self.ui.rightPlot.setLabel('right', ' ')
