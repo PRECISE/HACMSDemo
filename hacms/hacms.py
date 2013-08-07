@@ -1,5 +1,31 @@
 #!/usr/bin/env python
 
+# Copyright (c) 2013, The Trustees of the University of Pennsylvania.
+# Developed with the sponsorship of the Defense Advanced Research Projects
+# Agency (DARPA).
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this data, including any software or models in source or binary
+# form, as well as any drawings, specifications, and documentation
+# (collectively "the Data"), to deal in the Data without restriction,
+# including without limitation the rights to use, copy, modify, merge,
+# publish, distribute, sublicense, and/or sell copies of the Data, and to
+# permit persons to whom the Data is furnished to do so, subject to the
+# following conditions:
+# 
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Data.
+# 
+# THE DATA IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+# THE AUTHORS, SPONSORS, DEVELOPERS, CONTRIBUTORS, OR COPYRIGHT HOLDERS BE
+# LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+# OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+# WITH THE DATA OR THE USE OR OTHER DEALINGS IN THE DATA.
+
+# Authors: Peter Gebhard, Nicola Bezzo
+
 # Standard Python modules
 import sys, string
 from collections import deque
@@ -62,7 +88,6 @@ class HACMSWindow(QMainWindow):
         self.out_EncL = deque(maxlen=self.windowSize)
         self.out_EncR = deque(maxlen=self.windowSize)
         self.out_GPS = deque(maxlen=self.windowSize)
-        self.out_Trim = deque(maxlen=self.windowSize)
         
     def init_widgets(self):
         self.remote = Remote(self.ui.console)
@@ -98,10 +123,7 @@ class HACMSWindow(QMainWindow):
             self.ui.inputPlot,
             self.ui.inputPlotLabel,
             self.ui.rightPlot,
-            self.ui.rightPlotLabel,
-            self.ui.saveInputPlotButton,
-            self.ui.saveOutputPlotButton
-            #self.ui.saveRightPlotButton,
+            self.ui.rightPlotLabel
         ]
         #self.ui.mapView.setScene(MapnikScene(self.ui.mapView))
         #self.ui.mapView = MapView(self.ui.mapWidget)
@@ -138,54 +160,62 @@ class HACMSWindow(QMainWindow):
         self.ui.kiEdit.setValidator(self.validator)
         
     def init_plots(self):
-        self.dpi = 100
-        self.y_top = 1.5
-        self.inFig = Figure((3.31, 2.01), dpi=self.dpi)
-        self.inCanvas = FigureCanvas(self.inFig)
-        self.inCanvas.setParent(self.ui.inputPlot)
-        self.inAxes = self.inFig.add_subplot(111)
-        self.inAxes.grid(True)
-        self.inAxes.set_ybound(0, self.y_top)
-        self.inAxes.set_autoscaley_on(False)
-#         self.inAxes.set_xlabel('time')
-#         self.inAxes.set_ylabel('speed')
-#         self.inAxes.set_title('Input')
-        self.outFig = Figure((3.31, 2.01), dpi=self.dpi)
-        self.outCanvas = FigureCanvas(self.outFig)
-        self.outCanvas.setParent(self.ui.outputPlot)
-        self.outAxes = self.outFig.add_subplot(111)
-        self.outAxes.grid(True)
-        self.outAxes.set_ybound(0, self.y_top)
-#         self.outAxes.set_autoscaley_on(False)
-#         self.outAxes.set_xlabel('time')
-#         self.outAxes.set_ylabel('speed')
-#         self.outAxes.set_title('Output')
+        self.ui.inputPlot.disableAutoRange(pg.ViewBox.YAxis)
+        self.ui.inputPlot.setYRange(0, 1.3)
+        self.ui.inputPlot.setBackground('w')
+        self.ui.inputPlot.setAntialiasing(True)
+        self.ui.inputPlot.showGrid(False, True)
+        self.ui.inputPlot.addLegend()
+        self.ui.inputPlot.setLabels({'left': 'speed', 'bottom': 'time'})
+        self.ui.inputPlot.setTitle('Input')
+        self.inputPlotBase = self.ui.inputPlot.plot(self.in_Base, name='CMD')
+        self.inputPlotBase.setPen(pg.mkPen(width=3, color='r'))
+        self.inputPlotRef = self.ui.inputPlot.plot(self.in_Ref, name='REF')
+        self.inputPlotRef.setPen(pg.mkPen(width=3, color='c'))
+        self.inputPlotTimer = QTimer()
+        self.inputPlotTimer.timeout.connect(self.updateInputPlot)
+
+        self.ui.outputPlot.disableAutoRange(pg.ViewBox.YAxis)
+        self.ui.outputPlot.setYRange(0, 1.3)
+        self.ui.outputPlot.setBackground('w')
+        self.ui.outputPlot.setAntialiasing(True)
+        self.ui.outputPlot.showGrid(False, True)
+        self.ui.outputPlot.addLegend()
+        self.ui.outputPlot.setLabels({'left': 'speed', 'bottom': 'time'})
+        self.ui.outputPlot.setTitle('Output')
+        self.outputPlotGPS = self.ui.outputPlot.plot(self.out_GPS, name='GPS')
+        self.outputPlotGPS.setPen(pg.mkPen(width=3, color='m'))
+        self.outputPlotLE = self.ui.outputPlot.plot(self.out_EncL, name='ENC LEFT')
+        self.outputPlotLE.setPen(pg.mkPen(width=3, color='b'))
+        self.outputPlotRE = self.ui.outputPlot.plot(self.out_EncR, name='ENC RIGHT')
+        self.outputPlotRE.setPen(pg.mkPen(width=3, color='g'))
+        self.outputPlotTimer = QTimer()
+        self.outputPlotTimer.timeout.connect(self.updateOutputPlot)
+
         self.ui.rightPlot.disableAutoRange(pg.ViewBox.YAxis)
-        self.ui.rightPlot.setYRange(0, 1.4)
+        self.ui.rightPlot.setYRange(0, 1.3)
         self.ui.rightPlot.setBackground('w')
         self.ui.rightPlot.setAntialiasing(True)
-        self.ui.rightPlot.showGrid(True, True)
-        self.rightPlotOdom = self.ui.rightPlot.plot(self.out_Odom)
-        self.rightPlotOdom.setPen(pg.mkPen(width=4, color='b'))
-        self.rightPlotRef = self.ui.rightPlot.plot(self.in_Ref)
-        self.rightPlotRef.setPen(pg.mkPen(width=4, color='c'))
+        self.ui.rightPlot.showGrid(False, True)
+        self.ui.rightPlot.addLegend()
+        self.ui.rightPlot.setLabels({'left': 'speed', 'bottom': 'time'})
+        self.ui.rightPlot.setTitle('Odometry')
+        self.rightPlotOdom = self.ui.rightPlot.plot(self.out_Odom, name='SPEED')
+        self.rightPlotOdom.setPen(pg.mkPen(width=3, color='b'))
+        self.rightPlotRef = self.ui.rightPlot.plot(self.in_Ref, name='REF')
+        self.rightPlotRef.setPen(pg.mkPen(width=3, color='c'))
         self.rightPlotTimer = QTimer()
         self.rightPlotTimer.timeout.connect(self.updateRightPlot)
-#         self.rightFig = Figure((4.21, 4.41), dpi=self.dpi)
-#         self.rightCanvas = FigureCanvas(self.rightFig)
-#         self.rightCanvas.setParent(self.ui.rightPlot)
-#         self.rightAxes = self.rightFig.add_subplot(111)
-#         self.rightAxes.grid(True)
-#         self.rightAxes.set_ybound(0, self.y_top)
-#         self.rightAxes.set_autoscaley_on(False)
-#         self.rightAxes.set_xlabel('time')
-#         self.rightAxes.set_ylabel('speed')
-#         self.rightAxes.set_title('Odometry')
 
     def startPlotTimers(self):
-        self.rightPlotTimer.start(500)
+        timerMsec = 500
+        self.inputPlotTimer.start(timerMsec)
+        self.outputPlotTimer.start(timerMsec)
+        self.rightPlotTimer.start(timerMsec)
         
     def stopPlotTimers(self):
+        self.inputPlotTimer.stop()
+        self.outputPlotTimer.stop()
         self.rightPlotTimer.stop()
 
     def init_waypoints(self):
@@ -216,7 +246,6 @@ class HACMSWindow(QMainWindow):
         self.out_EncL.clear()
         self.out_EncR.clear()
         self.out_GPS.clear()
-        self.out_Trim.clear()
                 
     def enableAllElements(self):
         for widget in self.widgets:
@@ -348,76 +377,24 @@ class HACMSWindow(QMainWindow):
     def updateEstimatedSpeedLCD(self, value):
         self.ui.estimatedSpeedLCD.display(value)
 
-    def save_plot(self):
-        file_choices = "PNG (*.png)|*.png"
-        return unicode(QFileDialog.getSaveFileName(self, 'Save file', '', file_choices))
-
-    def draw_inputPlot(self):
+    def updateInputPlot(self):
         """ Redraws the input plot
         """
-        # clear the axes and redraw the plot anew
-        self.inAxes.clear()
-        self.inAxes.grid(True)
-        self.inAxes.set_ybound(0, self.y_top)
-        self.inAxes.set_autoscaley_on(False) 
-#         self.inAxes.set_xlabel('time')
-#         self.inAxes.set_ylabel('speed')
-#         self.inAxes.set_title('Input')
-        self.inAxes.plot(self.in_Base, 'r', linewidth=2)
-        self.inAxes.plot(self.in_Ref, 'c', linewidth=2)
-        self.inCanvas.draw()
-        
-    def save_inputPlot(self):
-        path = self.save_plot()
-        if path:
-            self.inCanvas.print_figure(path, dpi=self.dpi)
-            self.statusBar().showMessage('Saved to %s' % path, 2000)
+        self.inputPlotBase.setData(self.in_Base)
+        self.inputPlotRef.setData(self.in_Ref)
     
-    def draw_outputPlot(self):
+    def updateOutputPlot(self):
         """ Redraws the output plot
         """
-        # clear the axes and redraw the plot anew
-        self.outAxes.clear()
-        self.outAxes.grid(True)
-        self.outAxes.set_ybound(0, self.y_top)
-#         self.outAxes.set_autoscaley_on(False) 
-#         self.outAxes.set_xlabel('time')
-#         self.outAxes.set_ylabel('speed')
-#         self.outAxes.set_title('Output')
-        self.outAxes.plot(self.out_EncL, 'b', linewidth=2)
-        self.outAxes.plot(self.out_EncR, 'g', linewidth=2)
-        self.outAxes.plot(self.out_GPS, 'm', linewidth=2)
-        self.outCanvas.draw()
-        
-    def save_outputPlot(self):
-        path = self.save_plot()
-        if path:
-            self.outCanvas.print_figure(path, dpi=self.dpi)
-            self.statusBar().showMessage('Saved to %s' % path, 2000)
+        self.outputPlotGPS.setData(self.out_GPS)
+        self.outputPlotLE.setData(self.out_EncL)
+        self.outputPlotRE.setData(self.out_EncR)
         
     def updateRightPlot(self):
         """ Redraws the righthand plot
         """
-        # clear the axes and redraw the plot anew
-#         self.rightAxes.clear()
-#         self.rightAxes.grid(True)
-#         self.rightAxes.set_ybound(0, self.y_top)
-#         self.rightAxes.set_autoscaley_on(False) 
-#         self.rightAxes.set_xlabel('time')
-#         self.rightAxes.set_ylabel('speed')
-#         self.rightAxes.set_title('Odometry')
-#         self.rightAxes.plot(self.out_Odom, 'b', linewidth=2)
-#         self.rightAxes.plot(self.in_Ref, 'c', linewidth=2)
-#         self.rightCanvas.draw()
         self.rightPlotOdom.setData(self.out_Odom)
         self.rightPlotRef.setData(self.in_Ref)
-        
-    
-    def save_rightPlot(self):
-        path = self.save_plot()
-        if path:
-            self.rightCanvas.print_figure(path, dpi=self.dpi)
-            self.statusBar().showMessage('Saved to %s' % path, 2000)
 
     def setLandsharkSpeed(self):
         self.desired_speed_pub.publish(Float32(float(self.ui.desiredSpeedEdit.text())))
@@ -427,9 +404,6 @@ class HACMSWindow(QMainWindow):
         
     def setKI(self):
         self.ki_pub.publish(Float32(float(self.ui.kiEdit.text())))
-        
-    def setAutotrim(self):
-        self.autotrim_pub.publish(Float32(float(self.ui.autotrimEdit.text())))
     
     def setTrimLeft(self):
         # Get current trim value
@@ -472,7 +446,6 @@ class HACMSWindow(QMainWindow):
 
         # Publish to HACMS Demo topics
         self.desired_speed_pub = rospy.Publisher('/landshark_demo/desired_speed', Float32)
-        self.autotrim_pub = rospy.Publisher('/landshark_demo/autotrim', Float32)
         self.trim_pub = rospy.Publisher('/landshark_demo/trim', Float32)
         self.kp_pub = rospy.Publisher('/landshark_demo/kp', Float32)
         self.ki_pub = rospy.Publisher('/landshark_demo/ki', Float32)
@@ -494,7 +467,6 @@ class HACMSWindow(QMainWindow):
 
         # Unregister HACMS Demo published topics
         self.desired_speed_pub.unregister()
-        self.autotrim_pub.unregister()
         self.trim_pub.unregister()
         self.kp_pub.unregister()
         self.ki_pub.unregister()
@@ -508,7 +480,6 @@ class HACMSWindow(QMainWindow):
 
     def captureBase(self, msg):
         self.in_Base.append(msg.twist.linear.x)
-        self.draw_inputPlot()
 
     def captureRef(self, msg):
         self.in_Ref.append(msg.twist.linear.x)
@@ -519,12 +490,10 @@ class HACMSWindow(QMainWindow):
     def captureOdom(self, msg):
         self.updateActualSpeedLCD(msg.twist.twist.linear.x)
         self.out_Odom.append(msg.twist.twist.linear.x)
-        #self.updateRightPlot()
         
     def captureEncL(self, msg):
         self.out_EncL.append(msg.twist.linear.x)
         self.out_GPS.append(msg.twist.linear.y)
-        self.draw_outputPlot()
         
     def captureEncR(self, msg):
         self.out_EncR.append(msg.twist.linear.x)
