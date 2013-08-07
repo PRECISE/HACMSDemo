@@ -162,6 +162,9 @@ class HACMSWindow(QMainWindow):
 #         self.outAxes.set_title('Output')
         self.rightPlotOdom = self.ui.rightPlot.plot(self.out_Odom)
         self.rightPlotRef = self.ui.rightPlot.plot(self.in_Ref)
+        self.rightPlotTimer = QTimer()
+        self.rightPlotTimer.timeout.connect(updateRightPlot)
+        self.rightPlotTimer.start(100)
 #         self.rightFig = Figure((4.21, 4.41), dpi=self.dpi)
 #         self.rightCanvas = FigureCanvas(self.rightFig)
 #         self.rightCanvas.setParent(self.ui.rightPlot)
@@ -378,7 +381,7 @@ class HACMSWindow(QMainWindow):
             self.outCanvas.print_figure(path, dpi=self.dpi)
             self.statusBar().showMessage('Saved to %s' % path, 2000)
         
-    def draw_rightPlot(self):
+    def updateRightPlot(self):
         """ Redraws the righthand plot
         """
         # clear the axes and redraw the plot anew
@@ -392,10 +395,8 @@ class HACMSWindow(QMainWindow):
 #         self.rightAxes.plot(self.out_Odom, 'b', linewidth=2)
 #         self.rightAxes.plot(self.in_Ref, 'c', linewidth=2)
 #         self.rightCanvas.draw()
-        #self.rightPlotOdom.setData(self.out_Odom)
-        #self.rightPlotRef.setData(self.in_Ref)
-        self.ui.rightPlot.plot(self.out_Odom)
-        #self.ui.rightPlot.plot(self.in_Ref)
+        self.rightPlotOdom.setData(self.out_Odom)
+        self.rightPlotRef.setData(self.in_Ref)
         
     
     def save_rightPlot(self):
@@ -504,7 +505,7 @@ class HACMSWindow(QMainWindow):
     def captureOdom(self, msg):
         self.updateActualSpeedLCD(msg.twist.twist.linear.x)
         self.out_Odom.append(msg.twist.twist.linear.x)
-        self.draw_rightPlot()
+        #self.updateRightPlot()
         
     def captureEncL(self, msg):
         self.out_EncL.append(msg.twist.linear.x)
