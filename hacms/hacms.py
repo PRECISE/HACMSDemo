@@ -148,9 +148,6 @@ class HACMSWindow(QMainWindow):
         self.ui.setKIButton.clicked.connect(self.setKI)
         self.ui.setTrimLeftButton.clicked.connect(self.setTrimLeft)
         self.ui.setTrimRightButton.clicked.connect(self.setTrimRight)
-        self.ui.saveInputPlotButton.clicked.connect(self.save_inputPlot)
-        self.ui.saveOutputPlotButton.clicked.connect(self.save_outputPlot)
-        self.ui.saveRightPlotButton.clicked.connect(self.save_rightPlot)
         
         # Set Validator for parameter fields
         self.validator = QDoubleValidator()
