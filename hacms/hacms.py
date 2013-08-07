@@ -392,8 +392,10 @@ class HACMSWindow(QMainWindow):
 #         self.rightAxes.plot(self.out_Odom, 'b', linewidth=2)
 #         self.rightAxes.plot(self.in_Ref, 'c', linewidth=2)
 #         self.rightCanvas.draw()
-        self.rightPlotOdom.setData(self.out_Odom)
-        self.rightPlotRef.setData(self.in_Ref)
+        #self.rightPlotOdom.setData(self.out_Odom)
+        #self.rightPlotRef.setData(self.in_Ref)
+        self.ui.rightPlot.plot(self.out_Odom)
+        #self.ui.rightPlot.plot(self.in_Ref)
         
     
     def save_rightPlot(self):
