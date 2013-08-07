@@ -3,7 +3,7 @@
 # Copyright (c) 2013, The Trustees of the University of Pennsylvania.
 # Developed with the sponsorship of the Defense Advanced Research Projects
 # Agency (DARPA).
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this data, including any software or models in source or binary
 # form, as well as any drawings, specifications, and documentation
@@ -12,10 +12,10 @@
 # publish, distribute, sublicense, and/or sell copies of the Data, and to
 # permit persons to whom the Data is furnished to do so, subject to the
 # following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included
 # in all copies or substantial portions of the Data.
-# 
+#
 # THE DATA IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
@@ -69,16 +69,16 @@ from mapview import MapView
         #TODO: Fix plots so that the titles and axes labels are shown completely
         #TODO: Navigation tab
         #TODO: Change attack mode whenever attack radio button changes (if Attack button is pressed)
-     
+
 class HACMSWindow(QMainWindow):
     def __init__(self):
         super(HACMSWindow, self).__init__()
-        
+
     def init_window(self):
         self.ui.setupUi(self)
         self.init_data_structs()
         self.init_widgets()
-        
+
     def init_data_structs(self):
         self.trimIncrement = 0.001
         self.windowSize = 300
@@ -88,33 +88,33 @@ class HACMSWindow(QMainWindow):
         self.out_EncL = deque(maxlen=self.windowSize)
         self.out_EncR = deque(maxlen=self.windowSize)
         self.out_GPS = deque(maxlen=self.windowSize)
-        
+
     def init_widgets(self):
         self.remote = Remote(self.ui.console)
         self.widgets = [
-            self.ui.tabWidget, 
-            self.ui.ccButton, 
-            self.ui.rcButton, 
-            self.ui.attackButton, 
-            self.ui.attackComboBox, 
-            self.ui.gpsCheckBox, 
-            self.ui.enclCheckBox, 
-            self.ui.encrCheckBox, 
-            self.ui.saveButton, 
-            self.ui.desiredSpeedLabel, 
-            self.ui.desiredSpeedEdit, 
-            self.ui.setSpeedButton, 
-            self.ui.kpLabel, 
-            self.ui.kpEdit, 
-            self.ui.setKPButton, 
-            self.ui.kiLabel, 
-            self.ui.kiEdit, 
-            self.ui.setKIButton, 
-            self.ui.trimLabel, 
-            self.ui.trimValueLabel, 
-            self.ui.setTrimLeftButton, 
-            self.ui.setTrimRightButton, 
-            self.ui.actualSpeedLabel, 
+            self.ui.tabWidget,
+            self.ui.ccButton,
+            self.ui.rcButton,
+            self.ui.attackButton,
+            self.ui.attackComboBox,
+            self.ui.gpsCheckBox,
+            self.ui.enclCheckBox,
+            self.ui.encrCheckBox,
+            self.ui.saveButton,
+            self.ui.desiredSpeedLabel,
+            self.ui.desiredSpeedEdit,
+            self.ui.setSpeedButton,
+            self.ui.kpLabel,
+            self.ui.kpEdit,
+            self.ui.setKPButton,
+            self.ui.kiLabel,
+            self.ui.kiEdit,
+            self.ui.setKIButton,
+            self.ui.trimLabel,
+            self.ui.trimValueLabel,
+            self.ui.setTrimLeftButton,
+            self.ui.setTrimRightButton,
+            self.ui.actualSpeedLabel,
             self.ui.actualSpeedLCD,
             self.ui.estimatedSpeedLabel,
             self.ui.estimatedSpeedLCD,
@@ -148,14 +148,14 @@ class HACMSWindow(QMainWindow):
         self.ui.setKIButton.clicked.connect(self.setKI)
         self.ui.setTrimLeftButton.clicked.connect(self.setTrimLeft)
         self.ui.setTrimRightButton.clicked.connect(self.setTrimRight)
-        
+
         # Set Validator for parameter fields
         self.validator = QDoubleValidator()
         self.validator.setNotation(QDoubleValidator.StandardNotation)
         self.ui.desiredSpeedEdit.setValidator(self.validator)
         self.ui.kpEdit.setValidator(self.validator)
         self.ui.kiEdit.setValidator(self.validator)
-        
+
     def init_plots(self):
         self.ui.inputPlot.disableAutoRange(pg.ViewBox.YAxis)
         self.ui.inputPlot.setYRange(0, 1.3, 0)
@@ -175,8 +175,6 @@ class HACMSWindow(QMainWindow):
         self.inputPlotTimer = QTimer()
         self.inputPlotTimer.timeout.connect(self.updateInputPlot)
 
-        self.ui.outputPlot.disableAutoRange(pg.ViewBox.YAxis)
-        self.ui.outputPlot.setYRange(0, 1.3, 0)
         self.ui.outputPlot.setBackground('w')
         self.ui.outputPlot.hideButtons()
         self.ui.outputPlot.showGrid(False, True)
@@ -218,7 +216,7 @@ class HACMSWindow(QMainWindow):
         self.inputPlotTimer.start(timerMsec)
         self.outputPlotTimer.start(timerMsec)
         self.rightPlotTimer.start(timerMsec)
-        
+
     def stopPlotTimers(self):
         self.inputPlotTimer.stop()
         self.outputPlotTimer.stop()
@@ -236,7 +234,7 @@ class HACMSWindow(QMainWindow):
         about.ui = ui.about_ui.Ui_Dialog()
         about.ui.setupUi(about)
         about.exec_()
-                
+
     def fileQuit(self):
         if self.ui.landsharkButton.isChecked():
             self.stop_landshark_comm()
@@ -244,7 +242,7 @@ class HACMSWindow(QMainWindow):
 
     def closeEvent(self, ce):
         self.fileQuit()
-        
+
     def zeroData(self):
         self.in_Base.clear()
         self.in_Ref.clear()
@@ -252,12 +250,12 @@ class HACMSWindow(QMainWindow):
         self.out_EncL.clear()
         self.out_EncR.clear()
         self.out_GPS.clear()
-                
+
     def enableAllElements(self):
         for widget in self.widgets:
             widget.setEnabled(True)
         self.zeroData()
-        
+
     def disableAllElements(self):
         self.cc(False)
         self.rc(False)
@@ -290,7 +288,7 @@ class HACMSWindow(QMainWindow):
             self.attack(False)
             res = self.remote.stopCC()
         self.ui.ccButton.setChecked(res)
-        
+
     def saveData(self, checked):
         if checked:
             res = self.remote.startSaveData()
@@ -311,7 +309,7 @@ class HACMSWindow(QMainWindow):
             except:
                 self.ui.rcButton.setChecked(True)
                 return
-                
+
         # For when the button is set via direct method call, not by event call
         self.ui.rcButton.setChecked(checked)
 
@@ -329,24 +327,24 @@ class HACMSWindow(QMainWindow):
             except:
                 self.ui.attackButton.setChecked(True)
                 return
-        
+
         # For when the button is set via direct method call, not by event call
         self.ui.attackButton.setChecked(checked)
-        
+
     def attackMode(self, index):
         if self.ui.attackButton.isChecked():
             try:
                 self.run_attack_pub.publish(Int32(index+1)) # Start base index at 1
             except:
                 return
-    
+
     def attackSensor(self):
         if self.ui.attackButton.isChecked():
             try:
                 self.sensor_attack_pub.publish(Int32(self.getAttackSensorValue()))
             except:
                 return
-                
+
     def getAttackSensorValue(self):
         value = 0
         if self.ui.gpsCheckBox.isChecked():
@@ -388,14 +386,14 @@ class HACMSWindow(QMainWindow):
         """
         self.inputPlotBase.setData(self.in_Base)
         self.inputPlotRef.setData(self.in_Ref)
-    
+
     def updateOutputPlot(self):
         """ Redraws the output plot
         """
         self.outputPlotGPS.setData(self.out_GPS)
         self.outputPlotLE.setData(self.out_EncL)
         self.outputPlotRE.setData(self.out_EncR)
-        
+
     def updateRightPlot(self):
         """ Redraws the righthand plot
         """
@@ -404,36 +402,36 @@ class HACMSWindow(QMainWindow):
 
     def setLandsharkSpeed(self):
         self.desired_speed_pub.publish(Float32(float(self.ui.desiredSpeedEdit.text())))
-    
+
     def setKP(self):
         self.kp_pub.publish(Float32(float(self.ui.kpEdit.text())))
-        
+
     def setKI(self):
         self.ki_pub.publish(Float32(float(self.ui.kiEdit.text())))
-    
+
     def setTrimLeft(self):
         # Get current trim value
         trim = float(self.ui.trimValueLabel.text())
-        
+
         # Decrement trim value
         trim -= self.trimIncrement
-        
+
         # Display updated trim value
         self.ui.trimValueLabel.setText(str(trim))
-        
+
         # Publish new trim value
         self.trim_pub.publish(Float32(trim))
-    
+
     def setTrimRight(self):
         # Get current trim value
         trim = float(self.ui.trimValueLabel.text())
-        
+
         # Increment trim value
         trim += self.trimIncrement
-        
+
         # Display updated trim value
         self.ui.trimValueLabel.setText(str(trim))
-        
+
         # Publish new trim value
         self.trim_pub.publish(Float32(trim))
 
@@ -460,7 +458,7 @@ class HACMSWindow(QMainWindow):
         self.sensor_attack_pub = rospy.Publisher('/landshark_demo/sensor_attack', Int32)
 
         return True
-        
+
     def stop_landshark_comm(self):
         # Unregister HACMS Demo subscribed topics
         self.base_sub.unregister()
@@ -496,14 +494,14 @@ class HACMSWindow(QMainWindow):
     def captureOdom(self, msg):
         self.updateActualSpeedLCD(msg.twist.twist.linear.x)
         self.out_Odom.append(msg.twist.twist.linear.x)
-        
+
     def captureEncL(self, msg):
         self.out_EncL.append(msg.twist.linear.x)
         self.out_GPS.append(msg.twist.linear.y)
-        
+
     def captureEncR(self, msg):
         self.out_EncR.append(msg.twist.linear.x)
-        
+
     def captureGPS(self, msg):
         #self.out_GPS.append(msg.twist.linear.x)
         return
