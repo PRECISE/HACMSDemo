@@ -1,8 +1,3 @@
-HACMSDemo
-=========
-
-License
--------
 Copyright (c) 2013, The Trustees of the University of Pennsylvania.
 Developed with the sponsorship of the Defense Advanced Research Projects
 Agency (DARPA).
@@ -26,29 +21,3 @@ THE AUTHORS, SPONSORS, DEVELOPERS, CONTRIBUTORS, OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE DATA OR THE USE OR OTHER DEALINGS IN THE DATA.
-
-Authors
--------
-Peter Gebhard, Nicola Bezzo
-PRECISE Center
-Computer and Information Science Department
-University of Pennsylania
-
-Installation steps
-------------------
-Install the following required third-party libraries:
-- ROS (ROSPy, paramiko, matplotlib are included in this package)
-- PyQt (PyQt 4.10.2, Qt4 version)
-- Mapnik (package name: python-mapnik)
-
-ROS setup tips:
-- Ensure that the ~/.bashrc file contains the correct ROS\_IP and ROS\_MASTER\_URI values.
-
-SSH connection tips:
-- Get the LandShark black_box host key (use 'ssh-keyscan -t rsa <landshark\_ip>')
-- Copy the host key to the local ~/.ssh/known_hosts file
-- Ensure the 'hacms.cfg' file exists and contains the correct values (IP address, etc.)
-
-Credits
--------
-Icons from famfamfam.com (http://www.famfamfam.com/lab/icons/silk/)
