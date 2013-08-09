@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'demo.ui'
 #
-# Created: Fri Aug  9 12:22:32 2013
+# Created: Fri Aug  9 12:30:39 2013
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -137,7 +137,7 @@ class Ui_MainWindow(object):
         self.gpsLabel.setObjectName(_fromUtf8("gpsLabel"))
         self.kiLabel = QtGui.QLabel(self.control_tab)
         self.kiLabel.setEnabled(False)
-        self.kiLabel.setGeometry(QtCore.QRect(-10, 140, 61, 20))
+        self.kiLabel.setGeometry(QtCore.QRect(0, 140, 61, 20))
         font = QtGui.QFont()
         font.setPointSize(14)
         self.kiLabel.setFont(font)
@@ -220,7 +220,7 @@ class Ui_MainWindow(object):
         self.line_2.setObjectName(_fromUtf8("line_2"))
         self.kpEdit = QtGui.QLineEdit(self.control_tab)
         self.kpEdit.setEnabled(False)
-        self.kpEdit.setGeometry(QtCore.QRect(50, 110, 61, 21))
+        self.kpEdit.setGeometry(QtCore.QRect(60, 110, 61, 21))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.kpEdit.setFont(font)
@@ -244,7 +244,7 @@ class Ui_MainWindow(object):
         self.trimValueLabel.setObjectName(_fromUtf8("trimValueLabel"))
         self.kiEdit = QtGui.QLineEdit(self.control_tab)
         self.kiEdit.setEnabled(False)
-        self.kiEdit.setGeometry(QtCore.QRect(50, 140, 61, 21))
+        self.kiEdit.setGeometry(QtCore.QRect(60, 140, 61, 21))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.kiEdit.setFont(font)
@@ -302,7 +302,7 @@ class Ui_MainWindow(object):
         self.setTrimRightButton.setObjectName(_fromUtf8("setTrimRightButton"))
         self.kpLabel = QtGui.QLabel(self.control_tab)
         self.kpLabel.setEnabled(False)
-        self.kpLabel.setGeometry(QtCore.QRect(-10, 110, 61, 20))
+        self.kpLabel.setGeometry(QtCore.QRect(0, 110, 61, 20))
         font = QtGui.QFont()
         font.setPointSize(14)
         self.kpLabel.setFont(font)
@@ -343,7 +343,7 @@ class Ui_MainWindow(object):
         self.outputPlot.setObjectName(_fromUtf8("outputPlot"))
         self.rateEdit = QtGui.QLineEdit(self.control_tab)
         self.rateEdit.setEnabled(False)
-        self.rateEdit.setGeometry(QtCore.QRect(50, 170, 61, 21))
+        self.rateEdit.setGeometry(QtCore.QRect(60, 170, 61, 21))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.rateEdit.setFont(font)
@@ -358,7 +358,7 @@ class Ui_MainWindow(object):
         self.setRateButton.setObjectName(_fromUtf8("setRateButton"))
         self.rateLabel = QtGui.QLabel(self.control_tab)
         self.rateLabel.setEnabled(False)
-        self.rateLabel.setGeometry(QtCore.QRect(-10, 170, 61, 20))
+        self.rateLabel.setGeometry(QtCore.QRect(0, 170, 61, 20))
         font = QtGui.QFont()
         font.setPointSize(14)
         self.rateLabel.setFont(font)
