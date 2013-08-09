@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'about.ui'
 #
-# Created: Fri Aug  9 12:23:31 2013
+# Created: Fri Aug  9 12:27:53 2013
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -52,6 +52,6 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(_translate("Dialog", "About HACMS Demo", None))
-        self.aboutText.setText(_translate("Dialog", "<html><head/><body><p>The <span style=\" font-weight:600;\">HACMS Demo</span> application allows for control of the LandShark robot while displaying live ROS telemetry data. </p><p>Developed by the <a href=\"http://precise.seas.upenn.edu\"><span style=\" text-decoration: underline; color:#0000ff;\">PRECISE Center</span></a> at <a href=\"http://www.seas.upenn.edu\"><span style=\" text-decoration: underline; color:#0000ff;\">University of Pennsylvania</span></a>.</p><p>Authors: <a href=\"http://www.seas.upenn.edu/~pgeb\"><span style=\" text-decoration: underline; color:#0000ff;\">Peter Gebhard</span></a>, Nicola Bezzo</p></body></html>", None))
+        self.aboutText.setText(_translate("Dialog", "<html><head/><body><p>The <span style=\" font-weight:600;\">HACMS Demo</span> application allows for control of the LandShark robot while displaying live ROS telemetry data. </p><p>Developed by the <a href=\"http://precise.seas.upenn.edu\"><span style=\" text-decoration: underline; color:#0000ff;\">PRECISE Center</span></a> at <a href=\"http://www.seas.upenn.edu\"><span style=\" text-decoration: underline; color:#0000ff;\">University of Pennsylvania</span></a>.</p><p>Authors: <a href=\"http://www.seas.upenn.edu/~pgeb\"><span style=\" text-decoration: underline; color:#0000ff;\">Peter Gebhard</span></a>, <a href=\"http://www.seas.upenn.edu/~nicbezzo\"><span style=\" text-decoration: underline; color:#0000ff;\">Nicola Bezzo</span></a></p></body></html>", None))
 
 import images_rc
