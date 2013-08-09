@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'demo.ui'
 #
-# Created: Wed Aug  7 14:32:23 2013
+# Created: Fri Aug  9 11:44:42 2013
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -175,13 +175,13 @@ class Ui_MainWindow(object):
         self.leLabel.setFont(font)
         self.leLabel.setObjectName(_fromUtf8("leLabel"))
         self.refLabel2 = QtGui.QLabel(self.control_tab)
-        self.refLabel2.setGeometry(QtCore.QRect(750, 10, 41, 21))
+        self.refLabel2.setGeometry(QtCore.QRect(760, 10, 41, 21))
         font = QtGui.QFont()
         font.setPointSize(16)
         self.refLabel2.setFont(font)
         self.refLabel2.setObjectName(_fromUtf8("refLabel2"))
         self.refLabelColor2 = QtGui.QFrame(self.control_tab)
-        self.refLabelColor2.setGeometry(QtCore.QRect(720, 10, 21, 21))
+        self.refLabelColor2.setGeometry(QtCore.QRect(730, 10, 21, 21))
         self.refLabelColor2.setStyleSheet(_fromUtf8("background-color: cyan;"))
         self.refLabelColor2.setFrameShape(QtGui.QFrame.StyledPanel)
         self.refLabelColor2.setFrameShadow(QtGui.QFrame.Raised)
@@ -227,7 +227,7 @@ class Ui_MainWindow(object):
         self.kpEdit.setAlignment(QtCore.Qt.AlignCenter)
         self.kpEdit.setObjectName(_fromUtf8("kpEdit"))
         self.speedLabel = QtGui.QLabel(self.control_tab)
-        self.speedLabel.setGeometry(QtCore.QRect(650, 10, 61, 21))
+        self.speedLabel.setGeometry(QtCore.QRect(650, 10, 81, 21))
         font = QtGui.QFont()
         font.setPointSize(16)
         self.speedLabel.setFont(font)

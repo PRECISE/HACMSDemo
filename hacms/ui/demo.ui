@@ -443,7 +443,7 @@ Controller</string>
      <widget class="QLabel" name="refLabel2">
       <property name="geometry">
        <rect>
-        <x>750</x>
+        <x>760</x>
         <y>10</y>
         <width>41</width>
         <height>21</height>
@@ -461,7 +461,7 @@ Controller</string>
      <widget class="QFrame" name="refLabelColor2">
       <property name="geometry">
        <rect>
-        <x>720</x>
+        <x>730</x>
         <y>10</y>
         <width>21</width>
         <height>21</height>
@@ -604,7 +604,7 @@ Controller</string>
        <rect>
         <x>650</x>
         <y>10</y>
-        <width>61</width>
+        <width>81</width>
         <height>21</height>
        </rect>
       </property>
@@ -1144,18 +1144,6 @@ Controller</string>
      <string>GPS</string>
     </property>
    </widget>
-   <zorder>landsharkButton</zorder>
-   <zorder>rcButton</zorder>
-   <zorder>attackButton</zorder>
-   <zorder>console</zorder>
-   <zorder>ccButton</zorder>
-   <zorder>saveButton</zorder>
-   <zorder>tabWidget</zorder>
-   <zorder>enclCheckBox</zorder>
-   <zorder>attackComboBox</zorder>
-   <zorder>encrCheckBox</zorder>
-   <zorder>gpsCheckBox</zorder>
-   <zorder>inputPlotLabel</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
