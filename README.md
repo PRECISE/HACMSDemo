@@ -37,9 +37,10 @@ University of Pennsylania
 Installation steps
 ------------------
 Install the following required third-party libraries:
-- ROS (ROSPy, paramiko, matplotlib are included in this package)
+- ROS (ROSPy and paramiko, two python modules required by this software, are bundled as part of the ROS package)
 - PyQt (PyQt 4.10.2, Qt4 version)
-- Mapnik (package name: python-mapnik)
+- pyqtgraph
+- mapnik (package name: python-mapnik)
 
 ROS setup tips:
 - Ensure that the ~/.bashrc file contains the correct ROS\_IP and ROS\_MASTER\_URI values.
@@ -48,6 +49,10 @@ SSH connection tips:
 - Get the LandShark black_box host key (use 'ssh-keyscan -t rsa <landshark\_ip>')
 - Copy the host key to the local ~/.ssh/known_hosts file
 - Ensure the 'hacms.cfg' file exists and contains the correct values (IP address, etc.)
+
+************
+TODO: Copy instructions here which Nico wrote for the SRI Git commit.
+************
 
 Credits
 -------

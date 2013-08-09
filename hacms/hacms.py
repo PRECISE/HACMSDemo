@@ -40,11 +40,7 @@ from nav_msgs.msg import Odometry
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
-# Matplotlib modules
-import matplotlib
-from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.figure import Figure
-
+# PyQtGraph
 import pyqtgraph as pg
 
 # HACMS modules
