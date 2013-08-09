@@ -10,19 +10,19 @@
     <x>0</x>
     <y>0</y>
     <width>464</width>
-    <height>213</height>
+    <height>240</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>372</width>
-    <height>213</height>
+    <width>464</width>
+    <height>240</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>464</width>
-    <height>213</height>
+    <height>240</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -37,11 +37,11 @@
      <x>0</x>
      <y>110</y>
      <width>461</width>
-     <height>121</height>
+     <height>131</height>
     </rect>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The &lt;span style=&quot; font-weight:600;&quot;&gt;HACMS Demo&lt;/span&gt; application allows for control of the LandShark robot while displaying live ROS telemetry data. &lt;/p&gt;&lt;p&gt;Developed by the &lt;a href=&quot;http://precise.seas.upenn.edu&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;PRECISE Center&lt;/span&gt;&lt;/a&gt; at &lt;a href=&quot;http://www.seas.upenn.edu&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;University of Pennsylvania&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The &lt;span style=&quot; font-weight:600;&quot;&gt;HACMS Demo&lt;/span&gt; application allows for control of the LandShark robot while displaying live ROS telemetry data. &lt;/p&gt;&lt;p&gt;Developed by the &lt;a href=&quot;http://precise.seas.upenn.edu&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;PRECISE Center&lt;/span&gt;&lt;/a&gt; at &lt;a href=&quot;http://www.seas.upenn.edu&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;University of Pennsylvania&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Authors: &lt;a href=&quot;http://www.seas.upenn.edu/~pgeb&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Peter Gebhard&lt;/span&gt;&lt;/a&gt;, Nicola Bezzo&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignHCenter|Qt::AlignTop</set>
@@ -60,9 +60,9 @@
    <property name="geometry">
     <rect>
      <x>-1</x>
-     <y>2</y>
+     <y>12</y>
      <width>461</width>
-     <height>101</height>
+     <height>91</height>
     </rect>
    </property>
    <property name="frameShape">

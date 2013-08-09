@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'about.ui'
 #
-# Created: Mon Aug  5 20:23:31 2013
+# Created: Fri Aug  9 12:23:31 2013
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -27,19 +27,19 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName(_fromUtf8("Dialog"))
         Dialog.setWindowModality(QtCore.Qt.ApplicationModal)
-        Dialog.resize(464, 213)
-        Dialog.setMinimumSize(QtCore.QSize(372, 213))
-        Dialog.setMaximumSize(QtCore.QSize(464, 213))
+        Dialog.resize(464, 240)
+        Dialog.setMinimumSize(QtCore.QSize(464, 240))
+        Dialog.setMaximumSize(QtCore.QSize(464, 240))
         Dialog.setModal(True)
         self.aboutText = QtGui.QLabel(Dialog)
-        self.aboutText.setGeometry(QtCore.QRect(0, 110, 461, 121))
+        self.aboutText.setGeometry(QtCore.QRect(0, 110, 461, 131))
         self.aboutText.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
         self.aboutText.setWordWrap(True)
         self.aboutText.setMargin(15)
         self.aboutText.setOpenExternalLinks(True)
         self.aboutText.setObjectName(_fromUtf8("aboutText"))
         self.pennLogo = QtGui.QLabel(Dialog)
-        self.pennLogo.setGeometry(QtCore.QRect(-1, 2, 461, 101))
+        self.pennLogo.setGeometry(QtCore.QRect(-1, 12, 461, 91))
         self.pennLogo.setFrameShape(QtGui.QFrame.NoFrame)
         self.pennLogo.setFrameShadow(QtGui.QFrame.Plain)
         self.pennLogo.setText(_fromUtf8(""))
@@ -52,6 +52,6 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(_translate("Dialog", "About HACMS Demo", None))
-        self.aboutText.setText(_translate("Dialog", "<html><head/><body><p>The <span style=\" font-weight:600;\">HACMS Demo</span> application allows for control of the LandShark robot while displaying live ROS telemetry data. </p><p>Developed by the <a href=\"http://precise.seas.upenn.edu\"><span style=\" text-decoration: underline; color:#0000ff;\">PRECISE Center</span></a> at <a href=\"http://www.seas.upenn.edu\"><span style=\" text-decoration: underline; color:#0000ff;\">University of Pennsylvania</span></a>.</p></body></html>", None))
+        self.aboutText.setText(_translate("Dialog", "<html><head/><body><p>The <span style=\" font-weight:600;\">HACMS Demo</span> application allows for control of the LandShark robot while displaying live ROS telemetry data. </p><p>Developed by the <a href=\"http://precise.seas.upenn.edu\"><span style=\" text-decoration: underline; color:#0000ff;\">PRECISE Center</span></a> at <a href=\"http://www.seas.upenn.edu\"><span style=\" text-decoration: underline; color:#0000ff;\">University of Pennsylvania</span></a>.</p><p>Authors: <a href=\"http://www.seas.upenn.edu/~pgeb\"><span style=\" text-decoration: underline; color:#0000ff;\">Peter Gebhard</span></a>, Nicola Bezzo</p></body></html>", None))
 
 import images_rc
