@@ -329,7 +329,7 @@ Controller</string>
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>140</y>
+        <y>150</y>
         <width>61</width>
         <height>20</height>
        </rect>
@@ -390,7 +390,7 @@ Controller</string>
       <property name="geometry">
        <rect>
         <x>130</x>
-        <y>140</y>
+        <y>150</y>
         <width>41</width>
         <height>21</height>
        </rect>
@@ -582,7 +582,7 @@ Controller</string>
       <property name="geometry">
        <rect>
         <x>60</x>
-        <y>110</y>
+        <y>120</y>
         <width>61</width>
         <height>21</height>
        </rect>
@@ -650,7 +650,7 @@ Controller</string>
       <property name="geometry">
        <rect>
         <x>60</x>
-        <y>140</y>
+        <y>150</y>
         <width>61</width>
         <height>21</height>
        </rect>
@@ -751,7 +751,7 @@ Controller</string>
       <property name="geometry">
        <rect>
         <x>130</x>
-        <y>110</y>
+        <y>120</y>
         <width>41</width>
         <height>21</height>
        </rect>
@@ -826,7 +826,7 @@ Controller</string>
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>110</y>
+        <y>120</y>
         <width>61</width>
         <height>20</height>
        </rect>
@@ -948,75 +948,6 @@ Controller</string>
        <enum>Qt::ScrollBarAlwaysOff</enum>
       </property>
      </widget>
-     <widget class="QLineEdit" name="rateEdit">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>60</x>
-        <y>170</y>
-        <width>61</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>50</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="setRateButton">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>130</x>
-        <y>170</y>
-        <width>41</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>11</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Set</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="rateLabel">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>170</y>
-        <width>61</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Rate</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
     </widget>
     <widget class="QWidget" name="nav_tab">
      <attribute name="title">
@@ -1029,9 +960,9 @@ Controller</string>
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>31</y>
+        <y>41</y>
         <width>201</width>
-        <height>411</height>
+        <height>401</height>
        </rect>
       </property>
      </widget>
@@ -1042,29 +973,21 @@ Controller</string>
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>10</y>
+        <y>0</y>
         <width>201</width>
-        <height>16</height>
+        <height>41</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>19</pointsize>
+       </font>
       </property>
       <property name="text">
        <string>Waypoints</string>
       </property>
-     </widget>
-     <widget class="QWidget" name="mapWidget" native="true">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>230</x>
-        <y>20</y>
-        <width>751</width>
-        <height>461</height>
-       </rect>
-      </property>
-      <property name="autoFillBackground">
-       <bool>true</bool>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
      <widget class="QPushButton" name="pushButton">
@@ -1113,6 +1036,16 @@ Controller</string>
       </property>
       <property name="text">
        <string>Upload</string>
+      </property>
+     </widget>
+     <widget class="NavView" name="navView">
+      <property name="geometry">
+       <rect>
+        <x>230</x>
+        <y>10</y>
+        <width>741</width>
+        <height>471</height>
+       </rect>
       </property>
      </widget>
     </widget>
@@ -1259,6 +1192,11 @@ Controller</string>
    <class>PlotWidget</class>
    <extends>QGraphicsView</extends>
    <header>pyqtgraph</header>
+  </customwidget>
+  <customwidget>
+   <class>NavView</class>
+   <extends>QGraphicsView</extends>
+   <header>navview</header>
   </customwidget>
  </customwidgets>
  <tabstops>
