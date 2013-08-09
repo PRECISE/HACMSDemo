@@ -110,6 +110,9 @@ class HACMSWindow(QMainWindow):
             self.ui.kiLabel,
             self.ui.kiEdit,
             self.ui.setKIButton,
+            self.ui.rateLabel,
+            self.ui.rateEdit,
+            self.ui.setRateButton,
             self.ui.trimLabel,
             self.ui.trimValueLabel,
             self.ui.setTrimLeftButton,
@@ -146,6 +149,7 @@ class HACMSWindow(QMainWindow):
         self.ui.setSpeedButton.clicked.connect(self.setLandsharkSpeed)
         self.ui.setKPButton.clicked.connect(self.setKP)
         self.ui.setKIButton.clicked.connect(self.setKI)
+        self.ui.setRateButton.clicked.connect(self.setRate)
         self.ui.setTrimLeftButton.clicked.connect(self.setTrimLeft)
         self.ui.setTrimRightButton.clicked.connect(self.setTrimRight)
 
@@ -155,6 +159,7 @@ class HACMSWindow(QMainWindow):
         self.ui.desiredSpeedEdit.setValidator(self.validator)
         self.ui.kpEdit.setValidator(self.validator)
         self.ui.kiEdit.setValidator(self.validator)
+        self.ui.rateEdit.setValidator(self.validator)
 
     def init_plots(self):
         self.ui.inputPlot.disableAutoRange(pg.ViewBox.YAxis)
@@ -409,6 +414,9 @@ class HACMSWindow(QMainWindow):
     def setKI(self):
         self.ki_pub.publish(Float32(float(self.ui.kiEdit.text())))
 
+    def setRate(self):
+        self.rate_pub.publish(Float32(float(self.ui.rateEdit.text())))
+
     def setTrimLeft(self):
         # Get current trim value
         trim = float(self.ui.trimValueLabel.text())
@@ -453,6 +461,7 @@ class HACMSWindow(QMainWindow):
         self.trim_pub = rospy.Publisher('/landshark_demo/trim', Float32)
         self.kp_pub = rospy.Publisher('/landshark_demo/kp', Float32)
         self.ki_pub = rospy.Publisher('/landshark_demo/ki', Float32)
+        self.rate_pub = rospy.Publisher('/landshark_demo/rate', Float32)
         self.run_rc_pub = rospy.Publisher('/landshark_demo/run_rc', Int32)
         self.run_attack_pub = rospy.Publisher('/landshark_demo/run_attack', Int32)
         self.sensor_attack_pub = rospy.Publisher('/landshark_demo/sensor_attack', Int32)
@@ -474,11 +483,13 @@ class HACMSWindow(QMainWindow):
         self.trim_pub.unregister()
         self.kp_pub.unregister()
         self.ki_pub.unregister()
+        self.rate_pub.unregister()
         self.run_rc_pub.unregister()
         self.run_attack_pub.unregister()
         self.sensor_attack_pub.unregister()
 
         #rospy.signal_shutdown("Turning off ROSPy") TODO - How do we restart ROSPy
+        #  Keep in mind ROSPy doesn't properly start back up when this is uncommented.
 
         return True
 
