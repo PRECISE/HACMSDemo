@@ -1,5 +1,31 @@
 #!/usr/bin/env python
 
+# Copyright (c) 2013, The Trustees of the University of Pennsylvania.
+# Developed with the sponsorship of the Defense Advanced Research Projects
+# Agency (DARPA).
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this data, including any software or models in source or binary
+# form, as well as any drawings, specifications, and documentation
+# (collectively "the Data"), to deal in the Data without restriction,
+# including without limitation the rights to use, copy, modify, merge,
+# publish, distribute, sublicense, and/or sell copies of the Data, and to
+# permit persons to whom the Data is furnished to do so, subject to the
+# following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Data.
+#
+# THE DATA IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+# THE AUTHORS, SPONSORS, DEVELOPERS, CONTRIBUTORS, OR COPYRIGHT HOLDERS BE
+# LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+# OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+# WITH THE DATA OR THE USE OR OTHER DEALINGS IN THE DATA.
+
+# Authors: Peter Gebhard (pgeb@seas.upenn.edu), Nicola Bezzo (nicbezzo@seas.upenn.edu)
+
 # Standard Python modules
 import sys, string
 from collections import deque
@@ -14,14 +40,13 @@ from nav_msgs.msg import Odometry
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
-# Matplotlib modules
-import matplotlib
-from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.figure import Figure
+# PyQtGraph
+import pyqtgraph as pg
 
 # HACMS modules
 from remote import Remote
 import ui.images_rc
+import ui.about_ui
 from navigation import MapnikScene
 from mapview import MapView
 
@@ -40,40 +65,52 @@ from mapview import MapView
         #TODO: Fix plots so that the titles and axes labels are shown completely
         #TODO: Navigation tab
         #TODO: Change attack mode whenever attack radio button changes (if Attack button is pressed)
-     
+
 class HACMSWindow(QMainWindow):
     def __init__(self):
         super(HACMSWindow, self).__init__()
-        
+
     def init_window(self):
         self.ui.setupUi(self)
-        self.init_widgets()
         self.init_data_structs()
-        
+        self.init_widgets()
+
+    def init_data_structs(self):
+        self.trimIncrement = 0.001
+        self.windowSize = 300
+        self.in_Base = deque(maxlen=self.windowSize)
+        self.in_Ref = deque(maxlen=self.windowSize)
+        self.out_Odom = deque(maxlen=self.windowSize)
+        self.out_EncL = deque(maxlen=self.windowSize)
+        self.out_EncR = deque(maxlen=self.windowSize)
+        self.out_GPS = deque(maxlen=self.windowSize)
+
     def init_widgets(self):
         self.remote = Remote(self.ui.console)
         self.widgets = [
-            self.ui.ccButton, 
-            self.ui.rcButton, 
-            self.ui.attackButton, 
-            self.ui.attack1RadioButton, 
-            self.ui.attack2RadioButton, 
-            self.ui.attack3RadioButton, 
-            self.ui.saveButton, 
-            self.ui.desiredSpeedLabel, 
-            self.ui.desiredSpeedEdit, 
-            self.ui.setSpeedButton, 
-            self.ui.kpLabel, 
-            self.ui.kpEdit, 
-            self.ui.setKPButton, 
-            self.ui.kiLabel, 
-            self.ui.kiEdit, 
-            self.ui.setKIButton, 
-            self.ui.trimLabel, 
-            self.ui.trimValueLabel, 
-            self.ui.setTrimLeftButton, 
-            self.ui.setTrimRightButton, 
-            self.ui.actualSpeedLabel, 
+            self.ui.tabWidget,
+            self.ui.ccButton,
+            self.ui.rcButton,
+            self.ui.attackButton,
+            self.ui.attackComboBox,
+            self.ui.gpsCheckBox,
+            self.ui.enclCheckBox,
+            self.ui.encrCheckBox,
+            self.ui.saveButton,
+            self.ui.desiredSpeedLabel,
+            self.ui.desiredSpeedEdit,
+            self.ui.setSpeedButton,
+            self.ui.kpLabel,
+            self.ui.kpEdit,
+            self.ui.setKPButton,
+            self.ui.kiLabel,
+            self.ui.kiEdit,
+            self.ui.setKIButton,
+            self.ui.trimLabel,
+            self.ui.trimValueLabel,
+            self.ui.setTrimLeftButton,
+            self.ui.setTrimRightButton,
+            self.ui.actualSpeedLabel,
             self.ui.actualSpeedLCD,
             self.ui.estimatedSpeedLabel,
             self.ui.estimatedSpeedLCD,
@@ -82,10 +119,7 @@ class HACMSWindow(QMainWindow):
             self.ui.inputPlot,
             self.ui.inputPlotLabel,
             self.ui.rightPlot,
-            self.ui.rightPlotLabel,
-            self.ui.saveInputPlotButton,
-            self.ui.saveOutputPlotButton,
-            self.ui.saveRightPlotButton,
+            self.ui.rightPlotLabel
         ]
         #self.ui.mapView.setScene(MapnikScene(self.ui.mapView))
         #self.ui.mapView = MapView(self.ui.mapWidget)
@@ -100,70 +134,89 @@ class HACMSWindow(QMainWindow):
         self.ui.ccButton.toggled.connect(self.cc)
         self.ui.rcButton.toggled.connect(self.rc)
         self.ui.attackButton.toggled.connect(self.attack)
-        self.ui.attack1RadioButton.toggled.connect(self.attack1)
-        self.ui.attack2RadioButton.toggled.connect(self.attack2)
-        self.ui.attack3RadioButton.toggled.connect(self.attack3)
+        self.ui.attackComboBox.currentIndexChanged.connect(self.attackMode)
+        self.ui.gpsCheckBox.toggled.connect(self.attackSensor)
+        self.ui.enclCheckBox.toggled.connect(self.attackSensor)
+        self.ui.encrCheckBox.toggled.connect(self.attackSensor)
         self.ui.saveButton.toggled.connect(self.saveData)
         self.ui.setSpeedButton.clicked.connect(self.setLandsharkSpeed)
         self.ui.setKPButton.clicked.connect(self.setKP)
         self.ui.setKIButton.clicked.connect(self.setKI)
         self.ui.setTrimLeftButton.clicked.connect(self.setTrimLeft)
         self.ui.setTrimRightButton.clicked.connect(self.setTrimRight)
-        self.ui.saveInputPlotButton.clicked.connect(self.save_inputPlot)
-        self.ui.saveOutputPlotButton.clicked.connect(self.save_outputPlot)
-        self.ui.saveRightPlotButton.clicked.connect(self.save_rightPlot)
-        
+
         # Set Validator for parameter fields
         self.validator = QDoubleValidator()
         self.validator.setNotation(QDoubleValidator.StandardNotation)
         self.ui.desiredSpeedEdit.setValidator(self.validator)
         self.ui.kpEdit.setValidator(self.validator)
         self.ui.kiEdit.setValidator(self.validator)
-        
-    def init_data_structs(self):
-        self.trimIncrement = 0.001
-        self.windowSize = 300
-        self.in_Base = deque(maxlen=self.windowSize)
-        self.in_Ref = deque(maxlen=self.windowSize)
-        self.out_Odom = deque(maxlen=self.windowSize)
-        self.out_EncL = deque(maxlen=self.windowSize)
-        self.out_EncR = deque(maxlen=self.windowSize)
-        self.out_GPS = deque(maxlen=self.windowSize)
-        self.out_Trim = deque(maxlen=self.windowSize)
-        
+
     def init_plots(self):
-        self.dpi = 100
-        self.y_top = 1.5
-        self.inFig = Figure((3.31, 2.01), dpi=self.dpi)
-        self.inCanvas = FigureCanvas(self.inFig)
-        self.inCanvas.setParent(self.ui.inputPlot)
-        self.inAxes = self.inFig.add_subplot(111)
-        self.inAxes.grid(True)
-        self.inAxes.set_ybound(0, self.y_top)
-        self.inAxes.set_autoscaley_on(False)
-#         self.inAxes.set_xlabel('time')
-#         self.inAxes.set_ylabel('speed')
-#         self.inAxes.set_title('Input')
-        self.outFig = Figure((3.31, 2.01), dpi=self.dpi)
-        self.outCanvas = FigureCanvas(self.outFig)
-        self.outCanvas.setParent(self.ui.outputPlot)
-        self.outAxes = self.outFig.add_subplot(111)
-        self.outAxes.grid(True)
-        self.outAxes.set_ybound(0, self.y_top)
-#         self.outAxes.set_autoscaley_on(False)
-#         self.outAxes.set_xlabel('time')
-#         self.outAxes.set_ylabel('speed')
-#         self.outAxes.set_title('Output')
-        self.rightFig = Figure((4.21, 4.41), dpi=self.dpi)
-        self.rightCanvas = FigureCanvas(self.rightFig)
-        self.rightCanvas.setParent(self.ui.rightPlot)
-        self.rightAxes = self.rightFig.add_subplot(111)
-        self.rightAxes.grid(True)
-        self.rightAxes.set_ybound(0, self.y_top)
-        self.rightAxes.set_autoscaley_on(False)
-#         self.rightAxes.set_xlabel('time')
-#         self.rightAxes.set_ylabel('speed')
-#         self.rightAxes.set_title('Odometry')
+        self.ui.inputPlot.disableAutoRange(pg.ViewBox.YAxis)
+        self.ui.inputPlot.setYRange(0, 1.3, 0)
+        self.ui.inputPlot.setBackground('w')
+        self.ui.inputPlot.hideButtons()
+        self.ui.inputPlot.showGrid(False, True)
+        #self.ui.inputPlot.addLegend()
+        #self.ui.inputPlot.setLabel('left', 'speed')
+        self.ui.inputPlot.setLabel('top', ' ')
+        self.ui.inputPlot.setLabel('right', ' ')
+        self.ui.inputPlot.setLabel('bottom', 'time')
+        #self.ui.inputPlot.setTitle('Input')
+        self.inputPlotBase = self.ui.inputPlot.plot(self.in_Base, name='CMD')
+        self.inputPlotBase.setPen(pg.mkPen(width=3, color='r'))
+        self.inputPlotRef = self.ui.inputPlot.plot(self.in_Ref, name='REF')
+        self.inputPlotRef.setPen(pg.mkPen(width=3, color='c'))
+        self.inputPlotTimer = QTimer()
+        self.inputPlotTimer.timeout.connect(self.updateInputPlot)
+
+        self.ui.outputPlot.setBackground('w')
+        self.ui.outputPlot.hideButtons()
+        self.ui.outputPlot.showGrid(False, True)
+        #self.ui.outputPlot.addLegend()
+        #self.ui.outputPlot.setLabel('left', 'speed')
+        self.ui.outputPlot.setLabel('top', ' ')
+        self.ui.outputPlot.setLabel('right', ' ')
+        self.ui.outputPlot.setLabel('bottom', 'time')
+        #self.ui.outputPlot.setTitle('Output')
+        self.outputPlotGPS = self.ui.outputPlot.plot(self.out_GPS, name='GPS')
+        self.outputPlotGPS.setPen(pg.mkPen(width=3, color='m'))
+        self.outputPlotLE = self.ui.outputPlot.plot(self.out_EncL, name='ENC LEFT')
+        self.outputPlotLE.setPen(pg.mkPen(width=3, color='b'))
+        self.outputPlotRE = self.ui.outputPlot.plot(self.out_EncR, name='ENC RIGHT')
+        self.outputPlotRE.setPen(pg.mkPen(width=3, color='g'))
+        self.outputPlotTimer = QTimer()
+        self.outputPlotTimer.timeout.connect(self.updateOutputPlot)
+
+        self.ui.rightPlot.disableAutoRange(pg.ViewBox.YAxis)
+        self.ui.rightPlot.setYRange(0, 1.3, 0)
+        self.ui.rightPlot.setBackground('w')
+        self.ui.rightPlot.hideButtons()
+        self.ui.rightPlot.showGrid(False, True)
+        #self.ui.rightPlot.addLegend()
+        #self.ui.rightPlot.setLabel('left', 'speed')
+        self.ui.rightPlot.setLabel('top', ' ')
+        self.ui.rightPlot.setLabel('right', ' ')
+        self.ui.rightPlot.setLabel('bottom', 'time')
+        #self.ui.rightPlot.setTitle('Odometry')
+        self.rightPlotOdom = self.ui.rightPlot.plot(self.out_Odom, name='SPEED')
+        self.rightPlotOdom.setPen(pg.mkPen(width=3, color='b'))
+        self.rightPlotRef = self.ui.rightPlot.plot(self.in_Ref, name='REF')
+        self.rightPlotRef.setPen(pg.mkPen(width=3, color='c'))
+        self.rightPlotTimer = QTimer()
+        self.rightPlotTimer.timeout.connect(self.updateRightPlot)
+
+    def startPlotTimers(self):
+        timerMsec = 500
+        self.inputPlotTimer.start(timerMsec)
+        self.outputPlotTimer.start(timerMsec)
+        self.rightPlotTimer.start(timerMsec)
+
+    def stopPlotTimers(self):
+        self.inputPlotTimer.stop()
+        self.outputPlotTimer.stop()
+        self.rightPlotTimer.stop()
 
     def init_waypoints(self):
         self.waypointList = QStringList()
@@ -173,11 +226,11 @@ class HACMSWindow(QMainWindow):
         self.waypointModel.setStringList(self.waypointList)
 
     def about(self):
-        QMessageBox.about(self, "About HACMS Demo",
-                "The <b>HACMS Demo</b> application allows for control of the LandShark "
-                "robot while displaying live ROS telemetry data.\n\nDeveloped by the "
-                "PRECISE Lab at Penn.")
-                
+        about = QDialog()
+        about.ui = ui.about_ui.Ui_Dialog()
+        about.ui.setupUi(about)
+        about.exec_()
+
     def fileQuit(self):
         if self.ui.landsharkButton.isChecked():
             self.stop_landshark_comm()
@@ -185,7 +238,7 @@ class HACMSWindow(QMainWindow):
 
     def closeEvent(self, ce):
         self.fileQuit()
-        
+
     def zeroData(self):
         self.in_Base.clear()
         self.in_Ref.clear()
@@ -193,13 +246,12 @@ class HACMSWindow(QMainWindow):
         self.out_EncL.clear()
         self.out_EncR.clear()
         self.out_GPS.clear()
-        self.out_Trim.clear()
-                
+
     def enableAllElements(self):
         for widget in self.widgets:
             widget.setEnabled(True)
         self.zeroData()
-        
+
     def disableAllElements(self):
         self.cc(False)
         self.rc(False)
@@ -214,7 +266,9 @@ class HACMSWindow(QMainWindow):
             res = self.remote.startLandshark()
             self.start_landshark_comm()
             self.enableAllElements()
+            self.startPlotTimers()
         else:
+            self.stopPlotTimers()
             self.disableAllElements()
             self.stop_landshark_comm()
             res = self.remote.stopLandshark()
@@ -230,7 +284,7 @@ class HACMSWindow(QMainWindow):
             self.attack(False)
             res = self.remote.stopCC()
         self.ui.ccButton.setChecked(res)
-        
+
     def saveData(self, checked):
         if checked:
             res = self.remote.startSaveData()
@@ -251,21 +305,15 @@ class HACMSWindow(QMainWindow):
             except:
                 self.ui.rcButton.setChecked(True)
                 return
-                
+
         # For when the button is set via direct method call, not by event call
         self.ui.rcButton.setChecked(checked)
 
     def attack(self, checked):
         if checked:
             try:
-                mode = 0
-                if self.ui.attack1RadioButton.isChecked():
-                    mode = 1
-                elif self.ui.attack2RadioButton.isChecked():
-                    mode = 2
-                elif self.ui.attack3RadioButton.isChecked():
-                    mode = 3
-                self.run_attack_pub.publish(Int32(mode))
+                self.run_attack_pub.publish(Int32(self.ui.attackComboBox.currentIndex()+1))
+                self.sensor_attack_pub.publish(Int32(self.getAttackSensorValue()))
             except:
                 self.ui.attackButton.setChecked(False)
                 return
@@ -275,30 +323,33 @@ class HACMSWindow(QMainWindow):
             except:
                 self.ui.attackButton.setChecked(True)
                 return
-        
+
         # For when the button is set via direct method call, not by event call
         self.ui.attackButton.setChecked(checked)
-        
-    def attack1(self, checked):
-        if checked and self.ui.attackButton.isChecked():
+
+    def attackMode(self, index):
+        if self.ui.attackButton.isChecked():
             try:
-                self.run_attack_pub.publish(Int32(1))
+                self.run_attack_pub.publish(Int32(index+1)) # Start base index at 1
             except:
                 return
-    
-    def attack2(self, checked):
-        if checked and self.ui.attackButton.isChecked():
+
+    def attackSensor(self):
+        if self.ui.attackButton.isChecked():
             try:
-                self.run_attack_pub.publish(Int32(2))
+                self.sensor_attack_pub.publish(Int32(self.getAttackSensorValue()))
             except:
                 return
-                
-    def attack3(self, checked):
-        if checked and self.ui.attackButton.isChecked():
-            try:
-                self.run_attack_pub.publish(Int32(3))
-            except:
-                return
+
+    def getAttackSensorValue(self):
+        value = 0
+        if self.ui.gpsCheckBox.isChecked():
+            value += 4
+        if self.ui.enclCheckBox.isChecked():
+            value += 2
+        if self.ui.encrCheckBox.isChecked():
+            value += 1
+        return value
 
     def getWidgetColor(self, widget):
         style = widget.styleSheet()
@@ -326,112 +377,57 @@ class HACMSWindow(QMainWindow):
     def updateEstimatedSpeedLCD(self, value):
         self.ui.estimatedSpeedLCD.display(value)
 
-    def save_plot(self):
-        file_choices = "PNG (*.png)|*.png"
-        return unicode(QFileDialog.getSaveFileName(self, 'Save file', '', file_choices))
-
-    def draw_inputPlot(self):
+    def updateInputPlot(self):
         """ Redraws the input plot
         """
-        # clear the axes and redraw the plot anew
-        #
-        self.inAxes.clear()
-        self.inAxes.grid(True)
-        self.inAxes.set_ybound(0, self.y_top)
-        self.inAxes.set_autoscaley_on(False) 
-#         self.inAxes.set_xlabel('time')
-#         self.inAxes.set_ylabel('speed')
-#         self.inAxes.set_title('Input')
-        self.inAxes.plot(self.in_Base, 'r', linewidth=2)
-        self.inAxes.plot(self.in_Ref, 'c', linewidth=2)
-        self.inCanvas.draw()
-        
-    def save_inputPlot(self):
-        path = self.save_plot()
-        if path:
-            self.inCanvas.print_figure(path, dpi=self.dpi)
-            self.statusBar().showMessage('Saved to %s' % path, 2000)
-    
-    def draw_outputPlot(self):
+        self.inputPlotBase.setData(self.in_Base)
+        self.inputPlotRef.setData(self.in_Ref)
+
+    def updateOutputPlot(self):
         """ Redraws the output plot
         """
-        # clear the axes and redraw the plot anew
-        #
-        self.outAxes.clear()
-        self.outAxes.grid(True)
-        self.outAxes.set_ybound(0, self.y_top)
-#         self.outAxes.set_autoscaley_on(False) 
-#         self.outAxes.set_xlabel('time')
-#         self.outAxes.set_ylabel('speed')
-#         self.outAxes.set_title('Output')
-        self.outAxes.plot(self.out_EncL, 'b', linewidth=2)
-        self.outAxes.plot(self.out_EncR, 'g', linewidth=2)
-        self.outAxes.plot(self.out_GPS, 'm', linewidth=2)
-        self.outCanvas.draw()
-        
-    def save_outputPlot(self):
-        path = self.save_plot()
-        if path:
-            self.outCanvas.print_figure(path, dpi=self.dpi)
-            self.statusBar().showMessage('Saved to %s' % path, 2000)
-        
-    def draw_rightPlot(self):
+        self.outputPlotGPS.setData(self.out_GPS)
+        self.outputPlotLE.setData(self.out_EncL)
+        self.outputPlotRE.setData(self.out_EncR)
+
+    def updateRightPlot(self):
         """ Redraws the righthand plot
         """
-        # clear the axes and redraw the plot anew
-        #
-        self.rightAxes.clear()
-        self.rightAxes.grid(True)
-        self.rightAxes.set_ybound(0, self.y_top)
-        self.rightAxes.set_autoscaley_on(False) 
-#         self.rightAxes.set_xlabel('time')
-#         self.rightAxes.set_ylabel('speed')
-#         self.rightAxes.set_title('Odometry')
-        self.rightAxes.plot(self.out_Odom, 'b', linewidth=2)
-        self.rightAxes.plot(self.in_Ref, 'c', linewidth=2)
-        self.rightCanvas.draw()
-    
-    def save_rightPlot(self):
-        path = self.save_plot()
-        if path:
-            self.rightCanvas.print_figure(path, dpi=self.dpi)
-            self.statusBar().showMessage('Saved to %s' % path, 2000)
+        self.rightPlotOdom.setData(self.out_Odom)
+        self.rightPlotRef.setData(self.in_Ref)
 
     def setLandsharkSpeed(self):
         self.desired_speed_pub.publish(Float32(float(self.ui.desiredSpeedEdit.text())))
-    
+
     def setKP(self):
         self.kp_pub.publish(Float32(float(self.ui.kpEdit.text())))
-        
+
     def setKI(self):
         self.ki_pub.publish(Float32(float(self.ui.kiEdit.text())))
-        
-    def setAutotrim(self):
-        self.autotrim_pub.publish(Float32(float(self.ui.autotrimEdit.text())))
-    
+
     def setTrimLeft(self):
         # Get current trim value
         trim = float(self.ui.trimValueLabel.text())
-        
+
         # Decrement trim value
         trim -= self.trimIncrement
-        
+
         # Display updated trim value
         self.ui.trimValueLabel.setText(str(trim))
-        
+
         # Publish new trim value
         self.trim_pub.publish(Float32(trim))
-    
+
     def setTrimRight(self):
         # Get current trim value
         trim = float(self.ui.trimValueLabel.text())
-        
+
         # Increment trim value
         trim += self.trimIncrement
-        
+
         # Display updated trim value
         self.ui.trimValueLabel.setText(str(trim))
-        
+
         # Publish new trim value
         self.trim_pub.publish(Float32(trim))
 
@@ -450,15 +446,15 @@ class HACMSWindow(QMainWindow):
 
         # Publish to HACMS Demo topics
         self.desired_speed_pub = rospy.Publisher('/landshark_demo/desired_speed', Float32)
-        self.autotrim_pub = rospy.Publisher('/landshark_demo/autotrim', Float32)
         self.trim_pub = rospy.Publisher('/landshark_demo/trim', Float32)
         self.kp_pub = rospy.Publisher('/landshark_demo/kp', Float32)
         self.ki_pub = rospy.Publisher('/landshark_demo/ki', Float32)
         self.run_rc_pub = rospy.Publisher('/landshark_demo/run_rc', Int32)
         self.run_attack_pub = rospy.Publisher('/landshark_demo/run_attack', Int32)
+        self.sensor_attack_pub = rospy.Publisher('/landshark_demo/sensor_attack', Int32)
 
         return True
-        
+
     def stop_landshark_comm(self):
         # Unregister HACMS Demo subscribed topics
         self.base_sub.unregister()
@@ -471,20 +467,20 @@ class HACMSWindow(QMainWindow):
 
         # Unregister HACMS Demo published topics
         self.desired_speed_pub.unregister()
-        self.autotrim_pub.unregister()
         self.trim_pub.unregister()
         self.kp_pub.unregister()
         self.ki_pub.unregister()
         self.run_rc_pub.unregister()
         self.run_attack_pub.unregister()
+        self.sensor_attack_pub.unregister()
 
         #rospy.signal_shutdown("Turning off ROSPy") TODO - How do we restart ROSPy
+        #  Keep in mind ROSPy doesn't properly start back up when this is uncommented.
 
         return True
 
     def captureBase(self, msg):
         self.in_Base.append(msg.twist.linear.x)
-        self.draw_inputPlot()
 
     def captureRef(self, msg):
         self.in_Ref.append(msg.twist.linear.x)
@@ -495,18 +491,14 @@ class HACMSWindow(QMainWindow):
     def captureOdom(self, msg):
         self.updateActualSpeedLCD(msg.twist.twist.linear.x)
         self.out_Odom.append(msg.twist.twist.linear.x)
-        self.draw_rightPlot()
-#         self.out_Trim.append(msg.pose.pose.position.y)
-#         self.draw_trimPlot()
-        
+
     def captureEncL(self, msg):
         self.out_EncL.append(msg.twist.linear.x)
         self.out_GPS.append(msg.twist.linear.y)
-        self.draw_outputPlot()
-        
+
     def captureEncR(self, msg):
         self.out_EncR.append(msg.twist.linear.x)
-        
+
     def captureGPS(self, msg):
         #self.out_GPS.append(msg.twist.linear.x)
         return
