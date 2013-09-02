@@ -1,4 +1,4 @@
-HACMSDemo
+HACMS Demo Application
 =========
 
 License
@@ -29,18 +29,21 @@ WITH THE DATA OR THE USE OR OTHER DEALINGS IN THE DATA.
 
 Authors
 -------
-Peter Gebhard, Nicola Bezzo
-PRECISE Center
-Computer and Information Science Department
-University of Pennsylania
+[Peter Gebhard](http://www.seas.upenn.edu/~pgeb), [Nicola Bezzo](http://www.seas.upenn.edu/~nicbezzo)
+
+[PRECISE Center](http://precise.seas.upenn.edu)
+
+[Computer and Information Science Department](http://www.cis.upenn.edu/)
+
+[University of Pennsylania](http://www.seas.upenn.edu/)
 
 Installation steps
 ------------------
 Install the following required third-party libraries:
-- ROS (ROSPy and paramiko, two python modules required by this software, are bundled as part of the ROS package)
-- PyQt (PyQt 4.10.2, Qt4 version)
-- pyqtgraph
-- mapnik (package name: python-mapnik)
+- [ROS](http://wiki.ros.org/) (ROSPy and paramiko, two python modules required by this software, are bundled as part of the ROS package)
+- [PyQt](http://www.riverbankcomputing.com/software/pyqt/intro) (PyQt 4.10.2, Qt4 version)
+- [pyqtgraph](http://www.pyqtgraph.org/)
+- [mapnik](http://mapnik.org/) (package name: python-mapnik)
 
 ROS setup tips:
 - Ensure that the ~/.bashrc file contains the correct ROS\_IP and ROS\_MASTER\_URI values.
@@ -56,4 +59,4 @@ TODO: Copy instructions here which Nico wrote for the SRI Git commit.
 
 Credits
 -------
-Icons from famfamfam.com (http://www.famfamfam.com/lab/icons/silk/)
+Icons from [famfamfam.com](http://www.famfamfam.com/lab/icons/silk/)
