@@ -30,8 +30,11 @@ WITH THE DATA OR THE USE OR OTHER DEALINGS IN THE DATA.
 Authors
 -------
 [Peter Gebhard](http://www.seas.upenn.edu/~pgeb), [Nicola Bezzo](http://www.seas.upenn.edu/~nicbezzo)
+
 [PRECISE Center](http://precise.seas.upenn.edu)
+
 [Computer and Information Science Department](http://www.cis.upenn.edu/)
+
 [University of Pennsylania](http://www.seas.upenn.edu/)
 
 Installation steps
