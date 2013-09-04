@@ -327,6 +327,7 @@ class HACMSWindow(QMainWindow):
         # For when the button is set via direct method call, not by event call
         self.ui.attackButton.setChecked(checked)
 
+    # Called by attackMode combobox when there is a change in the selected index.
     def attackMode(self, index):
         if self.ui.attackButton.isChecked():
             try:
@@ -334,6 +335,7 @@ class HACMSWindow(QMainWindow):
             except:
                 return
 
+    # Called by sensor checkboxes when there is a check or uncheck event.
     def attackSensor(self):
         if self.ui.attackButton.isChecked():
             try:
@@ -341,6 +343,7 @@ class HACMSWindow(QMainWindow):
             except:
                 return
 
+    # Determine the appropriate binary-style representation for which sensor checkboxes are checked.
     def getAttackSensorValue(self):
         value = 0
         if self.ui.gpsCheckBox.isChecked():
