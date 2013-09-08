@@ -1038,7 +1038,7 @@ Controller</string>
        <string>Upload</string>
       </property>
      </widget>
-     <widget class="NavView" name="navView">
+     <widget class="QGraphicsView" name="navView">
       <property name="geometry">
        <rect>
         <x>230</x>
@@ -1192,11 +1192,6 @@ Controller</string>
    <class>PlotWidget</class>
    <extends>QGraphicsView</extends>
    <header>pyqtgraph</header>
-  </customwidget>
-  <customwidget>
-   <class>NavView</class>
-   <extends>QGraphicsView</extends>
-   <header>navview</header>
   </customwidget>
  </customwidgets>
  <tabstops>

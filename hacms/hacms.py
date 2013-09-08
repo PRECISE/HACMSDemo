@@ -47,8 +47,6 @@ import pyqtgraph as pg
 from remote import Remote
 import ui.images_rc
 import ui.about_ui
-from navigation import MapnikScene
-from mapview import MapView
 
         #TODO: Try to look into flushing queue as it gets backlogged (CPU overloaded...)
         #TODO: Layout widgets so that the console and plots will resize with the window
