@@ -4,15 +4,15 @@ from PyQt4.QtMobility.QtLocation import *
 
 class NavScene(QGraphicsScene):
     def __init__(self, parent=None): 
-        QGraphicsScene.__init__(self, parent)
+        super(NavScene, self).__init__(self, parent)
         
-        self.serviceProvider = QGeoServiceProvider("osm")
+        self.serviceProvider = QGeoServiceProvider("nokia")
         self.mappingManager = self.serviceProvider.mappingManager()
         self.geoMap = QGraphicsGeoMap(self.mappingManager)
         
         self.waypoints = []
         
         # http://doc.qt.digia.com/qtmobility-1.2/qgeomappolylineobject.html
-        self.waypointPaths = []
+        self.waypointPath = None
         
-        self.addWidget(self.geoMap)
+        #self.addWidget(self.geoMap)
