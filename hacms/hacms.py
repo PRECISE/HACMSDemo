@@ -495,13 +495,12 @@ class HACMSWindow(QMainWindow):
 
     def captureEncL(self, msg):
         self.out_EncL.append(msg.twist.linear.x)
-        self.out_GPS.append(msg.twist.linear.y)
 
     def captureEncR(self, msg):
         self.out_EncR.append(msg.twist.linear.x)
 
     def captureGPS(self, msg):
-        #self.out_GPS.append(msg.twist.linear.x)
+        self.out_GPS.append(msg.twist.linear.x)
         return
 
 def main():
