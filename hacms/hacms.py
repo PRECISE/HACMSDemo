@@ -199,13 +199,13 @@ class HACMSWindow(QMainWindow):
         self.outputPlotTimer.stop()
         self.rightPlotTimer.stop()
         
-	def zeroData(self):
-		self.in_Base.clear()
-		self.in_Ref.clear()
-		self.out_Odom.clear()
-		self.out_EncL.clear()
-		self.out_EncR.clear()
-		self.out_GPS.clear()
+    def zeroData(self):
+        self.in_Base.clear()
+        self.in_Ref.clear()
+        self.out_Odom.clear()
+        self.out_EncL.clear()
+        self.out_EncR.clear()
+        self.out_GPS.clear()
 
     def about(self):
         about = QDialog()
