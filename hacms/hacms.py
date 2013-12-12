@@ -47,24 +47,8 @@ import pyqtgraph as pg
 from remote import Remote
 import ui.images_rc
 import ui.about_ui
-from navigation import MapnikScene
-from mapview import MapView
 
-        #TODO: Try to look into flushing queue as it gets backlogged (CPU overloaded...)
-        #TODO: Layout widgets so that the console and plots will resize with the window
-        #TODO: Add legend for plot lines, fit titles and axes labels, too
-        #TODO: Use timestamps for x-axis, data will be plotted accordingly
-        #TODO: Add navigation tab with Google Maps
-        #TODO: Combine three plots into a single plot (using subplots)?
-        #TODO: Change big buttons to be darker or colored when checked
-        #TODO: Put all main widgets into a list
-        #TODO: put red line to mark attack moment or attack region
-        #TODO: Make separate debug and demo UIs (make parent window class, subclass it for each type)
-        #TODO: Ability to save plots showing the entire data set, save data in Matlab-friendly format (write to a file in real-time? file name and location?)
-        #TODO: Ability to save/transfer .bag files (for video)
-        #TODO: Fix plots so that the titles and axes labels are shown completely
-        #TODO: Navigation tab
-        #TODO: Change attack mode whenever attack radio button changes (if Attack button is pressed)
+#TODO: Layout widgets so that the console and plots will resize with the window
 
 class HACMSWindow(QMainWindow):
     def __init__(self):
@@ -327,6 +311,7 @@ class HACMSWindow(QMainWindow):
         # For when the button is set via direct method call, not by event call
         self.ui.attackButton.setChecked(checked)
 
+    # Called by attackMode combobox when there is a change in the selected index.
     def attackMode(self, index):
         if self.ui.attackButton.isChecked():
             try:
@@ -334,6 +319,7 @@ class HACMSWindow(QMainWindow):
             except:
                 return
 
+    # Called by sensor checkboxes when there is a check or uncheck event.
     def attackSensor(self):
         if self.ui.attackButton.isChecked():
             try:
@@ -341,6 +327,7 @@ class HACMSWindow(QMainWindow):
             except:
                 return
 
+    # Determine the appropriate binary-style representation for which sensor checkboxes are checked.
     def getAttackSensorValue(self):
         value = 0
         if self.ui.gpsCheckBox.isChecked():
@@ -494,13 +481,12 @@ class HACMSWindow(QMainWindow):
 
     def captureEncL(self, msg):
         self.out_EncL.append(msg.twist.linear.x)
-        self.out_GPS.append(msg.twist.linear.y)
 
     def captureEncR(self, msg):
         self.out_EncR.append(msg.twist.linear.x)
 
     def captureGPS(self, msg):
-        #self.out_GPS.append(msg.twist.linear.x)
+        self.out_GPS.append(msg.twist.linear.x)
         return
 
 def main():

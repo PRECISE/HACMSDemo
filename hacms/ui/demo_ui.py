@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'demo.ui'
 #
-# Created: Fri Aug  9 18:59:27 2013
-#      by: PyQt4 UI code generator 4.10.2
+# Created: Sun Sep  8 16:19:06 2013
+#      by: PyQt4 UI code generator 4.10.3
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -368,7 +368,7 @@ class Ui_MainWindow(object):
         self.pushButton_3.setEnabled(False)
         self.pushButton_3.setGeometry(QtCore.QRect(120, 450, 91, 32))
         self.pushButton_3.setObjectName(_fromUtf8("pushButton_3"))
-        self.navView = NavView(self.nav_tab)
+        self.navView = QtGui.QGraphicsView(self.nav_tab)
         self.navView.setGeometry(QtCore.QRect(230, 10, 741, 471))
         self.navView.setObjectName(_fromUtf8("navView"))
         self.tabWidget.addTab(self.nav_tab, _fromUtf8(""))
@@ -491,5 +491,4 @@ class Ui_MainWindow(object):
         self.actionAbout.setText(_translate("MainWindow", "About", None))
 
 from pyqtgraph import PlotWidget
-from navview import NavView
 import images_rc

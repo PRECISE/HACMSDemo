@@ -40,22 +40,24 @@ Authors
 Installation steps
 ------------------
 Install the following required third-party libraries:
-- [ROS](http://wiki.ros.org/) (ROSPy and paramiko, two python modules required by this software, are bundled as part of the ROS package)
-- [PyQt](http://www.riverbankcomputing.com/software/pyqt/intro) (PyQt 4.10.2, Qt4 version)
+- [ROS](http://wiki.ros.org/) (rospy, PyQt, and paramiko, modules required by this software, are bundled as part of ROS)
+    - [rospy](http://wiki.ros.org/rospy)
+    - [PyQt](http://www.riverbankcomputing.com/software/pyqt/intro)
+    - [paramiko](https://github.com/paramiko/paramiko)
 - [pyqtgraph](http://www.pyqtgraph.org/)
-- [mapnik](http://mapnik.org/) (package name: python-mapnik)
+    - [SciPy](http://www.scipy.org/)
+    - [NumPy](http://www.numpy.org/)
+    - [gfortran](http://gcc.gnu.org/wiki/GFortran) (for installing SciPy and NumPy)
 
 ROS setup tips:
-- Ensure that the ~/.bashrc file contains the correct ROS\_IP and ROS\_MASTER\_URI values.
+- Make sure your ~/.bashrc file contains the correct ROS\_IP and ROS\_MASTER\_URI values.
 
 SSH connection tips:
-- Get the LandShark black_box host key (use 'ssh-keyscan -t rsa <landshark\_ip>')
+- Find the LandShark black_box host key (use 'ssh-keyscan -t rsa <landshark\_ip>')
 - Copy the host key to the local ~/.ssh/known_hosts file
 - Ensure the 'hacms.cfg' file exists and contains the correct values (IP address, etc.)
+    - See /hacms/hacms.cfg_sample.txt for an example.
 
-************
-TODO: Copy instructions here which Nico wrote for the SRI Git commit.
-************
 
 Credits
 -------
