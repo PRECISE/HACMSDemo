@@ -56,6 +56,7 @@ SSH connection tips:
 - Find the LandShark black_box host key (use 'ssh-keyscan -t rsa <landshark\_ip>')
 - Copy the host key to the local ~/.ssh/known_hosts file
 - Ensure the 'hacms.cfg' file exists and contains the correct values (IP address, etc.)
+    - See /hacms/hacms.cfg_sample.txt for an example.
 
 
 Credits

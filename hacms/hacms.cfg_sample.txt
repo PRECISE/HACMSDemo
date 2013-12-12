@@ -1,0 +1,5 @@
+[SSH]
+hostname=192.168.15.69
+port=22
+username=hacms
+password=<PUT_PASSWORD_HERE>
