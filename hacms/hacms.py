@@ -35,6 +35,7 @@ import rospy
 from std_msgs.msg import Int32, Float32
 from geometry_msgs.msg import TwistStamped
 from nav_msgs.msg import Odometry
+#from landshark_msgs.msg import NavigateToWayPointsGoal
 
 # QT modules
 from PyQt4.QtGui import *
@@ -56,6 +57,7 @@ class HACMSWindow(QMainWindow):
 
     def init_window(self):
         self.ui.setupUi(self)
+        self.remote = Remote(self.ui.console)
         self.init_data_structs()
         self.init_widgets()
 
@@ -68,9 +70,16 @@ class HACMSWindow(QMainWindow):
         self.out_EncL = deque(maxlen=self.windowSize)
         self.out_EncR = deque(maxlen=self.windowSize)
         self.out_GPS = deque(maxlen=self.windowSize)
+        #self.init_waypoints()
+
+    def init_waypoints(self):
+        self.waypointList = QStringList()
+        self.waypointList.append("test")
+        self.waypointModel = QStringListModel()
+        self.ui.waypointListView.setModel(self.waypointModel)
+        self.waypointModel.setStringList(self.waypointList)
 
     def init_widgets(self):
-        self.remote = Remote(self.ui.console)
         self.widgets = [
             self.ui.tabWidget,
             self.ui.ccButton,
@@ -105,11 +114,8 @@ class HACMSWindow(QMainWindow):
             self.ui.rightPlot,
             self.ui.rightPlotLabel
         ]
-        #self.ui.mapView.setScene(MapnikScene(self.ui.mapView))
-        #self.ui.mapView = MapView(self.ui.mapWidget)
         self.init_signals()
         self.init_plots()
-        #self.init_waypoints()
 
     def init_signals(self):
         self.ui.actionAbout.triggered.connect(self.about)
@@ -142,12 +148,9 @@ class HACMSWindow(QMainWindow):
         self.ui.inputPlot.setBackground('w')
         self.ui.inputPlot.hideButtons()
         self.ui.inputPlot.showGrid(False, True)
-        #self.ui.inputPlot.addLegend()
-        #self.ui.inputPlot.setLabel('left', 'speed')
         self.ui.inputPlot.setLabel('top', ' ')
         self.ui.inputPlot.setLabel('right', ' ')
         self.ui.inputPlot.setLabel('bottom', 'time')
-        #self.ui.inputPlot.setTitle('Input')
         self.inputPlotBase = self.ui.inputPlot.plot(self.in_Base, name='CMD')
         self.inputPlotBase.setPen(pg.mkPen(width=3, color='r'))
         self.inputPlotRef = self.ui.inputPlot.plot(self.in_Ref, name='REF')
@@ -158,12 +161,9 @@ class HACMSWindow(QMainWindow):
         self.ui.outputPlot.setBackground('w')
         self.ui.outputPlot.hideButtons()
         self.ui.outputPlot.showGrid(False, True)
-        #self.ui.outputPlot.addLegend()
-        #self.ui.outputPlot.setLabel('left', 'speed')
         self.ui.outputPlot.setLabel('top', ' ')
         self.ui.outputPlot.setLabel('right', ' ')
         self.ui.outputPlot.setLabel('bottom', 'time')
-        #self.ui.outputPlot.setTitle('Output')
         self.outputPlotGPS = self.ui.outputPlot.plot(self.out_GPS, name='GPS')
         self.outputPlotGPS.setPen(pg.mkPen(width=3, color='m'))
         self.outputPlotLE = self.ui.outputPlot.plot(self.out_EncL, name='ENC LEFT')
@@ -178,12 +178,9 @@ class HACMSWindow(QMainWindow):
         self.ui.rightPlot.setBackground('w')
         self.ui.rightPlot.hideButtons()
         self.ui.rightPlot.showGrid(False, True)
-        #self.ui.rightPlot.addLegend()
-        #self.ui.rightPlot.setLabel('left', 'speed')
         self.ui.rightPlot.setLabel('top', ' ')
         self.ui.rightPlot.setLabel('right', ' ')
         self.ui.rightPlot.setLabel('bottom', 'time')
-        #self.ui.rightPlot.setTitle('Odometry')
         self.rightPlotOdom = self.ui.rightPlot.plot(self.out_Odom, name='SPEED')
         self.rightPlotOdom.setPen(pg.mkPen(width=3, color='b'))
         self.rightPlotRef = self.ui.rightPlot.plot(self.in_Ref, name='REF')
@@ -202,13 +199,6 @@ class HACMSWindow(QMainWindow):
         self.outputPlotTimer.stop()
         self.rightPlotTimer.stop()
 
-    def init_waypoints(self):
-        self.waypointList = QStringList()
-        self.waypointList.append("test")
-        self.waypointModel = QStringListModel()
-        self.ui.waypointListView.setModel(self.waypointModel)
-        self.waypointModel.setStringList(self.waypointList)
-
     def about(self):
         about = QDialog()
         about.ui = ui.about_ui.Ui_Dialog()
@@ -222,14 +212,6 @@ class HACMSWindow(QMainWindow):
 
     def closeEvent(self, ce):
         self.fileQuit()
-
-    def zeroData(self):
-        self.in_Base.clear()
-        self.in_Ref.clear()
-        self.out_Odom.clear()
-        self.out_EncL.clear()
-        self.out_EncR.clear()
-        self.out_GPS.clear()
 
     def enableAllElements(self):
         for widget in self.widgets:
@@ -338,26 +320,6 @@ class HACMSWindow(QMainWindow):
             value += 1
         return value
 
-    def getWidgetColor(self, widget):
-        style = widget.styleSheet()
-        if "background-color: green;" in style:
-            return "green"
-        if "background-color: red;" in style:
-            return "red"
-
-    def toggleWidgetColor(self, widget, setColor=None):
-        style = widget.styleSheet()
-        if setColor is None:
-            if self.getWidgetColor(widget) is "green":
-                widget.setStyleSheet(string.replace(style, "background-color: green;", "background-color: red;"))
-            elif self.getWidgetColor(widget) is "red":
-                widget.setStyleSheet(string.replace(style, "background-color: red;", "background-color: green;"))
-        else:
-            if setColor is "red":
-                widget.setStyleSheet(string.replace(style, "background-color: green;", "background-color: red;"))
-            elif setColor is "green":
-                widget.setStyleSheet(string.replace(style, "background-color: red;", "background-color: green;"))
-
     def updateActualSpeedLCD(self, value):
         self.ui.actualSpeedLCD.display(value)
 
@@ -460,9 +422,6 @@ class HACMSWindow(QMainWindow):
         self.run_rc_pub.unregister()
         self.run_attack_pub.unregister()
         self.sensor_attack_pub.unregister()
-
-        #rospy.signal_shutdown("Turning off ROSPy") TODO - How do we restart ROSPy
-        #  Keep in mind ROSPy doesn't properly start back up when this is uncommented.
 
         return True
 
