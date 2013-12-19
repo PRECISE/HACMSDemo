@@ -38,6 +38,7 @@ from geometry_msgs.msg import TwistStamped
 from nav_msgs.msg import Odometry
 import roslib; roslib.load_manifest('landshark_msgs')
 from landshark_msgs.msg import NavigateToWayPointsGoal, NavigateToWayPointsAction, NavigateToWayPointsFeedback
+import threading
 
 # QT modules
 from PyQt4.QtGui import *
@@ -63,7 +64,6 @@ class HACMSWindow(QMainWindow):
     def init_window(self):
         self.ui.setupUi(self)
         self.remote = Remote(self.ui.console)
-        self.actionClient = actionlib.SimpleActionClient('/landshark_waypoint_navigation', NavigateToWayPointsAction)
         self.init_data_structs()
         self.init_widgets()
 
@@ -445,15 +445,35 @@ class HACMSWindow(QMainWindow):
         self.ui.navView.scene().clearWaypoints()
 
     def uploadWaypoints(self):
+        # wait for action server
         self.actionClient.wait_for_server()
+        
+        # build waypoints goal
         goal = NavigateToWayPointsGoal()
-        goal.way_point_type = NavigateToWayPointsGoal.RELATIVE_TO_ROBOT_XY_NE
+        goal.way_point_type = NavigateToWayPointsGoal.GPS
         for way in self.waypoints:
             goal.way_point_list.append(way.longitude, way.latitude, 0)
 
-        # Publish waypoints
+        # Send waypoints
         #self.waypoints_pub.publish(goal)
         self.actionClient.send_goal(goal)
+        
+        self.actionResultThread = threading.Thread(target = self.waitForActionResult)
+        self.actionResultThread.setDaemon(True)
+        self.actionResultThread.start()
+        
+    def waitForActionResult(self):
+        self.actionClient.wait_for_result()
+        result = self.actionClient.get_result()
+        
+        if result == None:
+            print 'result: None'
+            return
+            
+        if result.status == NavigateToWayPointsResult.SUCCESS:
+            print 'result: SUCCESS'
+        
+        #self.lastVisitedWaypoint = -1
 
     def start_landshark_comm(self):
         # Initialize ROS node
@@ -468,7 +488,10 @@ class HACMSWindow(QMainWindow):
         self.encR_sub = rospy.Subscriber("/landshark_demo/right_enc_vel", TwistStamped, self.captureEncR)
         self.gps_sub = rospy.Subscriber("/landshark_demo/gps_vel", TwistStamped, self.captureGPS)
         self.action_sub = rospy.Subscriber("/landshark_waypoint_navigation/feedback", NavigateToWayPointsFeedback, self.captureActionFeedback)
-
+        self.actionClient = actionlib.SimpleActionClient('/landshark_waypoint_navigation', NavigateToWayPointsAction)
+        self.actionResultThread = threading.Thread()
+        self.actionResultThread.setDaemon(True)
+        
         # Publish to HACMS Demo topics
         self.desired_speed_pub = rospy.Publisher('/landshark_demo/desired_speed', Float32)
         self.trim_pub = rospy.Publisher('/landshark_demo/trim', Float32)
