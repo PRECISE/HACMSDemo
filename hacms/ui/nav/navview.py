@@ -3,6 +3,6 @@ from navscene import NavScene
 
 class NavView(QGraphicsView):
     def __init__(self, parent=None):
-        scene = NavScene()
-        super(NavView, self).__init__(scene, parent)
+        self.scene = NavScene(parent)
+        super(NavView, self).__init__(self.scene, parent)
         self.show()
