@@ -487,7 +487,7 @@ class HACMSWindow(QMainWindow):
         self.encL_sub = rospy.Subscriber("/landshark_demo/left_enc_vel", TwistStamped, self.captureEncL)
         self.encR_sub = rospy.Subscriber("/landshark_demo/right_enc_vel", TwistStamped, self.captureEncR)
         self.gps_sub = rospy.Subscriber("/landshark_demo/gps_vel", TwistStamped, self.captureGPS)
-        self.action_sub = rospy.Subscriber("/landshark_waypoint_navigation/feedback", NavigateToWayPointsFeedback, self.captureActionFeedback)
+        #self.action_sub = rospy.Subscriber("/landshark_waypoint_navigation/feedback", NavigateToWayPointsFeedback, self.captureActionFeedback)
         self.actionClient = actionlib.SimpleActionClient('/landshark_waypoint_navigation', NavigateToWayPointsAction)
         self.actionResultThread = threading.Thread()
         self.actionResultThread.setDaemon(True)
@@ -510,7 +510,7 @@ class HACMSWindow(QMainWindow):
             self.encL_sub,
             self.encR_sub,
             self.gps_sub,
-            self.action_sub,
+            #self.action_sub,
             self.desired_speed_pub,
             self.trim_pub,
             self.kp_pub,
