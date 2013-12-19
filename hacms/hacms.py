@@ -35,7 +35,7 @@ import rospy
 from std_msgs.msg import Int32, Float32
 from geometry_msgs.msg import TwistStamped
 from nav_msgs.msg import Odometry
-#from landshark_msgs.msg import NavigateToWayPointsGoal
+from landshark_msgs.msg import NavigateToWayPointsGoal
 
 # QT modules
 from PyQt4.QtGui import *
@@ -48,6 +48,9 @@ import pyqtgraph as pg
 from remote import Remote
 import ui.images_rc
 import ui.about_ui
+from ui.geocoord import GeoCoordDialog
+from ui.nav.waypoint import Waypoint
+from ui.nav.navscene import NavScene
 
 #TODO: Layout widgets so that the console and plots will resize with the window
 
@@ -70,7 +73,9 @@ class HACMSWindow(QMainWindow):
         self.out_EncL = deque(maxlen=self.windowSize)
         self.out_EncR = deque(maxlen=self.windowSize)
         self.out_GPS = deque(maxlen=self.windowSize)
+
         self.resilientControllerRegions = []
+
         self.datastructs = [
             self.in_Base,
             self.in_Ref,
@@ -79,7 +84,7 @@ class HACMSWindow(QMainWindow):
             self.out_EncR,
             self.out_GPS
         ]
-        #self.init_waypoints()
+        self.init_waypoints()
 
     def init_waypoints(self):
         self.waypointList = QStringList()
@@ -87,6 +92,12 @@ class HACMSWindow(QMainWindow):
         self.waypointModel = QStringListModel()
         self.ui.waypointListView.setModel(self.waypointModel)
         self.waypointModel.setStringList(self.waypointList)
+        self.ui.navView.setScene(NavScene(self.ui.navView))
+        self.ui.navView.scene().setListView(self.ui.waypointListView)
+        self.ui.navView.scene().addWaypoint(Waypoint(39.953773, -75.191427))
+        self.ui.navView.scene().addWaypoint(Waypoint(39.953679, -75.191304))
+        self.ui.navView.scene().addWaypoint(Waypoint(39.953703, -75.191036))
+        self.ui.navView.scene().addWaypoint(Waypoint(39.953769, -75.1908))
 
     def init_widgets(self):
         self.widgets = [
@@ -121,7 +132,13 @@ class HACMSWindow(QMainWindow):
             self.ui.inputPlot,
             self.ui.inputPlotLabel,
             self.ui.rightPlot,
-            self.ui.rightPlotLabel
+            self.ui.rightPlotLabel,
+            self.ui.waypointLabel,
+            self.ui.waypointListView,
+            self.ui.addWaypointButton,
+            self.ui.removeWaypointButton,
+            self.ui.clearWaypointsButton,
+            self.ui.uploadWaypointsButton
         ]
         self.init_signals()
         self.init_plots()
@@ -143,6 +160,10 @@ class HACMSWindow(QMainWindow):
         self.ui.setKIButton.clicked.connect(self.setKI)
         self.ui.setTrimLeftButton.clicked.connect(self.setTrimLeft)
         self.ui.setTrimRightButton.clicked.connect(self.setTrimRight)
+        self.ui.addWaypointButton.clicked.connect(self.addWaypoint)
+        self.ui.removeWaypointButton.clicked.connect(self.removeWaypoint)
+        self.ui.clearWaypointsButton.clicked.connect(self.clearWaypoints)
+        self.ui.uploadWaypointsButton.clicked.connect(self.uploadWaypoints)
 
         # Set Validator for parameter fields
         self.validator = QDoubleValidator()
@@ -197,6 +218,8 @@ class HACMSWindow(QMainWindow):
         self.rightPlotTimer = QTimer()
         self.rightPlotTimer.timeout.connect(self.updateRightPlot)
 
+        self.regionBrush = pg.mkBrush((93,220,131,50))
+
     def startPlotTimers(self):
         timerMsec = 500
         self.inputPlotTimer.start(timerMsec)
@@ -209,22 +232,22 @@ class HACMSWindow(QMainWindow):
         self.rightPlotTimer.stop()
         
     def zeroData(self):
-        self.in_Base.clear()
-        self.in_Ref.clear()
-        self.out_Odom.clear()
-        self.out_EncL.clear()
-        self.out_EncR.clear()
-        self.out_GPS.clear()
+        for region in self.resilientControllerRegions:
+            self.ui.rightPlot.removeItem(region)
+        self.resilientControllerRegions = []
+        for data in self.datastructs:
+            data.clear()
 
     def about(self):
         about = QDialog()
-        about.ui = ui.about_ui.Ui_Dialog()
+        about.ui = ui.about_ui.Ui_AboutDialog()
         about.ui.setupUi(about)
         about.exec_()
 
     def fileQuit(self):
         if self.ui.landsharkButton.isChecked():
             self.stop_landshark_comm()
+            self.remote.stopLandshark()
         self.close()
 
     def closeEvent(self, ce):
@@ -279,6 +302,9 @@ class HACMSWindow(QMainWindow):
         if checked:
             try:
                 self.run_rc_pub.publish(Int32(1))
+                currentRegion = pg.LinearRegionItem(values=[len(self.out_Odom), len(self.out_Odom)], brush=self.regionBrush, movable=False, bounds=[0,self.windowSize])
+                self.resilientControllerRegions.append(currentRegion)
+                self.ui.rightPlot.addItem(currentRegion)
             except:
                 self.ui.rcButton.setChecked(False)
                 return
@@ -337,12 +363,6 @@ class HACMSWindow(QMainWindow):
             value += 1
         return value
 
-    def updateActualSpeedLCD(self, value):
-        self.ui.actualSpeedLCD.display(value)
-
-    def updateEstimatedSpeedLCD(self, value):
-        self.ui.estimatedSpeedLCD.display(value)
-
     def updateInputPlot(self):
         """ Redraws the input plot
         """
@@ -360,6 +380,15 @@ class HACMSWindow(QMainWindow):
         """ Redraws the righthand plot
         """
         self.rightPlotOdom.setData(self.out_Odom)
+        if self.ui.rcButton.isChecked():
+            self.resilientControllerRegions[-1].setRegion((self.resilientControllerRegions[-1].getRegion()[0], len(self.out_Odom)))
+        for region in self.resilientControllerRegions:
+            regionVals = region.getRegion()
+            if regionVals[1] == 0:
+                self.resilientControllerRegions.remove(region)
+                self.ui.rightPlot.removeItem(region)
+            if len(self.out_Odom) == 300:
+                region.setRegion((regionVals[0] - 1, regionVals[1] - 1))
         self.rightPlotRef.setData(self.in_Ref)
 
     def setLandsharkSpeed(self):
@@ -397,6 +426,30 @@ class HACMSWindow(QMainWindow):
         # Publish new trim value
         self.trim_pub.publish(Float32(trim))
 
+    def addWaypoint(self):
+        latitude, longitude, ok = ui.geocoord.GeoCoordDialog.getLatLong()
+        if ok:
+            way = QGeoCoordinate(latitude, longitude)
+            self.waypoints.append(way)
+            #self.waypointList.append(way.toString())
+
+    def removeWaypoint(self):
+        #self.waypointList.remove(self.ui.waypointListView.selectedItem)
+        #self.waypoints.remove(way)
+        return
+        
+    def clearWaypoints(self):
+        self.ui.navView.scene().clearWaypoints()
+
+    def uploadWaypoints(self):
+        for way in self.waypoints:
+            nav = NavSatFix()
+            nav.latitude = way.latitude
+            nav.longitude = way.longitude
+
+            # Publish new trim value
+            self.waypoints_pub.publish(nav)
+
     def start_landshark_comm(self):
         # Initialize ROS node
         rospy.init_node('landshark_demo', disable_signals=True)
@@ -418,28 +471,32 @@ class HACMSWindow(QMainWindow):
         self.run_rc_pub = rospy.Publisher('/landshark_demo/run_rc', Int32)
         self.run_attack_pub = rospy.Publisher('/landshark_demo/run_attack', Int32)
         self.sensor_attack_pub = rospy.Publisher('/landshark_demo/sensor_attack', Int32)
+        self.waypoints_pub = rospy.Publisher('/landshark_demo/waypoints', NavigateToWayPointsGoal)
+
+        self.pubsubs = [
+            self.base_sub,
+            self.ref_sub,
+            self.est_sub,
+            self.odom_sub,
+            self.encL_sub,
+            self.encR_sub,
+            self.gps_sub,
+            self.desired_speed_pub,
+            self.trim_pub,
+            self.kp_pub,
+            self.ki_pub,
+            self.run_rc_pub,
+            self.run_attack_pub,
+            self.sensor_attack_pub,
+            self.waypoints_pub
+        ]
 
         return True
 
     def stop_landshark_comm(self):
-        # Unregister HACMS Demo subscribed topics
-        self.base_sub.unregister()
-        self.ref_sub.unregister()
-        self.est_sub.unregister()
-        self.odom_sub.unregister()
-        self.encL_sub.unregister()
-        self.encR_sub.unregister()
-        self.gps_sub.unregister()
-
-        # Unregister HACMS Demo published topics
-        self.desired_speed_pub.unregister()
-        self.trim_pub.unregister()
-        self.kp_pub.unregister()
-        self.ki_pub.unregister()
-        self.run_rc_pub.unregister()
-        self.run_attack_pub.unregister()
-        self.sensor_attack_pub.unregister()
-
+        # Unregister HACMS Demo topics
+        for topic in self.pubsubs:
+            topic.unregister()
         return True
 
     def captureBase(self, msg):
@@ -449,10 +506,10 @@ class HACMSWindow(QMainWindow):
         self.in_Ref.append(msg.twist.linear.x)
 
     def captureEst(self, msg):
-        self.updateEstimatedSpeedLCD(msg.twist.linear.x)
+        self.ui.estimatedSpeedLCD.display(msg.twist.linear.x)
 
     def captureOdom(self, msg):
-        self.updateActualSpeedLCD(msg.twist.twist.linear.x)
+        self.ui.actualSpeedLCD.display(msg.twist.twist.linear.x)
         self.out_Odom.append(msg.twist.twist.linear.x)
 
     def captureEncL(self, msg):
