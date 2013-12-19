@@ -32,11 +32,12 @@ from collections import deque
 
 #ROSPy modules
 import rospy
+import actionlib
 from std_msgs.msg import Int32, Float32
 from geometry_msgs.msg import TwistStamped
 from nav_msgs.msg import Odometry
 import roslib; roslib.load_manifest('landshark_msgs')
-from landshark_msgs.msg import NavigateToWayPointsGoal
+from landshark_msgs.msg import NavigateToWayPointsGoal, NavigateToWayPointsAction, NavigateToWayPointsFeedback
 
 # QT modules
 from PyQt4.QtGui import *
@@ -62,6 +63,7 @@ class HACMSWindow(QMainWindow):
     def init_window(self):
         self.ui.setupUi(self)
         self.remote = Remote(self.ui.console)
+        self.actionClient = actionlib.SimpleActionClient('/landshark_waypoint_navigation', NavigateToWayPointsAction)
         self.init_data_structs()
         self.init_widgets()
 
@@ -443,13 +445,15 @@ class HACMSWindow(QMainWindow):
         self.ui.navView.scene().clearWaypoints()
 
     def uploadWaypoints(self):
+        self.actionClient.wait_for_server()
+        goal = NavigateToWayPointsGoal()
+        goal.way_point_type = NavigateToWayPointsGoal.RELATIVE_TO_ROBOT_XY_NE
         for way in self.waypoints:
-            nav = NavSatFix()
-            nav.latitude = way.latitude
-            nav.longitude = way.longitude
+            goal.way_point_list.append(way.longitude, way.latitude, 0)
 
-            # Publish new trim value
-            self.waypoints_pub.publish(nav)
+        # Publish waypoints
+        #self.waypoints_pub.publish(goal)
+        self.actionClient.send_goal(goal)
 
     def start_landshark_comm(self):
         # Initialize ROS node
@@ -463,6 +467,7 @@ class HACMSWindow(QMainWindow):
         self.encL_sub = rospy.Subscriber("/landshark_demo/left_enc_vel", TwistStamped, self.captureEncL)
         self.encR_sub = rospy.Subscriber("/landshark_demo/right_enc_vel", TwistStamped, self.captureEncR)
         self.gps_sub = rospy.Subscriber("/landshark_demo/gps_vel", TwistStamped, self.captureGPS)
+        self.action_sub = rospy.Subscriber("/landshark_waypoint_navigation/feedback", NavigateToWayPointsFeedback, self.captureActionFeedback)
 
         # Publish to HACMS Demo topics
         self.desired_speed_pub = rospy.Publisher('/landshark_demo/desired_speed', Float32)
@@ -482,6 +487,7 @@ class HACMSWindow(QMainWindow):
             self.encL_sub,
             self.encR_sub,
             self.gps_sub,
+            self.action_sub,
             self.desired_speed_pub,
             self.trim_pub,
             self.kp_pub,
@@ -521,7 +527,10 @@ class HACMSWindow(QMainWindow):
 
     def captureGPS(self, msg):
         self.out_GPS.append(msg.twist.linear.x)
-        return
+
+    def captureActionFeedback(self, msg):
+        #if feedback.feedback.current_way_point_idx == self.lastVisitedWaypoint + 2:
+        feedbackText = 'Action Feedback:\n'
 
 def main():
     app = QApplication(sys.argv)
