@@ -70,6 +70,15 @@ class HACMSWindow(QMainWindow):
         self.out_EncL = deque(maxlen=self.windowSize)
         self.out_EncR = deque(maxlen=self.windowSize)
         self.out_GPS = deque(maxlen=self.windowSize)
+        self.resilientControllerRegions = []
+        self.datastructs = [
+            self.in_Base,
+            self.in_Ref,
+            self.out_Odom,
+            self.out_EncL,
+            self.out_EncR,
+            self.out_GPS
+        ]
         #self.init_waypoints()
 
     def init_waypoints(self):
