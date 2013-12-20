@@ -37,7 +37,7 @@ from std_msgs.msg import Int32, Float32, Float64
 from geometry_msgs.msg import TwistStamped, Point
 from nav_msgs.msg import Odometry
 import roslib; roslib.load_manifest('landshark_msgs')
-from landshark_msgs.msg import NavigateToWayPointsGoal, NavigateToWayPointsAction, NavigateToWayPointsFeedback, NavigateToWayPointsActionFeedback
+from landshark_msgs.msg import NavigateToWayPointsGoal, NavigateToWayPointsAction, NavigateToWayPointsFeedback, NavigateToWayPointsActionFeedback, NavigateToWayPointsResult
 import threading
 
 # QT modules
