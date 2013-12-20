@@ -37,7 +37,7 @@ from std_msgs.msg import Int32, Float32
 from geometry_msgs.msg import TwistStamped
 from nav_msgs.msg import Odometry
 import roslib; roslib.load_manifest('landshark_msgs')
-from landshark_msgs.msg import NavigateToWayPointsGoal, NavigateToWayPointsAction, NavigateToWayPointsFeedback
+from landshark_msgs.msg import NavigateToWayPointsGoal, NavigateToWayPointsAction, NavigateToWayPointsFeedback, NavigateToWayPointsActionFeedback
 import threading
 
 # QT modules
@@ -76,7 +76,6 @@ class HACMSWindow(QMainWindow):
         self.out_EncL = deque(maxlen=self.windowSize)
         self.out_EncR = deque(maxlen=self.windowSize)
         self.out_GPS = deque(maxlen=self.windowSize)
-
         self.resilientControllerRegions = []
 
         self.datastructs = [
@@ -432,9 +431,7 @@ class HACMSWindow(QMainWindow):
     def addWaypoint(self):
         latitude, longitude, ok = ui.geocoord.GeoCoordDialog.getLatLong()
         if ok:
-            way = QGeoCoordinate(latitude, longitude)
-            self.waypoints.append(way)
-            #self.waypointList.append(way.toString())
+            self.ui.navView.scene().addWaypoint(Waypoint(latitude, longitude))
 
     def removeWaypoint(self):
         #self.waypointList.remove(self.ui.waypointListView.selectedItem)
@@ -451,8 +448,8 @@ class HACMSWindow(QMainWindow):
         # build waypoints goal
         goal = NavigateToWayPointsGoal()
         goal.way_point_type = NavigateToWayPointsGoal.GPS
-        for way in self.waypoints:
-            goal.way_point_list.append(way.longitude, way.latitude, 0)
+        for way in self.ui.navView.scene().waypoints:
+            goal.way_point_list.append(way.coordinate.longitude, way.coordinate.latitude, 0)
 
         # Send waypoints
         #self.waypoints_pub.publish(goal)
@@ -487,7 +484,7 @@ class HACMSWindow(QMainWindow):
         self.encL_sub = rospy.Subscriber("/landshark_demo/left_enc_vel", TwistStamped, self.captureEncL)
         self.encR_sub = rospy.Subscriber("/landshark_demo/right_enc_vel", TwistStamped, self.captureEncR)
         self.gps_sub = rospy.Subscriber("/landshark_demo/gps_vel", TwistStamped, self.captureGPS)
-        #self.action_sub = rospy.Subscriber("/landshark_waypoint_navigation/feedback", NavigateToWayPointsFeedback, self.captureActionFeedback)
+        self.action_sub = rospy.Subscriber("/landshark_waypoint_navigation/feedback", NavigateToWayPointsActionFeedback, self.captureActionFeedback)
         self.actionClient = actionlib.SimpleActionClient('/landshark_waypoint_navigation', NavigateToWayPointsAction)
         self.actionResultThread = threading.Thread()
         self.actionResultThread.setDaemon(True)
@@ -510,7 +507,7 @@ class HACMSWindow(QMainWindow):
             self.encL_sub,
             self.encR_sub,
             self.gps_sub,
-            #self.action_sub,
+            self.action_sub,
             self.desired_speed_pub,
             self.trim_pub,
             self.kp_pub,
