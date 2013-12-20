@@ -449,7 +449,7 @@ class HACMSWindow(QMainWindow):
         goal = NavigateToWayPointsGoal()
         goal.way_point_type = NavigateToWayPointsGoal.GPS
         for way in self.ui.navView.scene().waypoints:
-            goal.way_point_list.append(Point(float(way.coordinate.longitude), float(way.coordinate.latitude), float(0.0)))
+            goal.way_point_list.append(Point(float(way.coordinate.longitude()), float(way.coordinate.latitude()), float(0.0)))
 
         # Send waypoints
         #self.waypoints_pub.publish(goal)
