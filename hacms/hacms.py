@@ -33,7 +33,7 @@ from collections import deque
 #ROSPy modules
 import rospy
 import actionlib
-from std_msgs.msg import Int32, Float32
+from std_msgs.msg import Int32, Float32, Float64
 from geometry_msgs.msg import TwistStamped, Point
 from nav_msgs.msg import Odometry
 import roslib; roslib.load_manifest('landshark_msgs')
@@ -449,7 +449,7 @@ class HACMSWindow(QMainWindow):
         goal = NavigateToWayPointsGoal()
         goal.way_point_type = NavigateToWayPointsGoal.GPS
         for way in self.ui.navView.scene().waypoints:
-            goal.way_point_list.append(Point(way.coordinate.longitude, way.coordinate.latitude, 0))
+            goal.way_point_list.append(Point(Float64(way.coordinate.longitude), Float64(way.coordinate.latitude), Float64(0.0)))
 
         # Send waypoints
         #self.waypoints_pub.publish(goal)
