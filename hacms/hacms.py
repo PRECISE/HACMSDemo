@@ -448,6 +448,7 @@ class HACMSWindow(QMainWindow):
         # build waypoints goal
         goal = NavigateToWayPointsGoal()
         goal.way_point_type = NavigateToWayPointsGoal.GPS
+        #goal.way_point_type = NavigateToWayPointsGoal.RELATIVE_TO_ROBOT_XY_NE
         for way in self.ui.navView.scene().waypoints:
             goal.way_point_list.append(Point(float(way.coordinate.longitude()), float(way.coordinate.latitude()), float(0.0)))
 
