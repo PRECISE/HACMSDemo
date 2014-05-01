@@ -37,7 +37,7 @@ from std_msgs.msg import Int32, Float32, Float64
 from geometry_msgs.msg import TwistStamped, Point
 from nav_msgs.msg import Odometry
 import roslib; roslib.load_manifest('landshark_msgs')
-from landshark_msgs.msg import NavigateToWayPointsGoal, NavigateToWayPointsAction, NavigateToWayPointsFeedback, NavigateToWayPointsActionFeedback, NavigateToWayPointsResult
+from landshark_msgs.msg import NavigateToWayPointsGoal, NavigateToWayPointsAction, NavigateToWayPointsFeedback, NavigateToWayPointsActionFeedback, NavigateToWayPointsResult, NavigateToWayPointsActionGoal
 import threading
 
 # QT modules
@@ -443,22 +443,22 @@ class HACMSWindow(QMainWindow):
 
     def uploadWaypoints(self):
         # wait for action server
-        self.actionClient.wait_for_server()
+        #self.actionClient.wait_for_server()
         
         # build waypoints goal
-        goal = NavigateToWayPointsGoal()
-        goal.way_point_type = NavigateToWayPointsGoal.GPS
+        goal = NavigateToWayPointsActionGoal()
+        goal.goal.way_point_type = NavigateToWayPointsGoal.GPS
         #goal.way_point_type = NavigateToWayPointsGoal.RELATIVE_TO_ROBOT_XY_NE
         for way in self.ui.navView.scene().waypoints:
-            goal.way_point_list.append(Point(float(way.coordinate.longitude()), float(way.coordinate.latitude()), float(0.0)))
+            goal.goal.way_point_list.append(Point(float(way.coordinate.longitude()), float(way.coordinate.latitude()), float(0.0)))
 
         # Send waypoints
-        #self.waypoints_pub.publish(goal)
-        self.actionClient.send_goal(goal)
+        self.waypoints_pub.publish(goal)
+        #self.actionClient.send_goal(goal)
         
-        self.actionResultThread = threading.Thread(target = self.waitForActionResult)
-        self.actionResultThread.setDaemon(True)
-        self.actionResultThread.start()
+        #self.actionResultThread = threading.Thread(target = self.waitForActionResult)
+        #self.actionResultThread.setDaemon(True)
+        #self.actionResultThread.start()
         
     def waitForActionResult(self):
         self.actionClient.wait_for_result()
@@ -486,9 +486,9 @@ class HACMSWindow(QMainWindow):
         self.encR_sub = rospy.Subscriber("/landshark_demo/right_enc_vel", TwistStamped, self.captureEncR)
         self.gps_sub = rospy.Subscriber("/landshark_demo/gps_vel", TwistStamped, self.captureGPS)
         self.action_sub = rospy.Subscriber("/landshark_waypoint_navigation/feedback", NavigateToWayPointsActionFeedback, self.captureActionFeedback)
-        self.actionClient = actionlib.SimpleActionClient('/landshark_waypoint_navigation', NavigateToWayPointsAction)
-        self.actionResultThread = threading.Thread()
-        self.actionResultThread.setDaemon(True)
+        #self.actionClient = actionlib.SimpleActionClient('/landshark_waypoint_navigation', NavigateToWayPointsAction)
+        #self.actionResultThread = threading.Thread()
+        #self.actionResultThread.setDaemon(True)
         
         # Publish to HACMS Demo topics
         self.desired_speed_pub = rospy.Publisher('/landshark_demo/desired_speed', Float32)
@@ -498,7 +498,7 @@ class HACMSWindow(QMainWindow):
         self.run_rc_pub = rospy.Publisher('/landshark_demo/run_rc', Int32)
         self.run_attack_pub = rospy.Publisher('/landshark_demo/run_attack', Int32)
         self.sensor_attack_pub = rospy.Publisher('/landshark_demo/sensor_attack', Int32)
-        self.waypoints_pub = rospy.Publisher('/landshark_demo/waypoints', NavigateToWayPointsGoal)
+        self.waypoints_pub = rospy.Publisher('/landshark_waypoint_navigation/ocu_goal', NavigateToWayPointsActionGoal)
 
         self.pubsubs = [
             self.base_sub,

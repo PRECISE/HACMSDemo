@@ -63,6 +63,7 @@ class Remote(object):
                 self.throttle6_shell = self.client.invoke_shell()
                 self.throttle7_shell = self.client.invoke_shell()
                 self.black_shell.send('source ~/.bashrc\nroslaunch landshark_launch black_box.launch\n')
+                #self.black_shell.send('source ~/.bashrc\nsource /opt/hacms/landshark/setup.bash\nroslaunch landshark_robot blackbox.launch\n')
                 time.sleep(2) # Sleep for a bit while the ROS master node is starting up...
                 self.throttle1_shell.send('source ~/.bashrc\nrosrun topic_tools throttle messages /landshark_control/base_velocity 2 /landshark_demo/base_vel\n')
                 self.throttle2_shell.send('source ~/.bashrc\nrosrun topic_tools throttle messages /landshark_control/reference_velocity 2 /landshark_demo/ref_vel\n')
